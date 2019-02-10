@@ -1,19 +1,7 @@
-# Jonathan P. Tolentino
+# Michael Ramos, Sadie Stokes, Jonathon Tolentino, Lin Ziang
 # CS 555
 # Project 03
 # 02/10/2019
-
-'''
-1. Modify the program to save information about individuals and families in lists (or collections)
-so that they can be examined later. You may assume that the number of individuals in any file is always
-less than 5000, and the number of families is always less than 1000. (The team should agree on how this is done,
-but only one team member needs to do this.)
-
-2. After reading all of the data, print the unique identifiers and names of each of the individuals in order by their
-unique identifiers. Then, for each family, print the unique identifiers and names of the husbands and wives, in order
-by unique family identifiers. (The team should agree on how this is done, but only one team member needs to do this.)
-'''
-
 
 import sys
 import os
@@ -64,12 +52,13 @@ class GEDCOM_Line:
 
 
 months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
-          'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11,'DEC': 12}
+          'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
 
-
+# Functions for age and age @ death
 def calculate_age(birthday):
     today = date.today()
     return today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+
 
 def calculate_age_death(birthday, death_day):
     return death_day.year - birthday.year - ((death_day.month, death_day.day) < (birthday.month, birthday.day))
@@ -92,11 +81,13 @@ fileName += fileExtension
 try:
     with open(fileName) as gedFile:
 
+        # Initialize dicts for working with an individual, tracking members of the family, and grouping families
         family = {}
         individual = {}
         members = {}
 
-        currentIndi, currentFam, currentTag = '', '', ''
+        # Tracking where we are in the hierarchy
+        currentFam, currentTag = '', ''
 
         line = gedFile.readline()
 
@@ -108,23 +99,22 @@ try:
             line = line.rstrip()
             line = line.split(' ', 2)
 
-            if line[0] == '0' and len(line) == 3:
-                if individual:
-                    members[individual['ID']] = individual
-                    individual = {}
-
+            if line[0] == '0' and len(line) == 3:  # If line is an INDI or FAM line
+                if individual:  # If an individual has been completed
+                    members[individual['ID']] = individual  # Add them to the members dict
+                    individual = {} # Empty the dict to start over
                 if gedLine.Valid == 'Y':
                     if line[2] == 'INDI':
-                        if line[1] not in members.keys():
+                        if line[1] not in members.keys():  # Ensure we're not duplicating people
                             individual['ID'] = line[1]
                             individual['Child'] = set()
                             individual['Spouse'] = set()
                             currentTag = line[2]
-                            line = gedFile.readline()
+                            line = gedFile.readline()  # Move to the next line
                             continue
                     if line[2] == 'FAM':
                         if line[1] not in family.keys():
-                            family[line[1]] = {'Children': set()}
+                            family[line[1]] = {'Children': set()}  # Add a new family
                             currentTag = line[2]
                             currentFam = line[1]
                             line = gedFile.readline()
@@ -143,6 +133,7 @@ try:
                 if gedLine.Valid == 'Y':
                     currentTag = line[1]
 
+            # Logic for adding information to individuals based on where we are in the hierarchy
             if currentTag == 'INDI':
                 if line[0] != 0 and len(line) == 3:
                     if gedLine.Valid == 'Y':
@@ -213,19 +204,18 @@ except IOError as e:
     print('Error opening ' + sys.argv[1] + ': ' + str(e))
 
 finally:
-    for k in family.keys():
+    for k in family.keys():  # Add name of Spouse based on ID
         family[k]['Spouse 1 Name'] = members[family[k]['Spouse 1']]['Name']
         family[k]['Spouse 2 Name'] = members[family[k]['Spouse 2']]['Name']
 
-        if 'Divorced' not in family[k].keys():
+        if 'Divorced' not in family[k].keys():  # 'NA' if not divorced
             family[k]['Divorced'] = 'NA'
 
-        if len(family[k]['Children']) == 0:
+        if len(family[k]['Children']) == 0:  # 'NA' if no children
             family[k]['Children'] = 'NA'
 
-
-    for k, v in members.items():
-        if 'Death' in members[k].keys():
+    for k, v in members.items():  # For each member, check if died
+        if 'Death' in members[k].keys():  # If died, set 'N' for Alive and calculate age at death
             members[k]['Alive?'] = 'N'
             birthday = members[k]['Birthday'].split(' ', 2)
             death_day = members[k]['Death'].split(' ', 2)
@@ -237,24 +227,25 @@ finally:
             birthday = members[k]['Birthday'].split(' ', 2)
             members[k]['Age'] = calculate_age(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])))
 
-        if len(members[k]['Child']) == 0:
+        if len(members[k]['Child']) == 0:  # if no children, 'NA'
             members[k]['Child'] = 'NA'
 
-        if len(members[k]['Spouse']) == 0:
+        if len(members[k]['Spouse']) == 0:  # if no spouse, 'NA'
             members[k]['Spouse'] = 'NA'
 
+    # Set up PrettyTable
     x = PrettyTable()
     x.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive?', 'Death', 'Child', 'Spouse']
 
     y = PrettyTable()
     y.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
 
-    print('== Individuals ==\n')
+    print('== Individuals ==')
     for k in members.keys():
         x.add_row([members[k]['ID'], members[k]['Name'], members[k]['Gender'], members[k]['Birthday'], members[k]['Age'],
                    members[k]['Alive?'], members[k]['Death'], members[k]['Child'], members[k]['Spouse']])
     print(x)
-    print('\n== Families ==\n')
+    print('\n== Families ==')
     for k in family.keys():
         y.add_row([k, family[k]['Married'], family[k]['Divorced'], family[k]['Spouse 1'],
                    family[k]['Spouse 1 Name'], family[k]['Spouse 2'], family[k]['Spouse 2 Name'], family[k]['Children']])
