@@ -48,14 +48,14 @@ class GEDCOM_Line:
 
 # Validate command line args
 if len(sys.argv) < 2:
-	print 'Ussage Error: No input file provided'
+	print('Ussage Error: No input file provided')
 	quit()
 
 # File validation
 fileName, fileExtension = os.path.splitext((cwd + '/' + sys.argv[1]))
 
 if fileExtension != '.ged':
-	print 'Error input file must be in .ged format'
+	print('Error input file must be in .ged format')
 	quit()
 
 fileName += fileExtension
@@ -73,13 +73,13 @@ try:
 			line = line.rstrip()
 
 			# Output
-			print '--> ' + line 
-			print '<-- ' + gedLine.Level + '|' + gedLine.Tag + '|' + gedLine.Valid + '|' + gedLine.Args
+			print('--> ' + line)
+			print('<-- ' + gedLine.Level + '|' + gedLine.Tag + '|' + gedLine.Valid + '|' + gedLine.Args)
 
 			line = gedFile.readline()
 
-except IOError, e:
-	print 'Error opening ' + sys.argv[1] +': ' + str(e)
+except IOError as e:
+	print('Error opening ' + sys.argv[1] + ': ' + str(e))
 
 finally:
 	gedFile.close()
