@@ -1,7 +1,7 @@
 # Jonathan P. Tolentino
 # CS 555
-# Project 02
-# 02/02/2019
+# Project 03
+# 02/10/2019
 
 '''
 1. Modify the program to save information about individuals and families in lists (or collections)
@@ -18,6 +18,7 @@ by unique family identifiers. (The team should agree on how this is done, but on
 import sys
 import os
 from datetime import date
+from prettytable import PrettyTable
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -97,7 +98,6 @@ try:
 
         currentIndi, currentFam, currentTag = '', '', ''
 
-
         line = gedFile.readline()
 
         # Parse the file
@@ -119,14 +119,12 @@ try:
                             individual['ID'] = line[1]
                             individual['Child'] = set()
                             individual['Spouse'] = set()
-                            # print(individual)
                             currentTag = line[2]
                             line = gedFile.readline()
                             continue
                     if line[2] == 'FAM':
                         if line[1] not in family.keys():
                             family[line[1]] = {'Children': set()}
-                            # print(family)
                             currentTag = line[2]
                             currentFam = line[1]
                             line = gedFile.readline()
@@ -134,6 +132,11 @@ try:
             elif len(line) == 2:
                 if gedLine.Valid == 'Y':
                     currentTag = line[1]
+                    line = gedFile.readline()
+                    continue
+            elif 'DEAT' in line:
+                if gedLine.Valid == 'Y':
+                    currentTag = 'DEAT'
                     line = gedFile.readline()
                     continue
             elif line[1] == 'HUSB' or line[1] == 'WIFE' or line[1] == 'CHIL':
@@ -183,12 +186,18 @@ try:
             if currentTag == 'HUSB':
                 if line[0] != 0 and len(line) == 3:
                     if gedLine.Valid == 'Y':
-                        family[currentFam]['Spouse 1'] = line[2]
+                        if 'Spouse 1' in family[currentFam].keys():
+                            family[currentFam]['Spouse 2'] = line[2]
+                        else:
+                            family[currentFam]['Spouse 1'] = line[2]
 
             if currentTag == 'WIFE':
                 if line[0] != 0 and len(line) == 3:
                     if gedLine.Valid == 'Y':
-                        family[currentFam]['Spouse 2'] = line[2]
+                        if 'Spouse 1' in family[currentFam].keys():
+                            family[currentFam]['Spouse 2'] = line[2]
+                        else:
+                            family[currentFam]['Spouse 1'] = line[2]
 
             if currentTag == 'CHIL':
                 if line[0] != 0 and len(line) == 3:
@@ -204,10 +213,16 @@ except IOError as e:
     print('Error opening ' + sys.argv[1] + ': ' + str(e))
 
 finally:
-
     for k in family.keys():
         family[k]['Spouse 1 Name'] = members[family[k]['Spouse 1']]['Name']
         family[k]['Spouse 2 Name'] = members[family[k]['Spouse 2']]['Name']
+
+        if 'Divorced' not in family[k].keys():
+            family[k]['Divorced'] = 'NA'
+
+        if len(family[k]['Children']) == 0:
+            family[k]['Children'] = 'NA'
+
 
     for k, v in members.items():
         if 'Death' in members[k].keys():
@@ -217,6 +232,7 @@ finally:
             members[k]['Age'] = calculate_age_death(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
                                                     date(int(death_day[2]), int(months[death_day[1]]), int(death_day[0])))
         else:
+            members[k]['Death'] = 'NA'
             members[k]['Alive?'] = 'Y'
             birthday = members[k]['Birthday'].split(' ', 2)
             members[k]['Age'] = calculate_age(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])))
@@ -227,11 +243,22 @@ finally:
         if len(members[k]['Spouse']) == 0:
             members[k]['Spouse'] = 'NA'
 
+    x = PrettyTable()
+    x.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive?', 'Death', 'Child', 'Spouse']
+
+    y = PrettyTable()
+    y.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
+
     print('== Individuals ==\n')
-    for k,v in members.items():
-        print(k, v)
+    for k in members.keys():
+        x.add_row([members[k]['ID'], members[k]['Name'], members[k]['Gender'], members[k]['Birthday'], members[k]['Age'],
+                   members[k]['Alive?'], members[k]['Death'], members[k]['Child'], members[k]['Spouse']])
+    print(x)
     print('\n== Families ==\n')
-    for k, v in family.items():
-        print(k, v)
+    for k in family.keys():
+        y.add_row([k, family[k]['Married'], family[k]['Divorced'], family[k]['Spouse 1'],
+                   family[k]['Spouse 1 Name'], family[k]['Spouse 2'], family[k]['Spouse 2 Name'], family[k]['Children']])
+
+    print(y)
 
     gedFile.close()
