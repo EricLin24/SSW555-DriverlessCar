@@ -1,0 +1,41 @@
+== Individuals ==
++-------+--------------------------+--------+-------------+-----+--------+------------+----------+------------------+
+|   ID  |           Name           | Gender |   Birthday  | Age | Alive? |   Death    |  Child   |      Spouse      |
++-------+--------------------------+--------+-------------+-----+--------+------------+----------+------------------+
+|  @I1@ |  Mary Frances /Napier/   |   F    | 27 DEC 1930 |  85 |   N    | 2 OCT 2016 |    NA    |     {'@F1@'}     |
+|  @I2@ |     John /Anderson/      |   M    |  1 DEC 1927 |  76 |   N    | 7 JUN 2004 |    NA    |     {'@F1@'}     |
+|  @I3@ |   RoseMary /Anderson/    |   F    | 17 NOV 1955 |  63 |   Y    |     NA     | {'@F1@'} |     {'@F2@'}     |
+|  @I4@ |   Helen /Antzoulides/    |   F    | 15 APR 1964 |  54 |   Y    |     NA     |    NA    |     {'@F2@'}     |
+|  @I5@ |     Paul /Anderson/      |   M    | 15 FEB 1957 |  61 |   Y    |     NA     | {'@F1@'} |     {'@F3@'}     |
+|  @I6@ |    Lucille /Santino/     |   F    | 15 JAN 1965 |  54 |   Y    |     NA     |    NA    |     {'@F3@'}     |
+|  @I7@ |    Frances /Anderson/    |   F    | 27 AUG 1959 |  59 |   Y    |     NA     | {'@F1@'} |     {'@F4@'}     |
+|  @I8@ |    Wallace /Robinson/    |   M    |  5 MAY 1958 |  60 |   Y    |     NA     |    NA    |     {'@F4@'}     |
+|  @I9@ |    Cheryl /Robinson/     |   F    | 28 AUG 1980 |  38 |   Y    |     NA     | {'@F4@'} |     {'@F5@'}     |
+| @I10@ |      Paul /Joseph/       |   M    |  1 APR 1980 |  38 |   Y    |     NA     |    NA    |     {'@F5@'}     |
+| @I11@ |      Julia /Joseph/      |   F    | 31 MAR 2006 |  12 |   Y    |     NA     | {'@F5@'} |        NA        |
+| @I12@ |    Wallace /Robinson/    |   M    | 26 AUG 1982 |  36 |   Y    |     NA     | {'@F4@'} |     {'@F6@'}     |
+| @I13@ |       Erin /Boehm/       |   F    |  6 MAR 1981 |  37 |   Y    |     NA     |    NA    |     {'@F6@'}     |
+| @I14@ |    Krista /Robinson/     |   F    | 27 AUG 1984 |  34 |   Y    |     NA     | {'@F4@'} |        NA        |
+| @I15@ |    Monica /Anderson/     |   F    |  4 JUN 1961 |  57 |   Y    |     NA     | {'@F1@'} | {'@F7@', '@F8@'} |
+| @I16@ |      Hector /Ramos/      |   M    | 20 FEB 1962 |  53 |   N    | 2 JAN 2016 |    NA    |     {'@F8@'}     |
+| @I17@ |     Michael /Ramos/      |   M    | 20 FEB 1992 |  26 |   Y    |     NA     | {'@F8@'} |     {'@F9@'}     |
+| @I18@ | Jose Federico /Espiritu/ |   M    |  6 NOV 1990 |  28 |   Y    |     NA     |    NA    |     {'@F9@'}     |
+| @I19@ |     Jessica /Ramos/      |   F    |  8 OCT 1994 |  24 |   Y    |     NA     | {'@F8@'} |        NA        |
+| @I20@ |    William /Wallace/     |   M    |  5 AUG 1960 |  58 |   Y    |     NA     |    NA    |     {'@F7@'}     |
+| @I21@ |      Sam /Wallace/       |   M    |  7 MAY 2018 |  0  |   Y    |     NA     | {'@F7@'} |        NA        |
++-------+--------------------------+--------+-------------+-----+--------+------------+----------+------------------+
+
+== Families ==
++------+-------------+----------+-------------+--------------------------+-------------+-----------------------+-----------------------------------+
+|  ID  |   Married   | Divorced | Spouse 1 ID |      Spouse 1 Name       | Spouse 2 ID |     Spouse 2 Name     |              Children             |
++------+-------------+----------+-------------+--------------------------+-------------+-----------------------+-----------------------------------+
+| @F1@ | 31 OCT 1954 |    NA    |     @I2@    |     John /Anderson/      |     @I1@    | Mary Frances /Napier/ | {'@I7@', '@I5@', '@I15@', '@I3@'} |
+| @F2@ |  1 SEP 2012 |    NA    |     @I4@    |   Helen /Antzoulides/    |     @I3@    |  RoseMary /Anderson/  |                 NA                |
+| @F3@ |  9 JUL 1976 |    NA    |     @I5@    |     Paul /Anderson/      |     @I6@    |   Lucille /Santino/   |                 NA                |
+| @F4@ | 24 SEP 1979 |    NA    |     @I8@    |    Wallace /Robinson/    |     @I7@    |   Frances /Anderson/  |     {'@I14@', '@I9@', '@I12@'}    |
+| @F5@ |  9 OCT 2006 |    NA    |    @I10@    |      Paul /Joseph/       |     @I9@    |   Cheryl /Robinson/   |             {'@I11@'}             |
+| @F6@ | 15 AUG 2013 |    NA    |    @I12@    |    Wallace /Robinson/    |    @I13@    |      Erin /Boehm/     |                 NA                |
+| @F7@ | 22 MAR 2017 |    NA    |    @I20@    |    William /Wallace/     |    @I15@    |   Monica /Anderson/   |             {'@I21@'}             |
+| @F8@ | 25 MAY 1991 |    NA    |    @I16@    |      Hector /Ramos/      |    @I15@    |   Monica /Anderson/   |         {'@I19@', '@I17@'}        |
+| @F9@ |  7 APR 2018 |    NA    |    @I18@    | Jose Federico /Espiritu/ |    @I17@    |    Michael /Ramos/    |                 NA                |
++------+-------------+----------+-------------+--------------------------+-------------+-----------------------+-----------------------------------+
