@@ -1,4 +1,4 @@
-# Michael Ramos, Sadie Stokes, Jonathon Tolentino, Lin Ziang
+# Michael Ramos, Sadie Stokes, Jonathan Tolentino, Lin Ziang
 # CS 555
 # Project 03
 # 02/10/2019
@@ -7,6 +7,7 @@ import sys
 import os
 from datetime import date
 from prettytable import PrettyTable
+import DateValidation
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -45,8 +46,16 @@ class GEDCOM_Line:
                      'FAMS', 'FAM', 'MARR', 'HUSB', 'WIFE', 'CHIL',
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE'}
 
+        # Validate tag exists
         if self.Tag in validTags:
-            self.Valid = 'Y'
+
+            # Validate tag level
+            if self.Tag == 'DATE' and self.Level != 1:
+                self.Valid = 'N'
+            elif self.Tag == 'NAME' and self.Level != 2:
+                self.Valid = 'N'
+            else:
+                self.Valid = 'Y'
         else:
             self.Valid = 'N'
 
