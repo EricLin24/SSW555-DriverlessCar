@@ -29,3 +29,22 @@ def validateDate(date):
 		isValid = True
 
 	return isValid
+
+def validateMarraigeDate(birthDate, marraigeDate):
+	'''
+		US02: Birth should occur before marriage of an individual
+	'''
+
+	errStr = 'Invalid date marraige date: ' + str(marraigeDate) + ' must occur after birthdate: ' + str(birthDate)
+	isValid = False
+
+	if birthDate.year > marraigeDate.year:
+		raise Exception(errStr)
+	elif birthDate.year == marraigeDate.year and birthDate.month > marraigeDate.month:
+		raise Exception(errStr)
+	elif birthDate.year == marraigeDate.year and birthDate.month == marraigeDate.month and birthDate.day > marraigeDate.day:
+		raise Exception(errStr)
+	else:
+		isValid = True
+
+	return isValid
