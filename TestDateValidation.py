@@ -15,29 +15,29 @@ def test_validateDate():
 	try:
 		# Valid
 		if DateValidation.validateDate(valid):
-			print str(valid) + ' is a valid date'
+			print(str(valid) + ' is a valid date')
 			try:
 				# Invalid year
 				if DateValidation.validateDate(invalid_year):
-					print str(invalid_year) + ' should not be valid (something is wrong)'
+					print(str(invalid_year) + ' should not be valid (something is wrong)')
 			except Exception as e:
-				print str(e)
+				print(str(e))
 			finally:
 				try:
 					# Invalid month
 					if DateValidation.validateDate(invalid_month):
-						print str(invalid_month) + ' should not be valid (something is wrong)'
+						print(str(invalid_month) + ' should not be valid (something is wrong)')
 				except Exception as e:
-					print str(e)
+					print(str(e))
 				finally:
 					try:
 						# Invalid day
 						if DateValidation.validateDate(invalid_day):
-							print str(invalid_day) + ' should not be valid (something is wrong)'
+							print(str(invalid_day) + ' should not be valid (something is wrong)')
 					except Exception as e:
-						print str(e)
+						print(str(e))
 	except Exception as e:
-		print str(e)
+		print(str(e))
 
 
 def test_validateMarraigeDate():
@@ -80,6 +80,14 @@ def test_validateMarraigeDate():
 					print str(e)
 	except Exception as e:
 		print str(e)
+
+def test_validate_birth_before_death():
+	valid_birth = date(1994, 3 ,21)
+	invalid_year = date(1993, 3, 21)
+	invalid_month = date(1994, 2, 21)
+	invalid_day =  date(1994, 3, 20)
+	valid_death = date(2011, 5, 11)
+
 
 
 test_validateDate()
