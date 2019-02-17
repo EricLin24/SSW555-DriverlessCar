@@ -9,6 +9,7 @@ def validateDate(date):
 	'''
 		US01: Dates (birth, marriage, divorce, death) 
 			should not be after the current date
+        :param date: date
 	'''
 
 	today = date.today()
@@ -18,13 +19,13 @@ def validateDate(date):
 
 	if today.year < date.year:
 		errStr = 'Invalid date: year must be <= ' + str(today.year)
-		raise Exception(errStr)
+		print(errStr)
 	elif today.year == date.year and today.month < date.month:
 		errStr = 'Invalid date: ' + str(months[date.month]) + ' has not yet occured this year'
-		raise Exception(errStr)
+		print(errStr)
 	elif today.year == date.year and today.month == date.month and today.day < date.day:
 		errStr = 'Invalid date: ' + str(month) + ' ' + str(date.day) + ' has not occured yet'
-		raise Exception(errStr)
+		print(errStr)
 	else:
 		isValid = True
 
@@ -33,17 +34,19 @@ def validateDate(date):
 def validateMarraigeDate(birthDate, marraigeDate):
 	'''
 		US02: Birth should occur before marriage of an individual
+        :param birthDate: date
+        :param marraigeDate: date
 	'''
 
 	errStr = 'Invalid date marraige date: ' + str(marraigeDate) + ' must occur after birthdate: ' + str(birthDate)
 	isValid = False
 
 	if birthDate.year > marraigeDate.year:
-		raise Exception(errStr)
+		print(errStr)
 	elif birthDate.year == marraigeDate.year and birthDate.month > marraigeDate.month:
-		raise Exception(errStr)
+		print(errStr)
 	elif birthDate.year == marraigeDate.year and birthDate.month == marraigeDate.month and birthDate.day > marraigeDate.day:
-		raise Exception(errStr)
+		print(errStr)
 	else:
 		isValid = True
 

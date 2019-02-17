@@ -4,84 +4,6 @@ import DateValidation
 import unittest
 from datetime import date
 
-
-
-def test_validateDate():
-	valid = date(1990, 4, 21)
-	invalid_year = date(2020, 10, 10)
-	invalid_month = date(2019, 10, 24)
-	invalid_day = date(2019, 2, 28)
-
-
-	try:
-		# Valid
-		if DateValidation.validateDate(valid):
-			print(str(valid) + ' is a valid date')
-			try:
-				# Invalid year
-				if DateValidation.validateDate(invalid_year):
-					print(str(invalid_year) + ' should not be valid (something is wrong)')
-			except Exception as e:
-				print(str(e))
-			finally:
-				try:
-					# Invalid month
-					if DateValidation.validateDate(invalid_month):
-						print(str(invalid_month) + ' should not be valid (something is wrong)')
-				except Exception as e:
-					print(str(e))
-				finally:
-					try:
-						# Invalid day
-						if DateValidation.validateDate(invalid_day):
-							print(str(invalid_day) + ' should not be valid (something is wrong)')
-					except Exception as e:
-						print(str(e))
-	except Exception as e:
-		print(str(e))
-
-
-def test_validateMarraigeDate():
-	validBirthdate = date(1990, 12, 28)
-	validMarraigeDate = date(2019, 1, 1)
-	invalidMarraigeDate_year = date(1919, 3, 21)
-	invalidMarraigeDate_month = date(1990, 11, 21)
-	invalidMarraigeDate_day = date(1990, 12, 21)
-
-
-	try:
-		# Valid
-		if DateValidation.validateMarraigeDate(validBirthdate, validMarraigeDate):
-			print('Marraige date: ' + str(validMarraigeDate) + ' is valid')
-
-		# Invalid year
-		try:
-			if DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_year):
-				print('Marraige date: ' + str(invalidMarraigeDate_year) + ' should not be valid (something is wrong)')
-
-		except Exception as e:
-			print(str(e))
-
-		finally:
-			# Invalid month
-			try:
-				if DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_month):
-					print('Marraige date: ' + str(invalidMarraigeDate_month) + ' should not be valid (something is wrong)')
-
-			except Exception as e:
-				print(str(e))
-
-			finally:
-				#Invalid day
-				try:
-					if DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_day):
-						print('Marraige date: ' + str(invalidMarraigeDate_day) + ' should not be valid (something is wrong)')
-
-				except Exception as e:
-					print(str(e))
-	except Exception as e:
-		print(str(e))
-
 class TestDateValidation(unittest.TestCase):
     def test_validate_birth_before_death_year(self):
         birth = date(1955, 2, 3)
@@ -128,9 +50,44 @@ class TestDateValidation(unittest.TestCase):
         valid_divorce = date(2013, 7, 9)
         self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
 
+    def test_validateDate_valid(self):
+        valid_date = date(1990, 4, 21)
+        self.assertEqual(DateValidation.validateDate(valid_date), True, msg='Date is valid')
+
+    def test_validateDate_invalid_year(self):
+        invalid_year = date(2020, 10, 10)
+        self.assertEqual(DateValidation.validateDate(invalid_year), False, msg='Date should be invalid: year error')
+
+    def test_validateDate_invalid_month(self):
+        invalid_month = date(2019, 10, 24)
+        self.assertEqual(DateValidation.validateDate(invalid_month), False, msg='Date should be invalid: month error')
+
+    def test_validateDate_invalid_day(self):
+        invalid_day = date(2019, 2, 28)
+        self.assertEqual(DateValidation.validateDate(invalid_day), False, msg='Date should be invalid: day error')
+
+    def test_validateMarraigeDate_valid(self):
+        validBirthdate = date(1990, 12, 28)
+        validMarraigeDate = date(2019, 1, 1)
+        self.assertEqual(DateValidation.validateMarraigeDate(validBirthdate, validMarraigeDate), True, msg='Valid: marraige date after birthdate')
+
+    def test_validateMarraigeDate_invalid_year(self):
+        validBirthdate = date(1990, 12, 28)
+        invalidMarraigeDate_year = date(1919, 3, 21)
+        self.assertEqual(DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_year), False, msg='Marraige date should be invalid: year error')
+
+    def test_validateMarraigeDate_invalid_month(self):
+        validBirthdate = date(1990, 12, 28)
+        invalidMarraigeDate_month = date(1990, 11, 21)
+        self.assertEqual(DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_month), False, msg='Marraige date should be invalid: month error')
+
+    def test_validateMarraigeDate_invalid_day(self):
+        validBirthdate = date(1990, 12, 28)
+        invalidMarraigeDate_day = date(1990, 12, 21)
+        self.assertEqual(DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_day), False, msg='Marraige date should be invalid: day error')
+
+
 if __name__ == '__main__':
-    test_validateDate()
-    test_validateMarraigeDate()
     unittest.main()
 
 
