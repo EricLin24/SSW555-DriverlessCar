@@ -55,14 +55,10 @@ months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
 
 
-# Functions for age and age @ death
-def calculate_age(birthday):
-    today = date.today()
-    return today.year - birthday.year - ((today.month, today.day) < (birthday.month, birthday.day))
+# Functions for difference in years
 
-
-def calculate_age_death(birthday, death_day):
-    return death_day.year - birthday.year - ((death_day.month, death_day.day) < (birthday.month, birthday.day))
+def date_difference(pastdate, futuredate=date.today()):
+    return futuredate.year - pastdate.year - ((futuredate.month, futuredate.day) < (pastdate.month, pastdate.day))
 
 
 def parse_file(filename):
@@ -207,13 +203,15 @@ def parse_file(filename):
                 members[k]['Alive?'] = 'N'
                 birthday = members[k]['Birthday'].split(' ', 2)
                 death_day = members[k]['Death'].split(' ', 2)
-                members[k]['Age'] = calculate_age_death(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
-                                                        date(int(death_day[2]), int(months[death_day[1]]), int(death_day[0])))
+                members[k]['Age'] = date_difference(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
+                                                    date(int(death_day[2]), int(months[death_day[1]]),
+                                                         int(death_day[0])))
             else:
                 members[k]['Death'] = 'NA'
                 members[k]['Alive?'] = 'Y'
                 birthday = members[k]['Birthday'].split(' ', 2)
-                members[k]['Age'] = calculate_age(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])))
+                members[k]['Age'] = date_difference((date(int(birthday[2]), int(months[birthday[1]]),
+                                                          int(birthday[0]))))
 
             if len(members[k]['Child']) == 0:  # if no children, 'NA'
                 members[k]['Child'] = 'NA'
@@ -267,3 +265,4 @@ if fileExtension != '.ged':
 fileName += fileExtension
 
 pretty_table(parse_file(fileName))
+
