@@ -1,4 +1,4 @@
-# Michael Ramos, Sadie Stokes, Jonathan Tolentino, Lin Ziang
+# Michael Ramos, Sadie Stokes, Jonathon Tolentino, Lin Ziang
 # CS 555
 # Project 03
 # 02/10/2019
@@ -7,7 +7,6 @@ import sys
 import os
 from datetime import date
 from prettytable import PrettyTable
-import DateValidation
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -46,16 +45,8 @@ class GEDCOM_Line:
                      'FAMS', 'FAM', 'MARR', 'HUSB', 'WIFE', 'CHIL',
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE'}
 
-        # Validate tag exists
         if self.Tag in validTags:
-
-            # Validate tag level
-            if self.Tag == 'DATE' and self.Level != 1:
-                self.Valid = 'N'
-            elif self.Tag == 'NAME' and self.Level != 2:
-                self.Valid = 'N'
-            else:
-                self.Valid = 'Y'
+            self.Valid = 'Y'
         else:
             self.Valid = 'N'
 
@@ -71,14 +62,12 @@ def date_difference(pastdate, futuredate=date.today()):
 
 
 def parse_file(filename):
+    # Initialize dicts for working with an individual, tracking members of the family, and grouping families
+    family = {}
+    individual = {}
+    members = {}
     try:
         with open(filename) as gedFile:
-
-            # Initialize dicts for working with an individual, tracking members of the family, and grouping families
-            family = {}
-            individual = {}
-            members = {}
-
             # Tracking where we are in the hierarchy
             currentFam, currentTag = '', ''
 
@@ -259,6 +248,87 @@ def pretty_table(parsed_file_dict):
     print(y)
 
 
+'''
+US 11 - no bigamy: 
+
+No one should have more than one spouse at a time
+    - If someone is remarried, the marriage date must be after the previous spouse(s)'s div/death date
+
+'''
+
+
+def bigamy_check(parsed_file_dict):
+
+    def not_bigamous(marriages, divorces=[], deaths=[]):
+        for d in divorces:
+            if (divorces.index(d) + 1) > (len(marriages) - 1):
+                break
+            elif d > marriages[divorces.index(d) + 1]:
+                return False
+
+        for d in deaths:
+            if (deaths.index(d) + 1) > (len(marriages) - 1):
+                break
+            elif d > marriages[deaths.index(d) + 1]:
+                return False
+
+        return True
+
+    for k in parsed_file_dict['members'].keys():
+        spouses, marriageDates, divorceDates, deathDates = [], [], [], []
+        currentID = parsed_file_dict['members'][k]['ID']
+        if parsed_file_dict['members'][k]['Spouse'] == 'NA':
+            continue
+        else:
+            for s in parsed_file_dict['members'][k]['Spouse']:
+                spouses.append(s)
+
+            if len(spouses) <= 1:
+                continue
+            else:
+
+                for s in spouses:
+                    if parsed_file_dict['family'][s]['Married'] != 'NA':
+                        marriageDates.append(parsed_file_dict['family'][s]['Married'])
+                    if parsed_file_dict['family'][s]['Divorced'] != 'NA':
+                        divorceDates.append(parsed_file_dict['family'][s]['Divorced'])
+
+                    if parsed_file_dict['family'][s]['Spouse 1'] == currentID:
+                        spouseID = parsed_file_dict['family'][s]['Spouse 2']
+                    else:
+                        spouseID = parsed_file_dict['family'][s]['Spouse 1']
+
+                    if parsed_file_dict['members'][spouseID]['Death'] != 'NA':
+                        deathDates.append(parsed_file_dict['members'][spouseID]['Death'])
+
+                for i in marriageDates:
+                    origDate = i.split(' ', 2)
+                    marriageDates[marriageDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]), int(origDate[0]))
+
+                marriageDates = sorted(marriageDates)
+
+                for i in divorceDates:
+                    origDate = i.split(' ', 2)
+                    divorceDates[divorceDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
+                                                                 int(origDate[0]))
+
+                divorceDates = sorted(divorceDates)
+
+                for i in deathDates:
+                    origDate = i.split(' ', 2)
+                    deathDates[deathDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
+                                                               int(origDate[0]))
+
+                deathDates = sorted(deathDates)
+
+                if not_bigamous(marriageDates, divorceDates, deathDates) is True:
+                    continue
+                else:
+                    return False
+
+    return True
+
+
 # Validate command line args
 if len(sys.argv) < 2:
     print('Usage Error: No input file provided')
@@ -275,3 +345,7 @@ fileName += fileExtension
 
 pretty_table(parse_file(fileName))
 
+if bigamy_check(parse_file(fileName)) is True:
+    print('No Bigamy')
+else:
+    print('Uh oh, here come the Mormons')

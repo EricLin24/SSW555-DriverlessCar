@@ -37,13 +37,15 @@ def valid_age_at_marriage(birthday, marriagedate):
         return isOldEnough
 
 
-'''
-US 11 - no bigamy: 
 
-No one should have more than one spouse at a time
-    - If someone is remarried, the marriage date must be after the previous spouse(s)'s div/death date
-    
-'''
+
+
+
+
+
+
+
+
 
 
 
