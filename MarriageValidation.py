@@ -1,5 +1,8 @@
 from datetime import date
 
+months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+          'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
+
 
 def at_least_14(birthday, targetdate=date.today()):
     if targetdate.year <= birthday.year:
@@ -113,7 +116,7 @@ def bigamy_check(parsed_file_dict):
 
                 deathDates = sorted(deathDates)
 
-                if not_bigamous(marriageDates, divorceDates, deathDates) is True:
+                if not_bigamous(marriageDates, sorted(divorceDates + deathDates)) is True:
                     continue
                 else:
                     return False
