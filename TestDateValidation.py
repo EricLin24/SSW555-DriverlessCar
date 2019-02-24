@@ -6,6 +6,7 @@ from datetime import date
 
 class TestDateValidation(unittest.TestCase):
     
+    # Test Cases US01
     def test_validateDate_valid(self):
         valid_date = date(1990, 4, 21)
         self.assertEqual(DateValidation.validateDate(valid_date), True, msg='Date is valid')
@@ -22,6 +23,7 @@ class TestDateValidation(unittest.TestCase):
         invalid_day = date(2019, 2, 28)
         self.assertEqual(DateValidation.validateDate(invalid_day), False, msg='Date should be invalid: day error')
 
+    # Test Cases US02
     def test_validateMarraigeDate_valid(self):
         validBirthdate = date(1990, 12, 28)
         validMarraigeDate = date(2019, 1, 1)
@@ -42,6 +44,64 @@ class TestDateValidation(unittest.TestCase):
         invalidMarraigeDate_day = date(1990, 12, 21)
         self.assertEqual(DateValidation.validateMarraigeDate(validBirthdate, invalidMarraigeDate_day), False, msg='Marraige date should be invalid: day error')
 
+    #Testcases of US03
+    def test_validate_birth_before_death_year(self):
+        birth = date(1955, 2, 3)
+        invalid_death = date(1954, 2, 3)
+        valid_death = date(1956, 2, 3)
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, invalid_death), False,
+                         msg='should be False, year error.')
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, valid_death), True, msg='correct')
+
+    def test_validate_birth_before_death_month(self):
+        birth = date(1995, 2, 3)
+        invalid_death = date(1955, 1, 3)
+        valid_death = date(1995, 3, 3)
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, invalid_death), False,
+                         msg='should be False, month error')
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, valid_death), True, msg='correct')
+
+    def test_validate_birth_before_death_day(self):
+        birth = date(1995, 2, 3)
+        invalid_death = date(1955, 2, 2)
+        valid_death = date(1995, 2, 4)
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, invalid_death), False,
+                         msg='should be False, day error')
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, valid_death), True, msg='correct')
+
+    def test_validate_birth_before_death_valid(self):
+        birth = date(1995, 2, 3)
+        valid_death = date(2011, 11, 19)
+        self.assertEqual(DateValidation.validate_birth_before_death(birth, valid_death), True, msg='correct')
+
+    #Testcases of US04
+    def test_validate_marraige_before_divorce_year(self):
+        marraige = date(2001, 2, 14)
+        invalid_divorce = date(2000, 2, 14)
+        valid_divorce = date(2002, 2, 14)
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, invalid_divorce), False, msg='should be False, year error')
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
+
+    def test_validate_marraige_before_divorce_month(self):
+        marraige = date(2001, 2, 14)
+        invalid_divorce = date(2001, 1, 14)
+        valid_divorce = date(2001, 3, 14)
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, invalid_divorce), False,
+                         msg='should be False, month error')
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
+
+    def test_validate_marraige_before_divorce_day(self):
+        marraige = date(2001, 2, 14)
+        invalid_divorce = date(2001, 2, 13)
+        valid_divorce = date(2001, 2, 15)
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, invalid_divorce), False,
+                         msg='should be False, day error')
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
+
+    def test_validate_marraige_before_divorce_valid(self):
+        marraige = date(2001, 2, 14)
+        valid_divorce = date(2013, 7, 9)
+        self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
 
 if __name__ == '__main__':
     unittest.main()
