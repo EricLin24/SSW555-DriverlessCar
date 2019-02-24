@@ -13,3 +13,10 @@ def divorce_before_death(tags, ged_file): # pass in the tags and gedcom file
                         print("Fail")
                         return False
     return True
+
+
+# retains the date comparison logic from above, but receives input during file data read
+def div_before_death(divorce, death):
+    if divorce > death:
+        return False
+    return True

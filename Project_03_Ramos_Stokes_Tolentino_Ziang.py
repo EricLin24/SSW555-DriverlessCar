@@ -14,6 +14,7 @@ import DivorceBeforeDeathValidation
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
+errors = set()
 
 class GEDCOM_Line:
 
@@ -47,7 +48,7 @@ class GEDCOM_Line:
         '''
         validTags = {'INDI', 'NAME', 'SEX', 'BIRT', 'DEAT', 'FAMC',
                      'FAMS', 'FAM', 'MARR', 'HUSB', 'WIFE', 'CHIL',
-                     'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE'}
+                     'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE', 'SPOUSE'}
 
         if self.Tag in validTags:
             self.Valid = 'Y'
@@ -140,8 +141,14 @@ def parse_file(filename):
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                individual['Birthday'] = line[2]
-                                currentTag = 'INDI'
+                                testDate = line[2].split(' ', 2)
+                                if DateValidation.validateDate(date(int(testDate[2]), months[testDate[1]], int(testDate[0]))):
+                                    individual['Birthday'] = line[2]
+                                    currentTag = 'INDI'
+                                else:
+                                    errors.add('WARNING: Invalid date: ' + str(line[1]))
+                                    individual['Birthday'] = line[2]
+                                    currentTag = 'INDI'
 
                 if currentTag == 'DEAT':
                     if line[0] != 0 and len(line) == 3:
@@ -207,9 +214,18 @@ def parse_file(filename):
                 members[k]['Alive?'] = 'N'
                 birthday = members[k]['Birthday'].split(' ', 2)
                 death_day = members[k]['Death'].split(' ', 2)
-                members[k]['Age'] = date_difference(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
+                if DateValidation.validate_birth_before_death(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
                                                     date(int(death_day[2]), int(months[death_day[1]]),
-                                                         int(death_day[0])))
+                                                         int(death_day[0]))) is False:
+                    errors.add('WARNING: Invalid death date ' + str(death_day) + '. Must occur after birth.')
+                    members[k]['Age'] = date_difference(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
+                                                        date(int(death_day[2]), int(months[death_day[1]]),
+                                                             int(death_day[0])))
+                else:
+                    members[k]['Age'] = date_difference(
+                        date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
+                        date(int(death_day[2]), int(months[death_day[1]]),
+                             int(death_day[0])))
             else:
                 members[k]['Death'] = 'NA'
                 members[k]['Alive?'] = 'Y'
@@ -224,7 +240,63 @@ def parse_file(filename):
                 members[k]['Spouse'] = 'NA'
 
         gedFile.close()
+
         # print(family, members)
+
+        for f in family.keys():
+            marriage_date_text = family[f]['Married'].split(' ', 2)
+            marriage_date = date(int(marriage_date_text[2]), months[marriage_date_text[1]], int(marriage_date_text[0]))
+            spouses = [family[f]['Spouse 1'], family[f]['Spouse 2']]
+            divorce_date_text = ''
+
+            if members[family[f]['Spouse 1']]['Death'] != 'NA':
+                died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
+                died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
+                    errors.add('WARNING: Invalid marriage date for ' + str(f) + '. Must be before death of spouse')
+
+            if members[family[f]['Spouse 2']]['Death'] != 'NA':
+                died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
+                died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
+                    errors.add('WARNING: Invalid marriage date for ' + str(f) + '. Must be before death of spouse')
+
+            if family[f]['Divorced'] != 'NA':
+                divorce_date_text = family[f]['Divorced'].split(' ', 2)
+                divorce_date = date(int(divorce_date_text[2]), months[divorce_date_text[1]],
+                                     int(divorce_date_text[0]))
+
+                if members[family[f]['Spouse 1']]['Death'] != 'NA':
+                    died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
+                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                    if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
+                        errors.add('WARNING: Invalid divorce date for ' + str(f) + '. Must be before death of spouse')
+
+                if members[family[f]['Spouse 2']]['Death'] != 'NA':
+                    died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
+                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                    if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
+                        errors.add(
+                            'WARNING: Invalid divorce date for ' + str(f) + '. Must be before death of spouse')
+
+            for s in spouses:
+                text_birthday = members[s]['Birthday'].split(' ', 2)
+                birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
+                if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
+                    errors.add('WARNING: Invalid marriage date for spouse born on ' + str(text_birthday) +
+                                  '. Marriage must be after birth')
+
+                if divorce_date_text != '':
+                    if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
+                        errors.add('WARNING: Invalid divorce date for spouses married on ' + str(marriage_date_text) +
+                                      '. Must occur after marriage')
+
+                if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
+                    errors.add('WARNING: ' + str(s) + ' was not yet 14 for marriage in Family ' + str(f) + '.')
+
+        # print(family)
+        # print(members)
+
         return {'family': family, 'members': members}
 
 
@@ -268,4 +340,13 @@ if fileExtension != '.ged':
 
 fileName += fileExtension
 
+if not MarriageValidation.bigamy_check(parse_file(fileName)):
+    errors.append('WARNING: There is bigamy present in this family')
 pretty_table(parse_file(fileName))
+
+print('Warnings: ')
+if len(errors) == 0:
+    print('None')
+else:
+    for e in errors:
+        print(e)

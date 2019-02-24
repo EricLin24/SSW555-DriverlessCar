@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 
+
 def marriage_before_death(tags, ged_file): # pass in the tags and the gedcom file
     for person in tags: # loop through each tag
         if person['SPOUSE'] != 'NONE' and person['DEAT'] != 'NA': # if the person has a spouse and they are not dead (yet)
@@ -13,3 +14,10 @@ def marriage_before_death(tags, ged_file): # pass in the tags and the gedcom fil
                     return False
 
     return True # if it is less than, than success
+
+
+# retains the date comparison logic from above, but receives input during file data read
+def marr_before_death(divorce, death):
+    if divorce > death:
+        return False
+    return True
