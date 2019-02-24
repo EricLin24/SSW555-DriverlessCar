@@ -37,10 +37,85 @@ def valid_age_at_marriage(birthday, marriagedate):
         return isOldEnough
 
 
+'''
+US 11 - no bigamy: 
+
+No one should have more than one spouse at a time
+    - If someone is remarried, the marriage date must be after the previous spouse(s)'s div/death date
+
+'''
 
 
+def bigamy_check(parsed_file_dict):
 
+    def not_bigamous(marriages, divorces=[], deaths=[]):
+        for d in divorces:
+            if (divorces.index(d) + 1) > (len(marriages) - 1):
+                break
+            elif d > marriages[divorces.index(d) + 1]:
+                return False
 
+        for d in deaths:
+            if (deaths.index(d) + 1) > (len(marriages) - 1):
+                break
+            elif d > marriages[deaths.index(d) + 1]:
+                return False
+
+        return True
+
+    for k in parsed_file_dict['members'].keys():
+        spouses, marriageDates, divorceDates, deathDates = [], [], [], []
+        currentID = parsed_file_dict['members'][k]['ID']
+        if parsed_file_dict['members'][k]['Spouse'] == 'NA':
+            continue
+        else:
+            for s in parsed_file_dict['members'][k]['Spouse']:
+                spouses.append(s)
+
+            if len(spouses) <= 1:
+                continue
+            else:
+
+                for s in spouses:
+                    if parsed_file_dict['family'][s]['Married'] != 'NA':
+                        marriageDates.append(parsed_file_dict['family'][s]['Married'])
+                    if parsed_file_dict['family'][s]['Divorced'] != 'NA':
+                        divorceDates.append(parsed_file_dict['family'][s]['Divorced'])
+
+                    if parsed_file_dict['family'][s]['Spouse 1'] == currentID:
+                        spouseID = parsed_file_dict['family'][s]['Spouse 2']
+                    else:
+                        spouseID = parsed_file_dict['family'][s]['Spouse 1']
+
+                    if parsed_file_dict['members'][spouseID]['Death'] != 'NA':
+                        deathDates.append(parsed_file_dict['members'][spouseID]['Death'])
+
+                for i in marriageDates:
+                    origDate = i.split(' ', 2)
+                    marriageDates[marriageDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]), int(origDate[0]))
+
+                marriageDates = sorted(marriageDates)
+
+                for i in divorceDates:
+                    origDate = i.split(' ', 2)
+                    divorceDates[divorceDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
+                                                                 int(origDate[0]))
+
+                divorceDates = sorted(divorceDates)
+
+                for i in deathDates:
+                    origDate = i.split(' ', 2)
+                    deathDates[deathDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
+                                                               int(origDate[0]))
+
+                deathDates = sorted(deathDates)
+
+                if not_bigamous(marriageDates, divorceDates, deathDates) is True:
+                    continue
+                else:
+                    return False
+
+    return True
 
 
 
