@@ -46,22 +46,25 @@ No one should have more than one spouse at a time
 '''
 
 
+def not_bigamous(marriages, divorces_deaths=[]):
+    marriage_term = divorces_deaths
+    if len(marriages) >= 2:
+        for m in marriages:
+            try:
+                if marriage_term[0] > marriages[marriages.index(m) + 1]:
+                    return False
+            except IndexError as e:
+                pass
+
+            if len(marriage_term) == 1:
+                break
+            else:
+                marriage_term = marriage_term[1:len(marriage_term)]
+
+    return True
+
+
 def bigamy_check(parsed_file_dict):
-
-    def not_bigamous(marriages, divorces=[], deaths=[]):
-        for d in divorces:
-            if (divorces.index(d) + 1) > (len(marriages) - 1):
-                break
-            elif d > marriages[divorces.index(d) + 1]:
-                return False
-
-        for d in deaths:
-            if (deaths.index(d) + 1) > (len(marriages) - 1):
-                break
-            elif d > marriages[deaths.index(d) + 1]:
-                return False
-
-        return True
 
     for k in parsed_file_dict['members'].keys():
         spouses, marriageDates, divorceDates, deathDates = [], [], [], []
