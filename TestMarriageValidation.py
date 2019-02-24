@@ -34,10 +34,26 @@ class TestMarriageValidation(unittest.TestCase):
         self.assertEqual(MarriageValidation.valid_age_at_marriage(birthdate, marriage), True,
                          msg="Return True: spouse is at least 14")
 
-    def test_bigamy_check(self):
+    def test_not_bigamous_ok(self):
+        marriages = [date(2005, 5, 25), date(2009, 2, 20), date(2011, 4, 12)]
+        deaths = [date(2006, 12, 12)]
+        divorces = [date(2010, 1, 1)]
+        self.assertEqual(MarriageValidation.not_bigamous(marriages, sorted(divorces + deaths)), True,
+                         msg="Return True: all previous marriages terminated")
 
+    def test_not_bigamous_married_before_death(self):
+        marriages = [date(2005, 5, 25), date(2009, 2, 20), date(2011, 4, 12)]
+        deaths = [date(2009, 12, 12)]
+        divorces = [date(2010, 1, 1)]
+        self.assertEqual(MarriageValidation.not_bigamous(marriages, sorted(divorces + deaths)), False,
+                         msg="Return False: Married before death")
 
-
+    def test_not_bigamous_married_before_divorce(self):
+        marriages = [date(2005, 5, 25), date(2009, 2, 20), date(2011, 4, 12)]
+        deaths = [date(2006, 12, 12)]
+        divorces = [date(2012, 1, 1)]
+        self.assertEqual(MarriageValidation.not_bigamous(marriages, sorted(divorces + deaths)), False,
+                         msg="Return False: Married before divorce")
 
 
 if __name__ == '__main__':

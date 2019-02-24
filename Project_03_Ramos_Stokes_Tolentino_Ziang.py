@@ -224,7 +224,7 @@ def parse_file(filename):
                 members[k]['Spouse'] = 'NA'
 
         gedFile.close()
-        print(family, members)
+        # print(family, members)
         return {'family': family, 'members': members}
 
 
