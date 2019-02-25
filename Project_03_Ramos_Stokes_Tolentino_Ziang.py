@@ -51,14 +51,6 @@ class GEDCOM_Line:
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE', 'SPOUSE'}
 
         if self.Tag in validTags:
-            # Validate tag level for DATE and NAME
-            # 2 DATE is supported but 1 DATE is not
-            # 1 NAME is supported but 2 NAME is nor
-            if self.Tag = 'DATE' and self.Level != 2:
-                self.Valid = 'N'
-            elif self.Tag = 'NAME' and self.Level != 1:
-                self.Valid = 'N'
-            else:
                 self.Valid = 'Y'
         else:
             self.Valid = 'N'
