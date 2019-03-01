@@ -1,8 +1,10 @@
-$python3 project_03_Ramos_Stokes_Tolentino_Ziang.py Sprint1_Test.ged
+/SSW555-DriverlessCar $python3 Project_03_Ramos_Stokes_Tolentino_Ziang.py  Sprint1_Test.ged
+Invalid date: JUN has not yet occured this year
 Invalid date death date: 1919-07-21 must occur after birth date: 1920-07-21
 Invalid date marraige date: 1957-02-04 must occur after birthdate: 1957-02-05
 Invalid date divorce date: 1955-12-31 must occur after marraige date: 1959-08-12
 Invalid date divorce date: 1955-12-31 must occur after marraige date: 1959-08-12
+Invalid date: JUN has not yet occured this year
 Invalid date death date: 1919-07-21 must occur after birth date: 1920-07-21
 Invalid date marraige date: 1957-02-04 must occur after birthdate: 1957-02-05
 Invalid date divorce date: 1955-12-31 must occur after marraige date: 1959-08-12
@@ -11,45 +13,46 @@ Invalid date divorce date: 1955-12-31 must occur after marraige date: 1959-08-12
 +------------------------+-------------------------------------+--------+-------------+-----+--------+-------------+----------------------------+------------------------------------------------------+
 |           ID           |                 Name                | Gender |   Birthday  | Age | Alive? |    Death    |           Child            |                        Spouse                        |
 +------------------------+-------------------------------------+--------+-------------+-----+--------+-------------+----------------------------+------------------------------------------------------+
-| @I6000000086664425931@ |            Drew /Jacobs/            |   M    | 21 NOV 1992 |  26 |   Y    |      NA     | {'@F6000000086663222161@'} |                          NA                          |
-| @I6000000086661834883@ |         Michael /Bellini/ Jr        |   M    |  5 JUN 1948 |  2  |   N    | 31 DEC 1950 | {'@F6000000086662067042@'} | {'@F6000000086661201064@', '@F6000000086661691994@'} |
-| @I6000000086661201058@ |          Braxton /Bellini/          |   M    | 18 OCT 1969 |  17 |   N    | 13 MAY 1987 | {'@F6000000086661201064@'} |                          NA                          |
-| @I6000000086661172981@ |            Brian /Smith/            |   M    | 21 SEP 1956 |  62 |   Y    |      NA     |             NA             |              {'@F6000000086661172986@'}              |
 | @I6000000086661691990@ |    Margaret-Ann Alicia /Bellini/    |   F    |  9 AUG 1956 |  62 |   Y    |      NA     |             NA             | {'@F6000000086663050825@', '@F6000000086661691994@'} |
 | @I6000000086662625947@ |        Luca Luciano /Moderna/       |   M    | 19 SEP 1983 |  35 |   Y    |      NA     | {'@F6000000086663050825@'} |                          NA                          |
-| @I6000000086662221843@ |     Michael Jamison /Bellini/ II    |   M    | 30 JUL 1960 |  58 |   Y    |      NA     | {'@F6000000086661691994@'} |                          NA                          |
-| @I6000000086663050821@ |        Mario Marco /Moderna/        |   M    |  5 FEB 1957 |  62 |   Y    |      NA     |             NA             |              {'@F6000000086663050825@'}              |
-| @I6000000086661506862@ |           Rebecca /Smith/           |   F    | 13 MAY 1972 |  46 |   Y    |      NA     | {'@F6000000086661201064@'} |              {'@F6000000086661172986@'}              |
-| @I6000000086662615851@ |        Louisa Maria /Bellini/       |   F    |  3 OCT 1922 |  96 |   N    | 19 JUN 2019 |             NA             |              {'@F6000000086662067042@'}              |
 | @I6000000086662852950@ |       Luciana Lucia /Moderna/       |   F    |  5 FEB 1985 |  34 |   Y    |      NA     | {'@F6000000086663050825@'} |                          NA                          |
 | @I6000000086663222157@ |           Brandon /Jacobs/          |   M    |  9 SEP 1950 |  68 |   Y    |      NA     |             NA             |              {'@F6000000086663222161@'}              |
-| @I6000000086662740835@ | Andromeda Estrella /Bellini-Meyers/ |   F    |  2 MAY 1965 |  53 |   Y    |      NA     | {'@F6000000086661691994@'} |                          NA                          |
-| @I6000000086662067036@ |       Michael Joseph /Bellini/      |   M    | 21 JUL 1920 |  -1 |   N    | 21 JUL 1919 |             NA             |              {'@F6000000086662067042@'}              |
-| @I6000000086661818912@ |       Luanne /Bellini-Jacobs/       |   F    | 22 DEC 1949 |  69 |   Y    |      NA     |             NA             | {'@F6000000086663222161@', '@F6000000086661201064@'} |
+| @I6000000086661506862@ |           Rebecca /Smith/           |   F    | 13 MAY 1972 |  46 |   Y    |      NA     | {'@F6000000086661201064@'} |              {'@F6000000086661172986@'}              |
+| @I6000000086661172981@ |            Brian /Smith/            |   M    | 21 SEP 1956 |  62 |   Y    |      NA     |             NA             |              {'@F6000000086661172986@'}              |
+| @I6000000086664425931@ |            Drew /Jacobs/            |   M    | 21 NOV 1992 |  26 |   Y    |      NA     | {'@F6000000086663222161@'} |                          NA                          |
+| @I6000000086662221843@ |     Michael Jamison /Bellini/ II    |   M    | 30 JUL 1960 |  58 |   Y    |      NA     | {'@F6000000086661691994@'} |                          NA                          |
 | @I6000000086661584835@ |            George /Smith/           |   M    |  2 JAN 1987 |  32 |   Y    |      NA     | {'@F6000000086661172986@'} |                          NA                          |
+| @I6000000086661834883@ |         Michael /Bellini/ Jr        |   M    |  5 JUN 1948 |  2  |   N    | 31 DEC 1950 | {'@F6000000086662067042@'} | {'@F6000000086661201064@', '@F6000000086661691994@'} |
+| @I6000000086663050821@ |        Mario Marco /Moderna/        |   M    |  5 FEB 1957 |  62 |   Y    |      NA     |             NA             |              {'@F6000000086663050825@'}              |
+| @I6000000086662615851@ |        Louisa Maria /Bellini/       |   F    |  3 OCT 1922 |  96 |   N    | 19 JUN 2019 |             NA             |              {'@F6000000086662067042@'}              |
+| @I6000000086661818912@ |       Luanne /Bellini-Jacobs/       |   F    | 22 DEC 1949 |  69 |   Y    |      NA     |             NA             | {'@F6000000086661201064@', '@F6000000086663222161@'} |
+| @I6000000086662740835@ | Andromeda Estrella /Bellini-Meyers/ |   F    |  2 MAY 1965 |  53 |   Y    |      NA     | {'@F6000000086661691994@'} |                          NA                          |
+| @I6000000086661201058@ |          Braxton /Bellini/          |   M    | 18 OCT 1969 |  17 |   N    | 13 MAY 1987 | {'@F6000000086661201064@'} |                          NA                          |
+| @I6000000086662067036@ |       Michael Joseph /Bellini/      |   M    | 21 JUL 1920 |  -1 |   N    | 21 JUL 1919 |             NA             |              {'@F6000000086662067042@'}              |
 +------------------------+-------------------------------------+--------+-------------+-----+--------+-------------+----------------------------+------------------------------------------------------+
 
 == Families ==
 +------------------------+-------------+-------------+------------------------+-------------------------------+------------------------+-------------------------+------------------------------------------------------+
 |           ID           |   Married   |   Divorced  |      Spouse 1 ID       |         Spouse 1 Name         |      Spouse 2 ID       |      Spouse 2 Name      |                       Children                       |
 +------------------------+-------------+-------------+------------------------+-------------------------------+------------------------+-------------------------+------------------------------------------------------+
+| @F6000000086661201064@ | 19 APR 1980 |      NA     | @I6000000086661834883@ |      Michael /Bellini/ Jr     | @I6000000086661818912@ | Luanne /Bellini-Jacobs/ | {'@I6000000086661506862@', '@I6000000086661201058@'} |
+| @F6000000086663050825@ |  4 FEB 1957 |      NA     | @I6000000086661691990@ | Margaret-Ann Alicia /Bellini/ | @I6000000086663050821@ |  Mario Marco /Moderna/  | {'@I6000000086662625947@', '@I6000000086662852950@'} |
 | @F6000000086663222161@ | 18 MAR 1989 |      NA     | @I6000000086663222157@ |        Brandon /Jacobs/       | @I6000000086661818912@ | Luanne /Bellini-Jacobs/ |              {'@I6000000086664425931@'}              |
-| @F6000000086661201064@ | 19 APR 1980 |      NA     | @I6000000086661834883@ |      Michael /Bellini/ Jr     | @I6000000086661818912@ | Luanne /Bellini-Jacobs/ | {'@I6000000086661201058@', '@I6000000086661506862@'} |
 | @F6000000086661172986@ | 15 MAR 1982 |      NA     | @I6000000086661172981@ |         Brian /Smith/         | @I6000000086661506862@ |     Rebecca /Smith/     |              {'@I6000000086661584835@'}              |
 | @F6000000086662067042@ |  9 JUL 1946 |      NA     | @I6000000086662067036@ |    Michael Joseph /Bellini/   | @I6000000086662615851@ |  Louisa Maria /Bellini/ |              {'@I6000000086661834883@'}              |
-| @F6000000086663050825@ |  4 FEB 1957 |      NA     | @I6000000086661691990@ | Margaret-Ann Alicia /Bellini/ | @I6000000086663050821@ |  Mario Marco /Moderna/  | {'@I6000000086662852950@', '@I6000000086662625947@'} |
-| @F6000000086661691994@ | 12 AUG 1959 | 31 DEC 1955 | @I6000000086661691990@ | Margaret-Ann Alicia /Bellini/ | @I6000000086661834883@ |   Michael /Bellini/ Jr  | {'@I6000000086662740835@', '@I6000000086662221843@'} |
+| @F6000000086661691994@ | 12 AUG 1959 | 31 DEC 1955 | @I6000000086661691990@ | Margaret-Ann Alicia /Bellini/ | @I6000000086661834883@ |   Michael /Bellini/ Jr  | {'@I6000000086662221843@', '@I6000000086662740835@'} |
 +------------------------+-------------+-------------+------------------------+-------------------------------+------------------------+-------------------------+------------------------------------------------------+
 Warnings: 
-WARNING: @I6000000086661691990@ was not yet 14 for marriage in Family @F6000000086663050825@.
-WARNING: @I6000000086661691990@ was not yet 14 for marriage in Family @F6000000086661691994@.
-WARNING: Invalid marriage date for @F6000000086661691994@. Must be before death of spouse
-WARNING: Invalid divorce date for spouses married on ['12', 'AUG', '1959']. Must occur after marriage
-WARNING: @I6000000086663050821@ was not yet 14 for marriage in Family @F6000000086663050825@.
-WARNING: Invalid marriage date for @F6000000086661201064@. Must be before death of spouse
-WARNING: Invalid marriage date for @F6000000086662067042@. Must be before death of spouse
-WARNING: Invalid marriage date for spouse born on ['5', 'FEB', '1957']. Marriage must be after birth
-WARNING: Invalid divorce date for @F6000000086661691994@. Must be before death of spouse
-WARNING: @I6000000086661834883@ was not yet 14 for marriage in Family @F6000000086661691994@.
-WARNING: @I6000000086661506862@ was not yet 14 for marriage in Family @F6000000086661172986@.
-WARNING: Invalid death date ['21', 'JUL', '1919']. Must occur after birth.
+WARNING US10: @I6000000086661834883@ was not yet 14 for marriage in Family @F6000000086661691994@.
+WARNING US10: @I6000000086661506862@ was not yet 14 for marriage in Family @F6000000086661172986@.
+WARNING US01: Invalid date: DATE
+WARNING US02: Invalid marriage date for spouse born on ['5', 'FEB', '1957']. Marriage must be after birth
+WARNING US06: Invalid divorce date for @F6000000086661691994@. Must be before death of spouse
+WARNING US05: Invalid marriage date for @F6000000086661201064@. Must be before death of spouse
+WARNING US03: Invalid death date ['21', 'JUL', '1919']. Must occur after birth.
+WARNING US10: @I6000000086661691990@ was not yet 14 for marriage in Family @F6000000086663050825@.
+WARNING US05: Invalid marriage date for @F6000000086661691994@. Must be before death of spouse
+WARNING US05: Invalid marriage date for @F6000000086662067042@. Must be before death of spouse
+WARNING US10: @I6000000086663050821@ was not yet 14 for marriage in Family @F6000000086663050825@.
+WARNING US04: Invalid divorce date for spouses married on ['12', 'AUG', '1959']. Must occur after marriage
+WARNING US10: @I6000000086661691990@ was not yet 14 for marriage in Family @F6000000086661691994@.
