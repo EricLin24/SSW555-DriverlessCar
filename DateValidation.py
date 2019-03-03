@@ -5,6 +5,9 @@ from datetime import date
 months = {1:'JAN', 2:'FEB', 3:'MAR', 4:'APR', 5:'MAY', 6:'JUN',
           7:'JUL', 8:'AUG', 9:'SEP', 10:'OCT', 11:'NOV', 12:'DEC'}
 
+monthsStr = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
+             'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
+
 def validateDate(date):
 	'''
 		US01: Dates (birth, marriage, divorce, death) 
@@ -94,3 +97,20 @@ def validate_marraige_before_divorce(marraige_date, divorce_date):
     else:
         is_valid = True
     return is_valid
+
+def createValidDate(dateStr):
+    '''
+        US042: Reject illegitimate dates
+        :param dateStr: string date in dd mm yyyy format
+    '''
+
+    errStr = 'ERROR US042: Invalid date '
+
+    # Split dateStr into day, month, year componnets
+    testDate = dateStr.split(' ', 2)
+
+    try:
+        aDate = date(int(testDate[2]), monthsStr[testDate[1]], int(testDate[0]))
+        return aDate
+    except ValueError as err:
+        raise ValueError(errStr + str(err))

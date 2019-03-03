@@ -141,50 +141,64 @@ def parse_file(filename):
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                testDate = line[2].split(' ', 2)
-                                if DateValidation.validateDate(date(int(testDate[2]), months[testDate[1]], int(testDate[0]))):
-                                    individual['Birthday'] = line[2]
-                                    currentTag = 'INDI'
-                                else:
-                                    errors.add('WARNING US01: Invalid date: ' + str(line[1]))
-                                    individual['Birthday'] = line[2]
+                                try:
+                                    testDate = DateValidation.createValidDate(line[2])
+
+                                    if DateValidation.validateDate(testDate):
+                                        individual['Birthday'] = line[2]
+                                        currentTag = 'INDI'
+                                    else:
+                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        individual['Birthday'] = line[2]
+                                        currentTag = 'INDI'
+                                except ValueError as err:
+                                    print(str(err))
+                                finally:
                                     currentTag = 'INDI'
 
                 if currentTag == 'DEAT':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                # Validate the date
-                                testDate = line[2].split(' ', 2)
-                                if DateValidation.validateDate(date(int(testDate[2]), months[testDate[1]], int(testDate[0]))):
-                                    individual['Death'] = line[2]
-                                else:
-                                    errors.add('WARNING US01: Invalid date: ' + str(line[1]))
-                                    individual['Death'] = line[2]
-                                currentTag = 'INDI'
+                                try:
+                                    testDate = DateValidation.createValidDate(line[2])
+                                    if DateValidation.validateDate(testDate):
+                                        individual['Death'] = line[2]
+                                    else:
+                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        individual['Death'] = line[2]
+                                except ValueError as err:
+                                    print(str(err))
+                                finally:
+                                    currentTag = 'INDI'
 
                 if currentTag == 'MARR':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                # Validate the date
-                                testDate = line[2].split(' ', 2)
-                                if DateValidation.validateDate(date(int(testDate[2]), months[testDate[1]], int(testDate[0]))):
-                                    family[currentFam]['Married'] = line[2]
-                                else:
-                                    errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                try:
+                                    testDate = DateValidation.createValidDate(line[2])
+                                    if DateValidation.validateDate(testDate):
+                                        family[currentFam]['Married'] = line[2]
+                                    else:
+                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                except ValueError as err:
+                                    print(str(err))
 
                 if currentTag == 'DIV':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                # Validate the date
-                                testDate = line[2].split(' ', 2)
-                                if DateValidation.validateDate(date(int(testDate[2]), months[testDate[1]], int(testDate[0]))):
-                                    family[currentFam]['Divorced'] = line[2]
-                                else:
-                                    errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                try:
+                                    testDate = DateValidation.createValidDate(line[2])
+                                    if DateValidation.validateDate(testDate):
+                                        family[currentFam]['Divorced'] = line[2]
+                                    else:
+                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
 
+                                except ValueError as err:
+                                    print(str(err))
+                                    
                 if currentTag == 'HUSB':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
