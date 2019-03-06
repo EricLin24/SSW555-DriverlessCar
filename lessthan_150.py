@@ -11,11 +11,11 @@ def less_than_150(member):
     :return: bool
     """
     if type(member) != dict:
-        print('Input Error: The parameter is invalid.')
-        return -1
+        err_str = 'Input Error: The parameter is invalid.'
+        return -1, err_str
     if not member['Birthday'] or not member['Death']:
-        print('Input Error: The parameter is invalid.')
-        return -1
+        err_str = 'Input Error: The parameter is invalid.'
+        return -1, err_str
 
     birth_date = parse_date(member['Birthday'])
 
@@ -26,10 +26,10 @@ def less_than_150(member):
     age = last_date.year - birth_date.year - ((last_date.month, last_date.day) < (birth_date.month, birth_date.day))
     #print(age)
     if age >= 150:
-        print(f"Invalid age: Individual's age is {age}, should less than 150.")
-        return False
+        err_str = f"Invalid age: Individual's age is {age}, should less than 150."
+        return False, err_str
     else:
-        return True
+        return True, 'valid'
 
 def parse_date(string):
     date_list = string.split()

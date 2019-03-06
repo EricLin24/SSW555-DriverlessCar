@@ -24,14 +24,14 @@ def birth_before_parent_marriage(birth_date, parent_marriage_date, parent_divorc
         return False, err_str
     elif parent_divorce_date != 'NA':  #divorce
         parent_divorce_date = parse_date(parent_divorce_date)
-        years = parent_divorce_date.year - birth_date.year - ((parent_divorce_date.month, parent_divorce_date.day) < (birth_date.month, birth_date.day))
-        if years > 9: #divorced beyond 9 years
+        month = (birth_date.year - parent_divorce_date.year) * 12 + (birth_date.month - parent_divorce_date.month) + (birth_date.day > parent_divorce_date.day)
+        if month > 9: #divorced beyond 9 month
             print(err_str)
-            return False,err_str
+            return False, err_str
         else:
-            return True
+            return True, 'valid'
     else: #not divorce
-        return True
+        return True, 'valid'
 
 def parse_date(string):
     date_list = string.split()
