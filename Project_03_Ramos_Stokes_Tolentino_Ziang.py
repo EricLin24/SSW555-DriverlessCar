@@ -18,11 +18,11 @@ cwd = os.path.dirname(os.path.realpath(__file__))
 errors = set()
 
 class GEDCOM_Line:
-
-    Level = 0
-    Tag = 'default'
-    Valid = 'N'
-    Args = ''
+    def __init__(self):
+        self.Level = 0
+        self.Tag = 'default'
+        self.Valid = 'N'
+        self.Args = ''
 
     def Parse(self, line):
         '''
@@ -52,10 +52,35 @@ class GEDCOM_Line:
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE', 'SPOUSE'}
 
         if self.Tag in validTags:
-                self.Valid = 'Y'
+            self.Valid = 'Y'
         else:
             self.Valid = 'N'
+            
+class individual:
+    def __init__(self):
+        self.ID = 0
+        self.Name = ''
+        self.Birthday = None
+        self.Death = None
+        self.Alive = True
+        self.Spouse = {}
+        self.Child = {}
 
+    def setIndividual(self, newId, name, birthday, death=None,):
+        self.ID = newId,
+        self.Name = name
+        self.Birthday = birthday
+
+        if death != None:
+            self.Alive = False
+
+    def addSpouseID(self, spouseID, spouse):
+        if spouseID not in self.Spouse.keys():
+            self.Spouse[spouseID] = spouse
+
+    def addChild(self, childID, child):
+        if childId not in self.Child.keys():
+            self.Child[childID] = child
 
 months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
@@ -150,8 +175,7 @@ def parse_file(filename):
                                         currentTag = 'INDI'
                                     else:
                                         today = date.today()
-                                        us01Err = Error()
-                                        us01Err.setErr(Error.ErrorEnum.US01)
+                                        us01Err = Error(Error.ErrorEnum.US01)
                                         us01Err.alterErrMsg(line[1], today)
                                         errors.add(us01Err)
                                         individual['Birthday'] = line[2]
@@ -170,7 +194,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         individual['Death'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(line[1], today)
+                                        errors.add(us01Err)
                                         individual['Death'] = line[2]
                                 except ValueError as err:
                                     print(str(err))
@@ -186,7 +213,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         family[currentFam]['Married'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(line[1], today)
+                                        errors.add(us01Err)
                                 except ValueError as err:
                                     print(str(err))
 
@@ -199,7 +229,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         family[currentFam]['Divorced'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(line[1], today)
+                                        errors.add(us01Err)
 
                                 except ValueError as err:
                                     print(str(err))

@@ -18,7 +18,7 @@ class ErrorEnum(Enum):
 	US11 = 'ERROR US11: Bigamy is present in this family'
 	US12 = 'ERROR US12: '
 	US13 = 'ERROR US13: '
-	US14 = 'ERROR US14: '
+	US14 = 'ERROR US14: Multiple births mmust be <= 5 for Family {0}.'
 	US15 = 'ERROR US15: '
 	US16 = 'ERROR US16: '
 	US17 = 'ERROR US17: '
@@ -39,12 +39,10 @@ class ErrorEnum(Enum):
 	US42 = 'ERROR US42: Invalid date: ' 
 
 class Error:
-	errCode = ErrorEnum.UNKNOWN
-	errMsg = ErrorEnum.UNKNOWN.value
 
-	def setErr(self, aCode):
-		self.errCode = ErrorEnum(aCode)
-		self.errMsg = ErrorEnum(aCode).value
+	def __init__(self, eCode=ErrorEnum.UNKNOWN):
+		self.errCode = ErrorEnum(eCode)
+		self.errMsg = ErrorEnum(eCode).value
 
 	def getErrMsg(self):
 		return self.errMsg

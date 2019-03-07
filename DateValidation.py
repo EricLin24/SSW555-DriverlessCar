@@ -85,6 +85,5 @@ def createValidDate(dateStr):
         aDate = date(int(testDate[2]), monthsStr[testDate[1]], int(testDate[0]))
         return aDate
     except ValueError as err:
-        valErr = Error()
-        valErr.setErr(Error.ErrorEnum.US42)
+        valErr = Error(Error.ErrorEnum.US42)
         raise ValueError(valErr.getErrMsg() + str(err))

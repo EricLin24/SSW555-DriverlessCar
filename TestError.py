@@ -15,18 +15,16 @@ class TestError(unittest.TestCase):
 	def test_setError(self):
 		print('Creating a US01 error...')
 
-		us01Err = Error.Error()
-		us01Err.setErr(Error.ErrorEnum.US01)
+		us01Err = Error.Error(Error.ErrorEnum.US01)
 		self.assertEqual(us01Err.getErrMsg(), Error.ErrorEnum.US01.value, msg='Failed to create US01 error' )
 
 	def test_alterErMsg(self):
 		print('Testing modifying an error message...')
 
-		us04Err = Error.Error()
+		us04Err = Error.Error(Error.ErrorEnum.US04)
 		value0 = '2003 03 07'
 		value1 = '2002 10 11'
 
-		us04Err.setErr(Error.ErrorEnum.US04)
 		us04Err.alterMsg(value0, value1)
 
 		expected = 'ERROR US04: Invalid date divorce date: 2003 03 07 must occur after marraige date: 2002 10 11'
