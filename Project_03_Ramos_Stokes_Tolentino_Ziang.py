@@ -11,6 +11,7 @@ import DateValidation
 import MarriageValidation
 import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
+import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
@@ -148,7 +149,11 @@ def parse_file(filename):
                                         individual['Birthday'] = line[2]
                                         currentTag = 'INDI'
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error()
+                                        us01Err.setErr(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(line[1], today)
+                                        errors.add(us01Err)
                                         individual['Birthday'] = line[2]
                                         currentTag = 'INDI'
                                 except ValueError as err:
@@ -377,4 +382,4 @@ if len(errors) == 0:
     print('None')
 else:
     for e in errors:
-        print(e)
+        print(e.getErrMsg())
