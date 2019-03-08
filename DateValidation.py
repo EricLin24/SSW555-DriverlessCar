@@ -7,37 +7,36 @@ monthsStr = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
              'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
 
 def validateDate(date):
-	'''
-		US01: Dates (birth, marriage, divorce, death) 
-			should not be after the current date
+    '''
+        US01: Dates (birth, marriage, divorce, death) 
+            should not be after the current date
         :param date: date
-	'''
+    '''
+    today = date.today()
 
-	today = date.today()
-
-	if today.year < date.year:
+    if today.year < date.year:
         return False
-	elif today.year == date.year and today.month < date.month:
+    elif today.year == date.year and today.month < date.month:
         return False
-	elif today.year == date.year and today.month == date.month and today.day < date.day:
+    elif today.year == date.year and today.month == date.month and today.day < date.day:
         return False
-	else:
+    else:
         return True
 
 def validateMarraigeDate(birthDate, marraigeDate):
-	'''
-		US02: Birth should occur before marriage of an individual
+    '''
+        US02: Birth should occur before marriage of an individual
         :param birthDate: date
         :param marraigeDate: date
-	'''
+    '''
 
-	if birthDate.year > marraigeDate.year:
-		return False
-	elif birthDate.year == marraigeDate.year and birthDate.month > marraigeDate.month:
-		return False
-	elif birthDate.year == marraigeDate.year and birthDate.month == marraigeDate.month and birthDate.day > marraigeDate.day:
-		return False
-	else:
+    if birthDate.year > marraigeDate.year:
+        return False
+    elif birthDate.year == marraigeDate.year and birthDate.month > marraigeDate.month:
+        return False
+    elif birthDate.year == marraigeDate.year and birthDate.month == marraigeDate.month and birthDate.day > marraigeDate.day:
+        return False
+    else:
         return True
 
 def validate_birth_before_death(birth_date, death_date):

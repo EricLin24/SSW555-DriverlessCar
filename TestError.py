@@ -25,7 +25,7 @@ class TestError(unittest.TestCase):
 		value0 = '2003 03 07'
 		value1 = '2002 10 11'
 
-		us04Err.alterMsg(value0, value1)
+		us04Err.alterErrMsg(value0, value1)
 
 		expected = 'ERROR US04: Invalid date divorce date: 2003 03 07 must occur after marraige date: 2002 10 11'
 

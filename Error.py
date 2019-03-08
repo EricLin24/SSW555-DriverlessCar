@@ -47,7 +47,7 @@ class Error:
 	def getErrMsg(self):
 		return self.errMsg
 
-	def alterMsg(self, value0, value1 = ''):
+	def alterErrMsg(self, value0, value1 = ''):
 		'''
 			Replace the placeholders in the default error string with specific values
 		'''
