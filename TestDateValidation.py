@@ -20,7 +20,7 @@ class TestDateValidation(unittest.TestCase):
         self.assertEqual(DateValidation.validateDate(invalid_month), False, msg='Date should be invalid: month error')
 
     def test_validateDate_invalid_day(self):
-        invalid_day = date(2019, 2, 28)
+        invalid_day = date(2019, 3, 28)
         self.assertEqual(DateValidation.validateDate(invalid_day), False, msg='Date should be invalid: day error')
 
     # Test Cases US02
@@ -102,6 +102,24 @@ class TestDateValidation(unittest.TestCase):
         marraige = date(2001, 2, 14)
         valid_divorce = date(2013, 7, 9)
         self.assertEqual(DateValidation.validate_marraige_before_divorce(marraige, valid_divorce), True, msg='correct')
+
+    # Test cases US42
+    def test_createValidDate_valid(self):
+        validDateStr = '10 10 2020'
+        validDate =  date(2020, 10, 10)
+        self.assertEqual(DateValidation.createValidDate(validDateStr), validDate, msg='Error: Date is valid')
+
+    def test_createValidDate_invalid_Feb(self):
+        invalidFebStr = '30 2 2020'
+        self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidFebStr))
+
+    def test_createValidDate_invlaid_Sept(self):
+        invalidDateSept = '31 9 2019'
+        self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidDateSept))
+
+    def test_createValidDate_Invalid_Aug(self):
+        invalidDateAug = '33 8 2019'
+        self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidDateAug))
 
 if __name__ == '__main__':
     unittest.main()

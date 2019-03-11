@@ -1,7 +1,7 @@
 # Michael Ramos, Sadie Stokes, Jonathan Tolentino, Lin Ziang
 # CS 555
-# Project 04
-# 02/24/2019
+# Project 06
+# 03/17/2019
 
 import sys
 import os
@@ -11,17 +11,19 @@ import DateValidation
 import MarriageValidation
 import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
+import FamilyValidation
+import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 
 errors = set()
 
 class GEDCOM_Line:
-
-    Level = 0
-    Tag = 'default'
-    Valid = 'N'
-    Args = ''
+    def __init__(self):
+        self.Level = 0
+        self.Tag = 'default'
+        self.Valid = 'N'
+        self.Args = ''
 
     def Parse(self, line):
         '''
@@ -51,10 +53,16 @@ class GEDCOM_Line:
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE', 'SPOUSE'}
 
         if self.Tag in validTags:
+            # 2 DATE is supported 1 DATE is not
+            # 1 NAME is supported 2 NAME is not
+            if self.Tag == 'DATE' and self.Level == 1:
+                self.Valid = 'N'
+            elif self.Tag == 'NAME' and self.Level == 2:
+                self.Valid = 'N'
+            else:
                 self.Valid = 'Y'
         else:
             self.Valid = 'N'
-
 
 months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
@@ -148,7 +156,10 @@ def parse_file(filename):
                                         individual['Birthday'] = line[2]
                                         currentTag = 'INDI'
                                     else:
-                                        errors.add("WARNING US01: Invalid date")
+                                        today = date.today()
+                                        us01Err = Error.Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(testDate, today)
+                                        errors.add(us01Err)
                                         individual['Birthday'] = line[2]
                                         currentTag = 'INDI'
                                 except ValueError as err:
@@ -165,7 +176,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         individual['Death'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error.Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(testDate, today)
+                                        errors.add(us01Err)
                                         individual['Death'] = line[2]
                                 except ValueError as err:
                                     print(str(err))
@@ -181,7 +195,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         family[currentFam]['Married'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error.Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(testDate, today)
+                                        errors.add(us01Err)
                                 except ValueError as err:
                                     print(str(err))
 
@@ -194,7 +211,10 @@ def parse_file(filename):
                                     if DateValidation.validateDate(testDate):
                                         family[currentFam]['Divorced'] = line[2]
                                     else:
-                                        errors.add('WARNING US01: Invalid date: ' + str(line[1]))
+                                        today = date.today()
+                                        us01Err = Error.Error(Error.ErrorEnum.US01)
+                                        us01Err.alterErrMsg(testDate, today)
+                                        errors.add(us01Err)
 
                                 except ValueError as err:
                                     print(str(err))
@@ -242,26 +262,26 @@ def parse_file(filename):
         for k, v in members.items():  # For each member, check if died
             if 'Death' in members[k].keys():  # If died, set 'N' for Alive and calculate age at death
                 members[k]['Alive?'] = 'N'
-                birthday = members[k]['Birthday'].split(' ', 2)
-                death_day = members[k]['Death'].split(' ', 2)
-                if DateValidation.validate_birth_before_death(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
-                                                    date(int(death_day[2]), int(months[death_day[1]]),
-                                                         int(death_day[0]))) is False:
-                    errors.add('WARNING US03: Invalid death date ' + str(death_day) + '. Must occur after birth.')
-                    members[k]['Age'] = date_difference(date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
-                                                        date(int(death_day[2]), int(months[death_day[1]]),
-                                                             int(death_day[0])))
-                else:
-                    members[k]['Age'] = date_difference(
-                        date(int(birthday[2]), int(months[birthday[1]]), int(birthday[0])),
-                        date(int(death_day[2]), int(months[death_day[1]]),
-                             int(death_day[0])))
+                try:
+                    birthday = DateValidation.createValidDate(members[k]['Birthday'])
+                    death_day = DateValidation.createValidDate(members[k]['Death'])
+                    if not DateValidation.validate_birth_before_death(birthday, death_day):
+                        us03Err = Error.Error(Error.ErrorEnum.US03)
+                        us03Err.alterErrMsg(death_day, birthday)
+                        errors.add(us03Err)
+                        members[k]['Age'] = date_difference(birthday, death_day)
+                    else:
+                        members[k]['Age'] = date_difference(birthday, death_day)
+                except ValueError as err:
+                    print(str(err))
             else:
                 members[k]['Death'] = 'NA'
                 members[k]['Alive?'] = 'Y'
-                birthday = members[k]['Birthday'].split(' ', 2)
-                members[k]['Age'] = date_difference((date(int(birthday[2]), int(months[birthday[1]]),
-                                                          int(birthday[0]))))
+                try:
+                    birthday = DateValidation.createValidDate(members[k]['Birthday'])
+                    members[k]['Age'] = date_difference(birthday)
+                except ValueError as err:
+                    print(str(err))
 
             if len(members[k]['Child']) == 0:  # if no children, 'NA'
                 members[k]['Child'] = 'NA'
@@ -270,8 +290,6 @@ def parse_file(filename):
                 members[k]['Spouse'] = 'NA'
 
         gedFile.close()
-
-        # print(family, members)
 
         for f in family.keys():
             marriage_date_text = family[f]['Married'].split(' ', 2)
@@ -283,13 +301,17 @@ def parse_file(filename):
                 died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
                 died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
                 if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
-                    errors.add('WARNING US05: Invalid marriage date for ' + str(f) + '. Must be before death of spouse')
+                    us05Err = Error.Error(Error.ErrorEnum.US05)
+                    us05Err.alterErrMsg(f)
+                    errors.add(us05Err)
 
             if members[family[f]['Spouse 2']]['Death'] != 'NA':
                 died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
                 died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
                 if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
-                    errors.add('WARNING US05: Invalid marriage date for ' + str(f) + '. Must be before death of spouse')
+                    us05Err = Error.Error(Error.ErrorEnum.US05)
+                    us05Err.alterErrMsg(f)
+                    errors.add(us05Err)
 
             if family[f]['Divorced'] != 'NA':
                 divorce_date_text = family[f]['Divorced'].split(' ', 2)
@@ -300,27 +322,36 @@ def parse_file(filename):
                     died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
                     died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
                     if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
-                        errors.add('WARNING US06: Invalid divorce date for ' + str(f) + '. Must be before death of spouse')
+                        us06Err = Error.Error(Error.ErrorEnum.US06)
+                        us06Err.alterErrMsg(f)
+                        errors.add(us06Err)
 
                 if members[family[f]['Spouse 2']]['Death'] != 'NA':
                     died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
                     died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
                     if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
-                        errors.add('WARNING US06: Invalid divorce date for ' + str(f) + '. Must be before death of spouse')
+                        us06Err = Error.Error(Error.ErrorEnum.US06)
+                        us06Err.alterErrMsg(f)
+                        errors.add(us06Err)
 
             for s in spouses:
                 text_birthday = members[s]['Birthday'].split(' ', 2)
                 birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
                 if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
-                    errors.add('WARNING US02: Invalid marriage date for spouse born on ' + str(text_birthday) +
-                                  '. Marriage must be after birth')
+                    us02Err = Error.Error(Error.ErrorEnum.US02)
+                    us02Err.alterErrMsg(marriage_date, birthdate)
+                    errors.add(us02Err)
 
                 if divorce_date_text != '':
                     if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
-                        errors.add('WARNING US04: Invalid divorce date for spouses married on ' + str(marriage_date_text) + '. Must occur after marriage')
+                        us04Err = Error.Error(Error.ErrorEnum.US04)
+                        us04Err.alterErrMsg(divorce_date, marriage_date)
+                        errors.add(us04Err)
 
                 if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
-                    errors.add('WARNING US10: ' + str(s) + ' was not yet 14 for marriage in Family ' + str(f) + '.')
+                    us10Err = Error.Error(Error.ErrorEnum.US10)
+                    us10Err.alterErrMsg(s, f)
+                    errors.add(us10Err)
 
         # print(family)
         # print(members)
@@ -353,28 +384,38 @@ def pretty_table(parsed_file_dict):
 
     print(y)
 
+# Main
+if __name__ == '__main__':
+    # Validate command line args
+    if len(sys.argv) < 2:
+        print('Usage Error: No input file provided')
+        quit()
 
-# Validate command line args
-if len(sys.argv) < 2:
-    print('Usage Error: No input file provided')
-    quit()
+    # File validation
+    fileName, fileExtension = os.path.splitext((cwd + '/' + sys.argv[1]))
 
-# File validation
-fileName, fileExtension = os.path.splitext((cwd + '/' + sys.argv[1]))
+    if fileExtension != '.ged':
+        print('Error input file must be in .ged format')
+        quit()
 
-if fileExtension != '.ged':
-    print('Error input file must be in .ged format')
-    quit()
+    fileName += fileExtension
 
-fileName += fileExtension
+    parsed_file = parse_file(fileName)
 
-if not MarriageValidation.bigamy_check(parse_file(fileName)):
-    errors.append('WARNING US11: There is bigamy present in this family')
-pretty_table(parse_file(fileName))
+    # US11 - Check for bigamy
+    if not MarriageValidation.bigamy_check(parsed_file):
+        us11Err = Error.Error(Error.ErrorEnum.US11)
+        errors.add(us11Err)
 
-print('Warnings: ')
-if len(errors) == 0:
-    print('None')
-else:
-    for e in errors:
-        print(e)
+    # US14 - Check for multiple births
+    errors = FamilyValidation.check_multiple_births(parsed_file, errors)
+
+    # Output the table
+    pretty_table(parsed_file)
+
+    print('Errors: ')
+    if len(errors) == 0:
+        print('None')
+    else:
+        for e in errors:
+            print(e.getErrMsg())
