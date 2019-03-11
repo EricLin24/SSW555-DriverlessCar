@@ -4,23 +4,23 @@ months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
 
 
-def at_least_14(birthday, targetdate=date.today()):
+def at_least_age(target_age, birthday, targetdate=date.today()):
     if targetdate.year <= birthday.year:
-        return 0
-    if targetdate.year - birthday.year > 14:
-        return 15
-    elif targetdate.year - birthday.year < 14:
-        return 0
-    elif targetdate.year - birthday.year == 14:
+        return False
+    if targetdate.year - birthday.year > target_age:
+        return True
+    elif targetdate.year - birthday.year < target_age:
+        return False
+    elif targetdate.year - birthday.year == target_age:
         if targetdate.month > birthday.month:
-            return 15
+            return True
         elif targetdate.month < birthday.month:
-            return 0
+            return False
         else:
             if targetdate.day >= birthday.day:
-                return 15
+                return True
             elif targetdate.day < birthday.day:
-                return 0
+                return False
 
 
 '''
@@ -32,12 +32,7 @@ Marriage should be at least 14 years after birth of both spouses (parents must b
 
 
 def valid_age_at_marriage(birthday, marriagedate):
-    if at_least_14(birthday, marriagedate) >= 14:
-        isOldEnough = True
-        return isOldEnough
-    else:
-        isOldEnough = False
-        return isOldEnough
+    return at_least_age(14, birthday, marriagedate)
 
 
 '''
@@ -47,6 +42,22 @@ No one should have more than one spouse at a time
     - If someone is remarried, the marriage date must be after the previous spouse(s)'s div/death date
 
 '''
+
+def create_date(year, month, day):
+    try:
+        if month in months.keys():
+            dateYear = int(year)
+            dateMonth = int(months[month])
+            dateDay = int(day)
+        else:
+            dateYear = int(year)
+            dateMonth = int(month)
+            dateDay = int(day)
+
+        return date(dateYear, dateMonth, dateDay)
+    except ValueError as v:
+        print('All inputs must be whole, positive numbers!', str(v))
+
 
 
 def not_bigamous(marriages, divorces_deaths=[]):
@@ -98,21 +109,19 @@ def bigamy_check(parsed_file_dict):
 
                 for i in marriageDates:
                     origDate = i.split(' ', 2)
-                    marriageDates[marriageDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]), int(origDate[0]))
+                    marriageDates[marriageDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 marriageDates = sorted(marriageDates)
 
                 for i in divorceDates:
                     origDate = i.split(' ', 2)
-                    divorceDates[divorceDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
-                                                                 int(origDate[0]))
+                    divorceDates[divorceDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 divorceDates = sorted(divorceDates)
 
                 for i in deathDates:
                     origDate = i.split(' ', 2)
-                    deathDates[deathDates.index(i)] = date(int(origDate[2]), int(months[origDate[1]]),
-                                                               int(origDate[0]))
+                    deathDates[deathDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 deathDates = sorted(deathDates)
 
