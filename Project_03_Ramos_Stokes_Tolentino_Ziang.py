@@ -1,7 +1,7 @@
 # Michael Ramos, Sadie Stokes, Jonathan Tolentino, Lin Ziang
 # CS 555
-# Project 04
-# 02/24/2019
+# Project 06
+# 03/17/2019
 
 import sys
 import os
@@ -11,6 +11,7 @@ import DateValidation
 import MarriageValidation
 import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
+import FamilyValidation
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -52,7 +53,14 @@ class GEDCOM_Line:
                      'DIV', 'DATE', 'HEAD', 'TRLR', 'NOTE', 'SPOUSE'}
 
         if self.Tag in validTags:
-            self.Valid = 'Y'
+            # 2 DATE is supported 1 DATE is not
+            # 1 NAME is supported 2 NAME is not
+            if self.Tag == 'DATE' and self.Level == 1:
+                self.Valid = 'N'
+            elif self.Tag == 'NAME' and self.Level == 2:
+                self.Valid = 'N'
+            else:
+                self.Valid = 'Y'
         else:
             self.Valid = 'N'
 
@@ -392,11 +400,18 @@ if __name__ == '__main__':
 
     fileName += fileExtension
 
-    if not MarriageValidation.bigamy_check(parse_file(fileName)):
+    parsed_file = parse_file(fileName)
+
+    # US11 - Check for bigamy
+    if not MarriageValidation.bigamy_check(parsed_file):
         us11Err = Error.Error(Error.ErrorEnum.US11)
         errors.add(us11Err)
 
-    pretty_table(parse_file(fileName))
+    # US14 - Check for multiple births
+    errors = FamilyValidation.check_multiple_births(parsed_file, errors)
+
+    # Output the table
+    pretty_table(parsed_file)
 
     print('Errors: ')
     if len(errors) == 0:
