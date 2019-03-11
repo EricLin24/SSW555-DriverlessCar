@@ -36,7 +36,7 @@ class ErrorEnum(Enum):
 	US31 = 'ERROR US31: '
 	US32 = 'ERROR US32: '
 	US41 = 'ERROR US41: '
-	US42 = 'ERROR US42: Invalid date: ' 
+	US42 = 'ERROR US42: Invalid date: {0}' 
 
 class Error:
 

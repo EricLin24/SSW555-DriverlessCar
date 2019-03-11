@@ -11,7 +11,7 @@ def check_multiple_births(parsed_file_dict, errors):
 
 	# Check for an empty dictionary
 	if not parsed_file_dict:
-		return True
+		return errors
 
 	for key in parsed_file_dict['family'].keys():
 		children = []

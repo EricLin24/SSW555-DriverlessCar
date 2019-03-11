@@ -163,7 +163,10 @@ def parse_file(filename):
                                         individual['Birthday'] = line[2]
                                         currentTag = 'INDI'
                                 except ValueError as err:
-                                    print(str(err))
+                                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                                    us42Err.alterErrMsg(err)
+                                    errors.add(us42Err)
+                                    individual['Birthday'] = line[2]
                                 finally:
                                     currentTag = 'INDI'
 
@@ -182,7 +185,10 @@ def parse_file(filename):
                                         errors.add(us01Err)
                                         individual['Death'] = line[2]
                                 except ValueError as err:
-                                    print(str(err))
+                                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                                    us42Err.alterErrMsg(err)
+                                    errors.add(us42Err)
+                                    individual['Death'] = line[2]
                                 finally:
                                     currentTag = 'INDI'
 
@@ -200,7 +206,10 @@ def parse_file(filename):
                                         us01Err.alterErrMsg(testDate, today)
                                         errors.add(us01Err)
                                 except ValueError as err:
-                                    print(str(err))
+                                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                                    us42Err.alterErrMsg(err)
+                                    errors.add(us42Err)
+                                    family[currentFam]['Married'] = line[2]
 
                 if currentTag == 'DIV':
                     if line[0] != 0 and len(line) == 3:
@@ -215,10 +224,12 @@ def parse_file(filename):
                                         us01Err = Error.Error(Error.ErrorEnum.US01)
                                         us01Err.alterErrMsg(testDate, today)
                                         errors.add(us01Err)
-
                                 except ValueError as err:
-                                    print(str(err))
-                                    
+                                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                                    us42Err.alterErrMsg(err)
+                                    errors.add(us42Err)
+                                    family[currentFam]['Divorced'] = line[2]
+
                 if currentTag == 'HUSB':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
@@ -262,6 +273,7 @@ def parse_file(filename):
         for k, v in members.items():  # For each member, check if died
             if 'Death' in members[k].keys():  # If died, set 'N' for Alive and calculate age at death
                 members[k]['Alive?'] = 'N'
+                text_birthday = members[k]['Birthday'].split(' ', 2) 
                 try:
                     birthday = DateValidation.createValidDate(members[k]['Birthday'])
                     death_day = DateValidation.createValidDate(members[k]['Death'])
@@ -273,15 +285,27 @@ def parse_file(filename):
                     else:
                         members[k]['Age'] = date_difference(birthday, death_day)
                 except ValueError as err:
-                    print(str(err))
+                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                    us42Err.alterErrMsg(err)
+                    errors.add(us42Err)
+                finally:
+                    birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
+                    members[k]['Age'] = date_difference(birthday, death_day)
+
             else:
                 members[k]['Death'] = 'NA'
                 members[k]['Alive?'] = 'Y'
+                text_birthday = members[k]['Birthday'].split(' ', 2)
                 try:
                     birthday = DateValidation.createValidDate(members[k]['Birthday'])
                     members[k]['Age'] = date_difference(birthday)
                 except ValueError as err:
-                    print(str(err))
+                    us42Err = Error.Error(Error.ErrorEnum.US42)
+                    us42Err.alterErrMsg(err)
+                    errors.add(us42Err)
+                finally:
+                    birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
+                    members[k]['Age'] = date_difference(birthday)
 
             if len(members[k]['Child']) == 0:  # if no children, 'NA'
                 members[k]['Child'] = 'NA'
@@ -336,23 +360,26 @@ def parse_file(filename):
 
             for s in spouses:
                 text_birthday = members[s]['Birthday'].split(' ', 2)
-                birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
-                if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
-                    us02Err = Error.Error(Error.ErrorEnum.US02)
-                    us02Err.alterErrMsg(marriage_date, birthdate)
-                    errors.add(us02Err)
+                try:
+                    birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
+                except ValueError as err:
+                    birthdate = date(int(text_birthday[2]), months[text_birthday[1]], 1)
+                finally:
+                    if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
+                        us02Err = Error.Error(Error.ErrorEnum.US02)
+                        us02Err.alterErrMsg(marriage_date, birthdate)
+                        errors.add(us02Err)
 
-                if divorce_date_text != '':
-                    if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
-                        us04Err = Error.Error(Error.ErrorEnum.US04)
-                        us04Err.alterErrMsg(divorce_date, marriage_date)
-                        errors.add(us04Err)
+                    if divorce_date_text != '':
+                        if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
+                            us04Err = Error.Error(Error.ErrorEnum.US04)
+                            us04Err.alterErrMsg(divorce_date, marriage_date)
+                            errors.add(us04Err)
 
-                if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
-                    us10Err = Error.Error(Error.ErrorEnum.US10)
-                    us10Err.alterErrMsg(s, f)
-                    errors.add(us10Err)
-
+                    if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
+                        us10Err = Error.Error(Error.ErrorEnum.US10)
+                        us10Err.alterErrMsg(s, f)
+                        errors.add(us10Err)
         # print(family)
         # print(members)
 
