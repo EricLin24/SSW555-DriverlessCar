@@ -1,21 +1,18 @@
+"""US07"""
 from datetime import date
-
+import Error
 
 months = {'JAN': 1, 'FEB': 2, 'MAR': 3, 'APR': 4, 'MAY': 5, 'JUN': 6,
           'JUL': 7, 'AUG': 8, 'SEP': 9, 'OCT': 10, 'NOV': 11, 'DEC': 12}
 
-def less_than_150(member):
+def less_than_150(member, errors):
     """
     The age of an individual should less than 150 years
     :param member: dict
     :return: bool
     """
-    if type(member) != dict:
-        err_str = 'Input Error: The parameter is invalid.'
-        return -1, err_str
-    if not member['Birthday'] or not member['Death']:
-        err_str = 'Input Error: The parameter is invalid.'
-        return -1, err_str
+    if not member:
+        return errors
 
     birth_date = parse_date(member['Birthday'])
 
@@ -26,10 +23,10 @@ def less_than_150(member):
     age = last_date.year - birth_date.year - ((last_date.month, last_date.day) < (birth_date.month, birth_date.day))
     #print(age)
     if age >= 150:
-        err_str = f"Invalid age: Individual's age is {age}, should less than 150."
-        return False, err_str
-    else:
-        return True, 'valid'
+        us07Err = Error.Error(Error.ErrorEnum.US07)
+        us07Err.alterErrMsg(age, member['Name'])
+        errors.add(us07Err)
+    return errors
 
 def parse_date(string):
     date_list = string.split()
