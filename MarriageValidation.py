@@ -109,18 +109,24 @@ def bigamy_check(parsed_file_dict):
 
                 for i in marriageDates:
                     origDate = i.split(' ', 2)
+                    if '??' in origDate:
+                        return True
                     marriageDates[marriageDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 marriageDates = sorted(marriageDates)
 
                 for i in divorceDates:
                     origDate = i.split(' ', 2)
+                    if '??' in origDate:
+                        return True
                     divorceDates[divorceDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 divorceDates = sorted(divorceDates)
 
                 for i in deathDates:
                     origDate = i.split(' ', 2)
+                    if '??' in origDate:
+                        return True
                     deathDates[deathDates.index(i)] = create_date(origDate[2], origDate[1], origDate[0]);
 
                 deathDates = sorted(deathDates)

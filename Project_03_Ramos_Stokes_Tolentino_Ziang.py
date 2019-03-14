@@ -150,86 +150,104 @@ def parse_file(filename):
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                try:
-                                    testDate = DateValidation.createValidDate(line[2])
-
-                                    if DateValidation.validateDate(testDate):
-                                        individual['Birthday'] = line[2]
-                                        currentTag = 'INDI'
-                                    else:
-                                        today = date.today()
-                                        us01Err = Error.Error(Error.ErrorEnum.US01)
-                                        us01Err.alterErrMsg(testDate, today)
-                                        errors.add(us01Err)
-                                        individual['Birthday'] = line[2]
-                                        currentTag = 'INDI'
-                                except ValueError as err:
-                                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                                    us42Err.alterErrMsg(err)
-                                    errors.add(us42Err)
-                                    individual['Birthday'] = line[2]
-                                finally:
+                                targetDate = DateValidation.partial_date_check(line[2])
+                                if '?' in targetDate:
+                                    individual['Birthday'] = targetDate
                                     currentTag = 'INDI'
+                                else:
+                                    try:
+                                        testDate = DateValidation.createValidDate(line[2])
+
+                                        if DateValidation.validateDate(testDate):
+                                            individual['Birthday'] = line[2]
+                                            currentTag = 'INDI'
+                                        else:
+                                            today = date.today()
+                                            us01Err = Error.Error(Error.ErrorEnum.US01)
+                                            us01Err.alterErrMsg(testDate, today)
+                                            errors.add(us01Err)
+                                            individual['Birthday'] = line[2]
+                                            currentTag = 'INDI'
+                                    except ValueError as err:
+                                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                                        us42Err.alterErrMsg(err)
+                                        errors.add(us42Err)
+                                        individual['Birthday'] = line[2]
+                                    finally:
+                                        currentTag = 'INDI'
 
                 if currentTag == 'DEAT':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                try:
-                                    testDate = DateValidation.createValidDate(line[2])
-                                    if DateValidation.validateDate(testDate):
-                                        individual['Death'] = line[2]
-                                    else:
-                                        today = date.today()
-                                        us01Err = Error.Error(Error.ErrorEnum.US01)
-                                        us01Err.alterErrMsg(testDate, today)
-                                        errors.add(us01Err)
-                                        individual['Death'] = line[2]
-                                except ValueError as err:
-                                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                                    us42Err.alterErrMsg(err)
-                                    errors.add(us42Err)
-                                    individual['Death'] = line[2]
-                                finally:
+                                targetDate = DateValidation.partial_date_check(line[2])
+                                if '?' in targetDate:
+                                    individual['Death'] = targetDate
                                     currentTag = 'INDI'
+                                else:
+                                    try:
+                                        testDate = DateValidation.createValidDate(line[2])
+                                        if DateValidation.validateDate(testDate):
+                                            individual['Death'] = line[2]
+                                        else:
+                                            today = date.today()
+                                            us01Err = Error.Error(Error.ErrorEnum.US01)
+                                            us01Err.alterErrMsg(testDate, today)
+                                            errors.add(us01Err)
+                                            individual['Death'] = line[2]
+                                    except ValueError as err:
+                                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                                        us42Err.alterErrMsg(err)
+                                        errors.add(us42Err)
+                                        individual['Death'] = line[2]
+                                    finally:
+                                        currentTag = 'INDI'
 
                 if currentTag == 'MARR':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                try:
-                                    testDate = DateValidation.createValidDate(line[2])
-                                    if DateValidation.validateDate(testDate):
+                                targetDate = DateValidation.partial_date_check(line[2])
+                                if '?' in targetDate:
+                                    family[currentFam]['Married'] = targetDate
+                                else:
+                                    try:
+                                        testDate = DateValidation.createValidDate(line[2])
+                                        if DateValidation.validateDate(testDate):
+                                            family[currentFam]['Married'] = line[2]
+                                        else:
+                                            today = date.today()
+                                            us01Err = Error.Error(Error.ErrorEnum.US01)
+                                            us01Err.alterErrMsg(testDate, today)
+                                            errors.add(us01Err)
+                                    except ValueError as err:
+                                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                                        us42Err.alterErrMsg(err)
+                                        errors.add(us42Err)
                                         family[currentFam]['Married'] = line[2]
-                                    else:
-                                        today = date.today()
-                                        us01Err = Error.Error(Error.ErrorEnum.US01)
-                                        us01Err.alterErrMsg(testDate, today)
-                                        errors.add(us01Err)
-                                except ValueError as err:
-                                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                                    us42Err.alterErrMsg(err)
-                                    errors.add(us42Err)
-                                    family[currentFam]['Married'] = line[2]
 
                 if currentTag == 'DIV':
                     if line[0] != 0 and len(line) == 3:
                         if gedLine.Valid == 'Y':
                             if line[1] == 'DATE':
-                                try:
-                                    testDate = DateValidation.createValidDate(line[2])
-                                    if DateValidation.validateDate(testDate):
+                                targetDate = DateValidation.partial_date_check(line[2])
+                                if '?' in targetDate:
+                                    family[currentFam]['Divorced'] = targetDate
+                                else:
+                                    try:
+                                        testDate = DateValidation.createValidDate(line[2])
+                                        if DateValidation.validateDate(testDate):
+                                            family[currentFam]['Divorced'] = line[2]
+                                        else:
+                                            today = date.today()
+                                            us01Err = Error.Error(Error.ErrorEnum.US01)
+                                            us01Err.alterErrMsg(testDate, today)
+                                            errors.add(us01Err)
+                                    except ValueError as err:
+                                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                                        us42Err.alterErrMsg(err)
+                                        errors.add(us42Err)
                                         family[currentFam]['Divorced'] = line[2]
-                                    else:
-                                        today = date.today()
-                                        us01Err = Error.Error(Error.ErrorEnum.US01)
-                                        us01Err.alterErrMsg(testDate, today)
-                                        errors.add(us01Err)
-                                except ValueError as err:
-                                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                                    us42Err.alterErrMsg(err)
-                                    errors.add(us42Err)
-                                    family[currentFam]['Divorced'] = line[2]
 
                 if currentTag == 'HUSB':
                     if line[0] != 0 and len(line) == 3:
@@ -274,39 +292,45 @@ def parse_file(filename):
         for k, v in members.items():  # For each member, check if died
             if 'Death' in members[k].keys():  # If died, set 'N' for Alive and calculate age at death
                 members[k]['Alive?'] = 'N'
-                text_birthday = members[k]['Birthday'].split(' ', 2) 
-                try:
-                    birthday = DateValidation.createValidDate(members[k]['Birthday'])
-                    death_day = DateValidation.createValidDate(members[k]['Death'])
-                    if not DateValidation.validate_birth_before_death(birthday, death_day):
-                        us03Err = Error.Error(Error.ErrorEnum.US03)
-                        us03Err.alterErrMsg(death_day, birthday)
-                        errors.add(us03Err)
+                if '?' in members[k]['Birthday']:
+                    members[k]['Age'] = 'Unknown'
+                else:
+                    text_birthday = members[k]['Birthday'].split(' ', 2)
+                    try:
+                        birthday = DateValidation.createValidDate(members[k]['Birthday'])
+                        death_day = DateValidation.createValidDate(members[k]['Death'])
+                        if not DateValidation.validate_birth_before_death(birthday, death_day):
+                            us03Err = Error.Error(Error.ErrorEnum.US03)
+                            us03Err.alterErrMsg(death_day, birthday)
+                            errors.add(us03Err)
+                            members[k]['Age'] = date_difference(birthday, death_day)
+                        else:
+                            members[k]['Age'] = date_difference(birthday, death_day)
+                    except ValueError as err:
+                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                        us42Err.alterErrMsg(err)
+                        errors.add(us42Err)
+                    finally:
+                        birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
                         members[k]['Age'] = date_difference(birthday, death_day)
-                    else:
-                        members[k]['Age'] = date_difference(birthday, death_day)
-                except ValueError as err:
-                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                    us42Err.alterErrMsg(err)
-                    errors.add(us42Err)
-                finally:
-                    birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
-                    members[k]['Age'] = date_difference(birthday, death_day)
 
             else:
                 members[k]['Death'] = 'NA'
                 members[k]['Alive?'] = 'Y'
-                text_birthday = members[k]['Birthday'].split(' ', 2)
-                try:
-                    birthday = DateValidation.createValidDate(members[k]['Birthday'])
-                    members[k]['Age'] = date_difference(birthday)
-                except ValueError as err:
-                    us42Err = Error.Error(Error.ErrorEnum.US42)
-                    us42Err.alterErrMsg(err)
-                    errors.add(us42Err)
-                finally:
-                    birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
-                    members[k]['Age'] = date_difference(birthday)
+                if '??' in members[k]['Birthday']:
+                    members[k]['Age'] = 'Unknown'
+                else:
+                    text_birthday = members[k]['Birthday'].split(' ', 2)
+                    try:
+                        birthday = DateValidation.createValidDate(members[k]['Birthday'])
+                        members[k]['Age'] = date_difference(birthday)
+                    except ValueError as err:
+                        us42Err = Error.Error(Error.ErrorEnum.US42)
+                        us42Err.alterErrMsg(err)
+                        errors.add(us42Err)
+                    finally:
+                        birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
+                        members[k]['Age'] = date_difference(birthday)
 
             if len(members[k]['Child']) == 0:  # if no children, 'NA'
                 members[k]['Child'] = 'NA'
@@ -318,69 +342,92 @@ def parse_file(filename):
 
         for f in family.keys():
             marriage_date_text = family[f]['Married'].split(' ', 2)
-            marriage_date = date(int(marriage_date_text[2]), months[marriage_date_text[1]], int(marriage_date_text[0]))
-            spouses = [family[f]['Spouse 1'], family[f]['Spouse 2']]
-            divorce_date_text = ''
+            print(marriage_date_text)
+            if '??' in marriage_date_text:
+                spouses = [family[f]['Spouse 1'], family[f]['Spouse 2']]
+                divorce_date_text = ''
+            else:
+                marriage_date = date(int(marriage_date_text[2]), months[marriage_date_text[1]], int(marriage_date_text[0]))
+                spouses = [family[f]['Spouse 1'], family[f]['Spouse 2']]
+                divorce_date_text = ''
 
             if members[family[f]['Spouse 1']]['Death'] != 'NA':
-                died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
-                died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
-                if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
-                    us05Err = Error.Error(Error.ErrorEnum.US05)
-                    us05Err.alterErrMsg(f)
-                    errors.add(us05Err)
+                if '??' in marriage_date_text:
+                    pass
+                else:
+                    died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
+                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                    if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
+                        us05Err = Error.Error(Error.ErrorEnum.US05)
+                        us05Err.alterErrMsg(f)
+                        errors.add(us05Err)
 
             if members[family[f]['Spouse 2']]['Death'] != 'NA':
-                died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
-                died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
-                if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
-                    us05Err = Error.Error(Error.ErrorEnum.US05)
-                    us05Err.alterErrMsg(f)
-                    errors.add(us05Err)
+                if '??' in marriage_date_text:
+                    pass
+                else:
+                    died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
+                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                    if not MarriageBeforeDeathValidation.marr_before_death(marriage_date, died_on_date):
+                        us05Err = Error.Error(Error.ErrorEnum.US05)
+                        us05Err.alterErrMsg(f)
+                        errors.add(us05Err)
 
             if family[f]['Divorced'] != 'NA':
                 divorce_date_text = family[f]['Divorced'].split(' ', 2)
-                divorce_date = date(int(divorce_date_text[2]), months[divorce_date_text[1]],
-                                     int(divorce_date_text[0]))
+                if '??' in divorce_date_text:
+                    pass
+                else:
+                    divorce_date = date(int(divorce_date_text[2]), months[divorce_date_text[1]],
+                                         int(divorce_date_text[0]))
 
                 if members[family[f]['Spouse 1']]['Death'] != 'NA':
-                    died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
-                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
-                    if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
-                        us06Err = Error.Error(Error.ErrorEnum.US06)
-                        us06Err.alterErrMsg(f)
-                        errors.add(us06Err)
+                    if '??' in divorce_date_text:
+                        pass
+                    else:
+                        died_on = members[family[f]['Spouse 1']]['Death'].split(' ', 2)
+                        died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                        if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
+                            us06Err = Error.Error(Error.ErrorEnum.US06)
+                            us06Err.alterErrMsg(f)
+                            errors.add(us06Err)
 
                 if members[family[f]['Spouse 2']]['Death'] != 'NA':
-                    died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
-                    died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
-                    if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
-                        us06Err = Error.Error(Error.ErrorEnum.US06)
-                        us06Err.alterErrMsg(f)
-                        errors.add(us06Err)
+                    if '??' in divorce_date_text:
+                        pass
+                    else:
+                        died_on = members[family[f]['Spouse 2']]['Death'].split(' ', 2)
+                        died_on_date = date(int(died_on[2]), int(months[died_on[1]]), int(died_on[0]))
+                        if not DivorceBeforeDeathValidation.div_before_death(divorce_date, died_on_date):
+                            us06Err = Error.Error(Error.ErrorEnum.US06)
+                            us06Err.alterErrMsg(f)
+                            errors.add(us06Err)
 
             for s in spouses:
                 text_birthday = members[s]['Birthday'].split(' ', 2)
-                try:
-                    birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
-                except ValueError as err:
-                    birthdate = date(int(text_birthday[2]), months[text_birthday[1]], 1)
-                finally:
-                    if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
-                        us02Err = Error.Error(Error.ErrorEnum.US02)
-                        us02Err.alterErrMsg(marriage_date, birthdate)
-                        errors.add(us02Err)
+                if '??' in text_birthday:
+                    pass
+                else:
+                    try:
+                        birthdate = date(int(text_birthday[2]), months[text_birthday[1]], int(text_birthday[0]))
+                    except ValueError as err:
+                        birthdate = date(int(text_birthday[2]), months[text_birthday[1]], 1)
+                    finally:
+                        if DateValidation.validateMarraigeDate(birthdate, marriage_date) is False:
+                            us02Err = Error.Error(Error.ErrorEnum.US02)
+                            us02Err.alterErrMsg(marriage_date, birthdate)
+                            errors.add(us02Err)
 
-                    if divorce_date_text != '':
-                        if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
-                            us04Err = Error.Error(Error.ErrorEnum.US04)
-                            us04Err.alterErrMsg(divorce_date, marriage_date)
-                            errors.add(us04Err)
+                        if divorce_date_text != '':
+                            if DateValidation.validate_marraige_before_divorce(marriage_date, divorce_date) is False:
+                                us04Err = Error.Error(Error.ErrorEnum.US04)
+                                us04Err.alterErrMsg(divorce_date, marriage_date)
+                                errors.add(us04Err)
 
-                    if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
-                        us10Err = Error.Error(Error.ErrorEnum.US10)
-                        us10Err.alterErrMsg(s, f)
-                        errors.add(us10Err)
+                        if not MarriageValidation.valid_age_at_marriage(birthdate, marriage_date):
+                            us10Err = Error.Error(Error.ErrorEnum.US10)
+                            us10Err.alterErrMsg(s, f)
+                            errors.add(us10Err)
 
         siblings = [v['Children'] for v in family.values()
                     if len(v['Children']) > 1 and v['Children'] != 'NA']
@@ -388,7 +435,10 @@ def parse_file(filename):
         for s in siblings:
             sibBirths = []
             for i in s:
-                sibBirths.append(members[i]['Birthday'])
+                if '??' in members[i]['Birthday']:
+                    continue
+                else:
+                    sibBirths.append(members[i]['Birthday'])
 
             # print(sibBirths)
             sibBirths = sorted(sibBirths)
