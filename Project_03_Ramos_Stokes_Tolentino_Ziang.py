@@ -18,6 +18,7 @@ import Error
 cwd = os.path.dirname(os.path.realpath(__file__))
 
 errors = set()
+warnings = set()
 
 class GEDCOM_Line:
     def __init__(self):
@@ -153,6 +154,7 @@ def parse_file(filename):
                                 targetDate = DateValidation.partial_date_check(line[2])
                                 if '?' in targetDate:
                                     individual['Birthday'] = targetDate
+                                    warnings.add('WARNING US41: ' + individual['ID'] + ' only has partial birthday: ' + targetDate + '. Date verifications cannot run using this date.')
                                     currentTag = 'INDI'
                                 else:
                                     try:
@@ -183,6 +185,7 @@ def parse_file(filename):
                                 targetDate = DateValidation.partial_date_check(line[2])
                                 if '?' in targetDate:
                                     individual['Death'] = targetDate
+                                    warnings.add('WARNING US41: ' + individual['ID'] + ' only has partial death date: ' + targetDate + '. Date verifications cannot run using this date.')
                                     currentTag = 'INDI'
                                 else:
                                     try:
@@ -210,6 +213,7 @@ def parse_file(filename):
                                 targetDate = DateValidation.partial_date_check(line[2])
                                 if '?' in targetDate:
                                     family[currentFam]['Married'] = targetDate
+                                    warnings.add('WARNING US41: ' + currentFam + ' only has partial marriage date: ' + targetDate + '. Date verifications cannot run using this date.')
                                 else:
                                     try:
                                         testDate = DateValidation.createValidDate(line[2])
@@ -233,6 +237,8 @@ def parse_file(filename):
                                 targetDate = DateValidation.partial_date_check(line[2])
                                 if '?' in targetDate:
                                     family[currentFam]['Divorced'] = targetDate
+                                    warnings.add('WARNING US41: ' + currentFam + ' only has partial divorce date: ' + targetDate + '. Date verifications cannot run using this date.')
+
                                 else:
                                     try:
                                         testDate = DateValidation.createValidDate(line[2])
@@ -512,6 +518,14 @@ if __name__ == '__main__':
 
     # Output the table
     pretty_table(parsed_file)
+
+    print('Warnings: ')
+
+    if len(warnings) == 0:
+        print('None')
+    else:
+        for w in warnings:
+            print(w)
 
     print('Errors: ')
     if len(errors) == 0:
