@@ -348,7 +348,6 @@ def parse_file(filename):
 
         for f in family.keys():
             marriage_date_text = family[f]['Married'].split(' ', 2)
-            print(marriage_date_text)
             if '??' in marriage_date_text:
                 spouses = [family[f]['Spouse 1'], family[f]['Spouse 2']]
                 divorce_date_text = ''
