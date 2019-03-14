@@ -88,6 +88,11 @@ def createValidDate(dateStr):
 
 
 def partial_date_check(dateStr):
+    '''
+    US 41: Accept and use partial dates
+    :param dateStr:
+    :return:
+    '''
     dateCheck = dateStr.split(' ')
     if len(dateCheck) > 3:
         return dateStr
