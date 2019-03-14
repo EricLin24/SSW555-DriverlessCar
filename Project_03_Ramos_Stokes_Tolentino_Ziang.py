@@ -12,6 +12,7 @@ import MarriageValidation
 import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
 import FamilyValidation
+import SiblingSpacing
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -380,6 +381,28 @@ def parse_file(filename):
                         us10Err = Error.Error(Error.ErrorEnum.US10)
                         us10Err.alterErrMsg(s, f)
                         errors.add(us10Err)
+
+        siblings = [v['Children'] for v in family.values()
+                    if len(v['Children']) > 1 and v['Children'] != 'NA']
+
+        for s in siblings:
+            sibBirths = []
+            for i in s:
+                sibBirths.append(members[i]['Birthday'])
+
+            # print(sibBirths)
+            sibBirths = sorted(sibBirths)
+
+            for d in sibBirths:
+                if sibBirths.index(d) == len(sibBirths) - 1:
+                    break
+                else:
+                    if SiblingSpacing.valid_sibling_spacing(d, sibBirths[sibBirths.index(d) + 1]) is False:
+                        us13Err = Error.Error(Error.ErrorEnum.US13)
+                        us13Err.alterErrMsg(d, sibBirths[sibBirths.index(d) + 1])
+                        errors.add(us13Err)
+
+
         # print(family)
         # print(members)
 
