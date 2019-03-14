@@ -5,7 +5,7 @@ import unittest
 from datetime import date
 
 class TestDateValidation(unittest.TestCase):
-    
+
     # Test Cases US01
     def test_validateDate_valid(self):
         valid_date = date(1990, 4, 21)
@@ -105,21 +105,34 @@ class TestDateValidation(unittest.TestCase):
 
     # Test cases US42
     def test_createValidDate_valid(self):
-        validDateStr = '10 10 2020'
-        validDate =  date(2020, 10, 10)
+        validDateStr = '10 OCT 2020'
+        validDate = date(2020, 10, 10)
         self.assertEqual(DateValidation.createValidDate(validDateStr), validDate, msg='Error: Date is valid')
 
     def test_createValidDate_invalid_Feb(self):
-        invalidFebStr = '30 2 2020'
+        invalidFebStr = '30 FEB 2020'
         self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidFebStr))
 
-    def test_createValidDate_invlaid_Sept(self):
-        invalidDateSept = '31 9 2019'
+    def test_createValidDate_invalid_Sept(self):
+        invalidDateSept = '31 SEP 2019'
         self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidDateSept))
 
     def test_createValidDate_Invalid_Aug(self):
-        invalidDateAug = '33 8 2019'
+        invalidDateAug = '33 AUG 2019'
         self.assertRaises(ValueError, lambda:DateValidation.createValidDate(invalidDateAug))
+
+    # US41 Test Cases
+    def test_partial_date_check_missing_day(self):
+        partial_date = 'MAR 2019'
+        self.assertEqual(DateValidation.partial_date_check(partial_date), '?? MAR 2019', True)
+
+    def test_partial_date_check_missing_month_day(self):
+        partial_date = '2019'
+        self.assertEqual(DateValidation.partial_date_check(partial_date), '?? ??? 2019', True)
+
+    def test_partial_date_check_full_date(self):
+        full_date = '14 MAR 2019'
+        self.assertEqual(DateValidation.partial_date_check(full_date), full_date, True)
 
 if __name__ == '__main__':
     unittest.main()
