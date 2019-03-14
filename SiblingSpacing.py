@@ -27,11 +27,8 @@ def create_date(year, month, day):
 
 
 def valid_sibling_spacing(birthdate_1, birthdate_2):
-    print('new')
     b1 = create_date(birthdate_1.split(' ', 2)[2], birthdate_1.split(' ', 2)[1], birthdate_1.split(' ', 2)[0])
     b2 = create_date(birthdate_2.split(' ', 2)[2], birthdate_2.split(' ', 2)[1], birthdate_2.split(' ', 2)[0])
-
-    print(b1, b2)
 
     if b1 == b2:
         return True
@@ -43,25 +40,3 @@ def valid_sibling_spacing(birthdate_1, birthdate_2):
         return True
     else:
         return False
-
-
-def sibling_check(parsed_file_dict):
-    siblings = [c['Children'] for c in parsed_file_dict['family'].values()
-                if len(c['Children']) > 1 and c['Children'] != 'NA']
-
-    for s in siblings:
-        sibBirths = []
-        for i in s:
-            sibBirths.append(create_date(parsed_file_dict['members'][i]['Birthday'].split(' ', 2)[2],
-                              parsed_file_dict['members'][i]['Birthday'].split(' ', 2)[1],
-                              parsed_file_dict['members'][i]['Birthday'].split(' ', 2)[0]))
-
-        sibBirths = sorted(sibBirths)
-        for d in sibBirths:
-            if sibBirths.index(d) == len(sibBirths) - 1:
-                break
-
-        print('next set')
-
-
-
