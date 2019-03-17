@@ -13,8 +13,6 @@ import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
 import FamilyValidation
 import SiblingSpacing
-import lessthan_150
-import birth_before_parent_marriage
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -78,7 +76,7 @@ def date_difference(pastdate, futuredate=date.today()):
     return futuredate.year - pastdate.year - ((futuredate.month, futuredate.day) < (pastdate.month, pastdate.day))
 
 
-def parse_file(filename, errors):
+def parse_file(filename):
     try:
         with open(filename) as gedFile:
 
@@ -346,8 +344,6 @@ def parse_file(filename, errors):
             if len(members[k]['Spouse']) == 0:  # if no spouse, 'NA'
                 members[k]['Spouse'] = 'NA'
 
-            errors = lessthan_150.less_than_150(members[k], errors)
-
         gedFile.close()
 
         for f in family.keys():
@@ -461,13 +457,7 @@ def parse_file(filename, errors):
                         us13Err.alterErrMsg(d, sibBirths[sibBirths.index(d) + 1])
                         errors.add(us13Err)
 
-        for f in family.keys():
-            parent_marriage_date = family[f]['Married']
-            parent_divorce_date = family[f]['Divorced']
-            children = family[f]['Children']
-            for child in children:
-                birth = members[k]['Birthday']
-                errors = birth_before_parent_marriage.birth_before_parent_marriage(birth, parent_marriage_date, parent_divorce_date, errors)
+
         # print(family)
         # print(members)
 
@@ -515,7 +505,7 @@ if __name__ == '__main__':
 
     fileName += fileExtension
 
-    parsed_file = parse_file(fileName, errors)
+    parsed_file = parse_file(fileName)
 
     # US11 - Check for bigamy
     if not MarriageValidation.bigamy_check(parsed_file):
