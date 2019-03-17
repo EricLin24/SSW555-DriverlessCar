@@ -24,3 +24,10 @@ def parents_too_old(tags, ged_file):
                     return False
         
     return True
+
+# retains the date comparison logic from above, but receives input during file data read
+def check_parent_age(parent_age, old_age):
+    if old_age > parent_age:
+        return False
+    return True
+

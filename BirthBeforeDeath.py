@@ -31,6 +31,11 @@ def birth_before_death(tags, ged_file):
     
     return True
 
+# retains the date comparison logic from above, but receives input during file data read
+def birt_before_death(birth, death):
+    if death < birth:
+        return False
+    return True
 
 
     

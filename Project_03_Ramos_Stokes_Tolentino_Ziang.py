@@ -13,6 +13,8 @@ import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
 import FamilyValidation
 import SiblingSpacing
+import BirthBeforeDeath
+import ParentsNotTooOld
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
