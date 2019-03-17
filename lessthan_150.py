@@ -30,6 +30,8 @@ def less_than_150(member, errors):
 
 def parse_date(string):
     date_list = string.split()
+    if date_list[0] == '??':
+        date_list[0] = 1
     valid_date = date(int(date_list[2]), months[date_list[1]], int(date_list[0]))
     return valid_date
 
