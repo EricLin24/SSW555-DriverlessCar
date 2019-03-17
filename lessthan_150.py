@@ -15,7 +15,8 @@ def less_than_150(member, errors):
         return errors
 
     birth_date = parse_date(member['Birthday'])
-
+    if birth_date == -1:
+        return errors
     #last_date could be the death date or today
     last_date = parse_date(member['Death']) if member['Death'] != 'NA' else date.today()
 
@@ -32,7 +33,10 @@ def parse_date(string):
     date_list = string.split()
     if date_list[0] == '??':
         date_list[0] = 1
-    valid_date = date(int(date_list[2]), months[date_list[1]], int(date_list[0]))
+    try:
+        valid_date = date(int(date_list[2]), months[date_list[1]], int(date_list[0]))
+    except:
+        return -1
     return valid_date
 
 

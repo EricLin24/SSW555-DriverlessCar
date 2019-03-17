@@ -13,6 +13,8 @@ import MarriageBeforeDeathValidation
 import DivorceBeforeDeathValidation
 import FamilyValidation
 import SiblingSpacing
+import lessthan_150
+import birth_before_parent_marriage
 import BirthBeforeDeath
 import ParentsNotTooOld
 import Error
@@ -344,6 +346,10 @@ def parse_file(filename):
             if len(members[k]['Spouse']) == 0:  # if no spouse, 'NA'
                 members[k]['Spouse'] = 'NA'
 
+        for k in members.keys():
+            member = members[k]
+            lessthan_150.less_than_150(member, errors)
+
         gedFile.close()
 
         for f in family.keys():
@@ -457,6 +463,16 @@ def parse_file(filename):
                         us13Err.alterErrMsg(d, sibBirths[sibBirths.index(d) + 1])
                         errors.add(us13Err)
 
+        for f in family.keys():
+            parent_marriage_date = family[f]['Married']
+            parent_divorce_date = family[f]['Divorced']
+            children = family[f]['Children']
+
+            for child_id in children:
+                child = members[child_id]
+                birth_date = child['Birthday']
+                birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
+                                                                          parent_divorce_date, errors)
 
         # print(family)
         # print(members)

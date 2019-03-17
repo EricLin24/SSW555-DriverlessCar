@@ -11,7 +11,7 @@ class ErrorEnum(Enum):
 	US04 = 'ERROR US04: Invalid date divorce date: {0} must occur after marraige date: {1}'
 	US05 = 'ERROR US05: Invalid marraige date for {0}. Must be before death of spouse'
 	US06 = 'ERROR US06: Invalid divorce date for {0}. Must be before death of spouse'
-	US07 = 'ERROR US07: Invalid age: {0} of {1}. Must less than 150 years'
+	US07 = 'ERROR US07: Invalid age: {0} years old of {1}. Must less than 150 years'
 	US08 = 'ERROR US08: Invalid birth date for {0}. Children should be born after marriage of parents (and not more than 9 months after their divorce)'
 	US09 = 'ERROR US09: Invalid birth date for {0}. Death should occur after birth'
 	US10 = 'ERROR US10: {0} was not yet 14 for marriage in family {1}.'
