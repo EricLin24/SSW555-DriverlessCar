@@ -316,7 +316,6 @@ def parse_file(filename):
                         us42Err = Error.Error(Error.ErrorEnum.US42)
                         us42Err.alterErrMsg(err)
                         errors.add(us42Err)
-                    finally:
                         birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
                         members[k]['Age'] = date_difference(birthday, death_day)
 
@@ -334,7 +333,6 @@ def parse_file(filename):
                         us42Err = Error.Error(Error.ErrorEnum.US42)
                         us42Err.alterErrMsg(err)
                         errors.add(us42Err)
-                    finally:
                         birthday = date(int(text_birthday[2]), months[text_birthday[1]], 1)
                         members[k]['Age'] = date_difference(birthday)
 
