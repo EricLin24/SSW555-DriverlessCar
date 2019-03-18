@@ -25,7 +25,7 @@ def less_than_150(member, errors):
     #print(age)
     if age >= 150:
         us07Err = Error.Error(Error.ErrorEnum.US07)
-        us07Err.alterErrMsg(age, member['Name'])
+        us07Err.alterErrMsg(age, member['ID'])
         errors.add(us07Err)
     return errors
 
