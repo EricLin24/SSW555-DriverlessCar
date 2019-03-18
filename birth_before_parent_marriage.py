@@ -12,7 +12,7 @@ def birth_before_parent_marriage(birth_date, parent_marriage_date, parent_divorc
     """
     if not birth_date:
         return errors
-    err_str = f"Invalid Date birthday:{str(birth_date)} should occur after parents' marriage:{str(parent_marriage_date)} and and not more than 9 months after their divorce:{str(parent_divorce_date)}"
+    #err_str = f"Invalid Date birthday:{str(birth_date)} should occur after parents' marriage:{str(parent_marriage_date)} and and not more than 9 months after their divorce:{str(parent_divorce_date)}"
     birth_date = parse_date(birth_date)
     parent_marriage_date = parse_date(parent_marriage_date)
     if birth_date == -1 or parent_marriage_date == -1:
