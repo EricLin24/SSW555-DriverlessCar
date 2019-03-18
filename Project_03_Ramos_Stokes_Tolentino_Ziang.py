@@ -474,7 +474,56 @@ def parse_file(filename):
                 birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
                                                                           parent_divorce_date, errors)
 
+        for f in family.keys():
+            parent1_id = family[f]['Spouse 1']
+            parent2_id = family[f]['Spouse 2']
+            children = family[f]['Children']
+
+            if members[parent1_id]['Death'] == 'NA' and members[parent2_id]['Death'] == 'NA':
+                continue
+            else:
+                for c in children:
+                    if '??' in members[c]['Birthday']:
+                        continue
+                    else:
+                        if '??' not in members[parent1_id]['Death'] and members[parent1_id]['Death'] != 'NA':
+                            if BirthBeforeDeath.birth_before_death(members[parent1_id]['Death'],
+                                                                   members[c]['Birthday']) is False:
+                                us9Err = Error.Error(Error.ErrorEnum.US09)
+                                us9Err.alterErrMsg(c)
+                                errors.add(us9Err)
+
+                        if '??' not in members[parent2_id]['Death'] and members[parent2_id]['Death'] != 'NA':
+                            if BirthBeforeDeath.birth_before_death(members[parent2_id]['Death'],
+                                                                   members[c]['Birthday']) is False:
+                                us9Err = Error.Error(Error.ErrorEnum.US09)
+                                us9Err.alterErrMsg(c)
+                                errors.add(us9Err)
+
+            if '??' in members[parent1_id]['Birthday'] and '??' in members[parent2_id]['Birthday']:
+                continue
+            else:
+                for c in children:
+                    if '??' in members[c]['Birthday']:
+                        continue
+                    else:
+                        if '??' not in members[parent1_id]['Birthday']:
+                            if ParentsNotTooOld.parent_age_check(80, members[parent1_id]['Birthday'], members[c]['Birthday']) is False:
+                                us12Err = Error.Error(Error.ErrorEnum.US12)
+                                us12Err.alterErrMsg(c, parent1_id)
+                                errors.add(us12Err)
+
+                        if '??' not in members[parent2_id]['Birthday']:
+                            if ParentsNotTooOld.parent_age_check(60, members[parent2_id]['Birthday'], members[c]['Birthday']) is False:
+                                us12Err = Error.Error(Error.ErrorEnum.US12)
+                                us12Err.alterErrMsg(c, parent2_id)
+                                errors.add(us12Err)
+
+
+
+
         # print(family)
+        # print('\n')
         # print(members)
 
         return {'family': family, 'members': members}

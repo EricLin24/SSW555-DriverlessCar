@@ -1,11 +1,12 @@
 import re
+from MarriageValidation import create_date, at_least_age
 
 #############################################
-#### US 13
+#### US 12
 #### Check that the parents aren't too old 
 #############################################
 
-def parents_too_old(tags, ged_file):
+def old_parents_too_old(tags, ged_file):
     for family in ged_file: #loop through ged file
         if family['CHIL']:
             get_husband = int(re.sub('\D', '', str(family['HUSB']))) - 1 #extract husband
@@ -30,4 +31,16 @@ def check_parent_age(parent_age, old_age):
     if old_age > parent_age:
         return False
     return True
+
+
+def parent_age_check(max_age, parent_birth, child_birth):
+    p_birth = create_date(parent_birth.split(' ', 2)[2], parent_birth.split(' ', 2)[1], parent_birth.split(' ', 2)[0])
+    c_birth = create_date(child_birth.split(' ', 2)[2], child_birth.split(' ', 2)[1], child_birth.split(' ', 2)[0])
+
+    if at_least_age(max_age, p_birth, c_birth) is True:
+        return False
+
+    return True
+
+
 
