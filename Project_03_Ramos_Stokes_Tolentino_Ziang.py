@@ -531,28 +531,54 @@ def parse_file(filename):
 
 def pretty_table(parsed_file_dict):
     # Set up PrettyTable
-    x = PrettyTable()
-    x.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive?', 'Death', 'Child', 'Spouse']
+    individuals = PrettyTable()
+    individuals.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive?', 'Death', 'Child', 'Spouse']
 
-    y = PrettyTable()
-    y.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
+    family = PrettyTable()
+    family.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
+
+    siblings = PrettyTable()
+    siblings.field_names = ['Family ID', 'Individual ID', 'Name', 'Birthday', 'Age']
+
+    multiples = PrettyTable()
+    multiples.field_names = ['Family ID', 'Birthday', 'Individual ID', 'Name']
 
     print('== Individuals ==')
     for k in parsed_file_dict['members'].keys():
-        x.add_row([parsed_file_dict['members'][k]['ID'], parsed_file_dict['members'][k]['Name'],
+        individuals.add_row([parsed_file_dict['members'][k]['ID'], parsed_file_dict['members'][k]['Name'],
                    parsed_file_dict['members'][k]['Gender'], parsed_file_dict['members'][k]['Birthday'],
                    parsed_file_dict['members'][k]['Age'],
                    parsed_file_dict['members'][k]['Alive?'], parsed_file_dict['members'][k]['Death'],
                    parsed_file_dict['members'][k]['Child'], parsed_file_dict['members'][k]['Spouse']])
-    print(x)
+    print(individuals)
+
     print('\n== Families ==')
     for k in parsed_file_dict['family'].keys():
-        y.add_row([k, parsed_file_dict['family'][k]['Married'], parsed_file_dict['family'][k]['Divorced'],
+        family.add_row([k, parsed_file_dict['family'][k]['Married'], parsed_file_dict['family'][k]['Divorced'],
                    parsed_file_dict['family'][k]['Spouse 1'], parsed_file_dict['family'][k]['Spouse 1 Name'],
                    parsed_file_dict['family'][k]['Spouse 2'], parsed_file_dict['family'][k]['Spouse 2 Name'],
                    parsed_file_dict['family'][k]['Children']])
 
-    print(y)
+    print(family)
+
+    # US28 - List siblings by age
+    print('\n== Siblings ==')
+    for k in parsed_file_dict['siblings'].keys():
+        for sibling in parsed_file_dict['siblings'][k]:
+            siblings.add_row([k, sibling['ID'], sibling['Name'], sibling['Birthday'], sibling['Age']])
+
+        siblings.add_row(['--','--','--','--','--'])
+    print(siblings)
+
+    # US32 - List multiple births
+    print('\n== Multiple Births ==')
+    for k in parsed_file_dict['multiples'].keys():
+        for person in parsed_file_dict['multiples'][k]:
+            multiples.add_row([k, person['Birthday'], person['ID'], person['Name']])
+
+        multiples.add_row(['--', '--', '--', '--'])
+
+    print(multiples)
 
 # Main
 if __name__ == '__main__':
@@ -579,6 +605,12 @@ if __name__ == '__main__':
 
     # US14 - Check for multiple births
     errors = FamilyValidation.check_multiple_births(parsed_file, errors)
+
+    # US28 - Order siblings by age
+    parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)
+
+    # US32 - List multiple births
+    parsed_file = FamilyValidation.list_multiple_births(parsed_file)
 
     # Output the table
     pretty_table(parsed_file)
