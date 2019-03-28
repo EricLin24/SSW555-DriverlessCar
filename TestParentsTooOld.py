@@ -5,24 +5,28 @@ import ParentsNotTooOld
 class Test_Parents_Too_Old(unittest.TestCase):
 
     def test_parent_age_check_father_invalid(self):
+        print("US12: Test parents are not too old before child's birth (invalid: father > 80 years old)")
         p_birth = '1 APR 1900'
         c_birth = '2 APR 1980'
         self.assertEqual(ParentsNotTooOld.parent_age_check(80, p_birth, c_birth), False,
                          msg="Father over 80 at child birth")
 
     def test_parent_age_check_mother_invalid(self):
+        print("US12: Test parents are not too old before child's birth (invalid: mother > 60 years old)")
         p_birth = '1 APR 1900'
         c_birth = '2 APR 1960'
         self.assertEqual(ParentsNotTooOld.parent_age_check(60, p_birth, c_birth), False,
                          msg="Mother over 60 at child birth")
 
     def test_parent_age_check_father_valid(self):
+        print("US12: Test parents are not too old before child's birth (valid father < 80 years old)")
         p_birth = '1 APR 1900'
         c_birth = '24 MAR 1950'
         self.assertEqual(ParentsNotTooOld.parent_age_check(80, p_birth, c_birth), True,
                          msg="Pass. Father under 80 at child birth")
 
     def test_parent_age_check_mother_valid(self):
+        print("US12: Test parents are not too old before child's birth (valid mother < 60 years old)")
         p_birth = '1 APR 1900'
         c_birth = '24 MAR 1950'
         self.assertEqual(ParentsNotTooOld.parent_age_check(60, p_birth, c_birth), True,

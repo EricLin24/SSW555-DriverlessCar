@@ -7,7 +7,7 @@ import Error
 
 class TestFamilyValidation(unittest.TestCase):
     def test_check_multiple_births_valid(self):
-        print('Testing family with < 5 multiple births...')
+        print('US14: Testing family with < 5 multiple births...')
 
         validParsedFile = {'family': {'@F6000000086661172986@': {'Children': {'@I6000000086661584835@'}, 
                         'Married': '15 MAR 1982', 'Spouse 1': '@I6000000086661172981@', 'Spouse 2': '@I6000000086661506862@', 
@@ -27,7 +27,7 @@ class TestFamilyValidation(unittest.TestCase):
         self.assertEqual(len(errors), 0, msg='Failed to check valid family for multiple births')
 
     def test_check_multiple_births_invalid(self):
-        print('Testing family with > 5 multiple births...')
+        print('US14: Testing family with > 5 multiple births...')
 
         invaliParsedFile = {'family': {'@F6000000089090979889@': {'Children': {'@I6000000089090979883@', '@I6000000089090979871@', 
                         '@I6000000089090979874@', '@I6000000089090979891@', '@I6000000089090979877@', '@I6000000089090979880@'}, 
@@ -67,7 +67,7 @@ class TestFamilyValidation(unittest.TestCase):
             self.assertEqual(err.errCode, Error.ErrorEnum.US14, msg='Failed to generate US14 error')
 
     def test_order_siblings_by_age(self):
-        print('Testing sorting siblings by age...')
+        print('US28: Testing sorting siblings by age...')
 
         validParsedFile = {'family': {'@F6000000089090979889@': {'Children': {'@I6000000089090979883@', '@I6000000089090979871@', 
                         '@I6000000089090979874@', '@I6000000089090979891@', '@I6000000089090979877@', '@I6000000089090979880@'}, 
@@ -116,7 +116,7 @@ class TestFamilyValidation(unittest.TestCase):
 
 
     def test_list_multiple_births(self):
-        print('Testing listing multiple births...')
+        print('US32: Testing listing multiple births...')
 
         valiParsedFile = {'family': {'@F6000000089090979889@': {'Children': {'@I6000000089090979883@', '@I6000000089090979871@', 
                         '@I6000000089090979874@', '@I6000000089090979891@', '@I6000000089090979877@'}, 
