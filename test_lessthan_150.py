@@ -4,13 +4,15 @@ import Error
 
 class TestLessThan150(unittest.TestCase):
     def test_no_parameter(self):
+        print("US07: Testing individual < 150 years old (invlaid: missing parameter)")
         errors = set()
         errors = less_than_150('', errors)
         self.assertEqual(len(errors), 0, msg='No parameter input but not a error')
 
     def test_alive_less_than_150(self):
-        member1 = {'Name': 'Mary Frances /Napier/', 'Birthday': '27 DEC 1930', 'Death':'NA'}
-        member2 = {'Name': 'RoseMary /Anderson/', 'Birthday': '5 MAY 1958', 'Death': 'NA'}
+        print("US07: Testing individual < 150 years old (valid)")
+        member1 = {'ID': '00001', 'Name': 'Mary Frances /Napier/', 'Birthday': '27 DEC 1930', 'Death':'NA'}
+        member2 = {'ID': '00002', 'Name': 'RoseMary /Anderson/', 'Birthday': '5 MAY 1958', 'Death': 'NA'}
         errors = set()
         error1 = less_than_150(member1, errors)
         error2 = less_than_150(member2, errors)
@@ -18,8 +20,9 @@ class TestLessThan150(unittest.TestCase):
         self.assertEqual(len(error2), 0, msg='No error found')
 
     def test_dead_less_than_150(self):
-        member1 = {'Name': 'Mary Frances /Napier/', 'Birthday': '1 MAY 1869', 'Death': '15 FEB 2019'}
-        member2 = {'Name': 'RoseMary /Anderson/', 'Birthday': '20 APR 1994', 'Death': '2 OCT 2016'}
+        print("US07: Testing individual < 150 years old (valid)")
+        member1 = {'ID': '00001', 'Name': 'Mary Frances /Napier/', 'Birthday': '1 MAY 1869', 'Death': '15 FEB 2019'}
+        member2 = {'ID': '00002', 'Name': 'RoseMary /Anderson/', 'Birthday': '20 APR 1994', 'Death': '2 OCT 2016'}
         errors = set()
         error1 = less_than_150(member1, errors)
         error2 = less_than_150(member2, errors)
@@ -27,7 +30,8 @@ class TestLessThan150(unittest.TestCase):
         self.assertEqual(len(error2), 0, msg='No error found')
 
     def test_alive_more_than_150(self):
-        member1 = {'Name': 'RoseMary /Anderson/', 'Birthday': '1 MAY 1865', 'Death': 'NA'}
+        print("US07: Testing individual < 150 years old (invalid > 150 and still alive)")
+        member1 = {'ID': '00001', 'Name': 'RoseMary /Anderson/', 'Birthday': '1 MAY 1865', 'Death': 'NA'}
         #member2 = {'Birthday': '1 MAY 1860', 'Death': 'NA'}
         errors = set()
         errors = less_than_150(member1, errors)
@@ -37,7 +41,8 @@ class TestLessThan150(unittest.TestCase):
         #self.assertEqual(less_than_150(member2)[0], False, msg='Result should be false')
 
     def test_dead_more_than_150(self):
-        member1 = {'Name': 'RoseMary /Anderson/', 'Birthday': '1 MAY 1860', 'Death': '15 MAR 2019'}
+        print("US07: Testing individual < 150 years old (invalid lived > 150 years)")
+        member1 = {'ID': '00001', 'Name': 'RoseMary /Anderson/', 'Birthday': '1 MAY 1860', 'Death': '15 MAR 2019'}
         #member2 = {'Birthday': '1 MAY 1860', 'Death': '2 OCT 2016'}
         errors = set()
         errors = less_than_150(member1, errors)
