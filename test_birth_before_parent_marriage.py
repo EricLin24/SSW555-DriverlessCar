@@ -5,6 +5,7 @@ import Error
 class TestBirthBeforeParentMarriage(unittest.TestCase):
     #Children should be born after marriage of parents
     def test_valid_birth_before_parent_marriage(self):
+        print("US08: Testing birth before parent marriage (valid born after parent marriage)")
         birth = '20 APR 1994'
         valid_marriage = '20 APR 1993'
         errors = set()
@@ -12,6 +13,7 @@ class TestBirthBeforeParentMarriage(unittest.TestCase):
         self.assertEqual(len(errors), 0, msg='Failed to check valid birth')
 
     def test_before_parent_marriage_year(self):
+        print("US08: Testing birth before parent marriage (invalid born before parent marriage year)")
         birth = '20 APR 1994'
         invalid_marriage = '20 APR 1995'
         errors = set()
@@ -23,6 +25,7 @@ class TestBirthBeforeParentMarriage(unittest.TestCase):
 
 
     def test_before_parent_marriage_month(self):
+        print("US08: Testing birth before parent marriage (invalid born before parent marriage month)")
         birth = '20 APR 1994'
         invalid_marriage = '20 MAY 1994'
 
@@ -34,6 +37,7 @@ class TestBirthBeforeParentMarriage(unittest.TestCase):
 
 
     def test_before_parent_marriage_day(self):
+        print("US08: Testing birth before parent marriage (invalid born before parent marriage day)")
         birth = '20 APR 1994'
         invalid_marriage = '21 APR 1994'
 
@@ -45,6 +49,7 @@ class TestBirthBeforeParentMarriage(unittest.TestCase):
 
     # not more than 9 months after divorce
     def test_after_parent_divorce(self):
+        print("US08: Testing birth before parent divorce (invalid born > 9 months after parent divorce)")
         birth = '20 APR 1994'
         valid_marriage = '19 APR 1994'
         invalid_divorce = '19 JUL 1993'
