@@ -27,7 +27,7 @@ class TestError(unittest.TestCase):
 
 		us04Err.alterErrMsg(value0, value1)
 
-		expected = 'ERROR US04: Invalid date divorce date: 2003 03 07 must occur after marraige date: 2002 10 11'
+		expected = 'ERROR US04: Invalid date divorce date: 2003 03 07 must occur after marriage date: 2002 10 11'
 
 		self.assertEqual(us04Err.getErrMsg(), expected,  msg='Failed to alter US06 message' )
 
