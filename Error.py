@@ -22,7 +22,7 @@ class ErrorEnum(Enum):
 	US15 = 'ERROR US15: Family {0} should have less than 15 siblings but they has {1}.'
 	US16 = 'ERROR US16: '
 	US17 = 'ERROR US17: '
-	US18 = 'ERROR US18: '
+	US18 = 'ERROR US18: Parents of family {0} should not be siblings in family {1}.'
 	US19 = 'ERROR US19: '
 	US20 = 'ERROR US20: '
 	US22 = 'ERROR US22: '
