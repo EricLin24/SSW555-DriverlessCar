@@ -582,8 +582,28 @@ def pretty_table(parsed_file_dict):
     print(multiples)
 
     # US 30 & 31 - List living married & List living single
+    marital_status = LivingMaritalStatus.list_living_married(parsed_file_dict)
 
-    LivingMaritalStatus.list_living_married(parsed_file)
+    married = PrettyTable()
+    married.field_names = ['Individual ID', 'Name']
+
+    singles = PrettyTable()
+    singles.field_names = ['Individual ID', 'Name']
+
+    print('\nUS 30')
+    print('== Living Married ==')
+    for k in marital_status['married'].keys():
+        married.add_row([marital_status['married'][k]['ID'], marital_status['married'][k]['Name']])
+
+    print(married)
+
+    print('\nUS 31')
+    print('== Living Single ==')
+    for k in marital_status['singles'].keys():
+        singles.add_row([marital_status['singles'][k]['ID'], marital_status['singles'][k]['Name']])
+
+    print(singles)
+    print('\n')
 
 
 # Main

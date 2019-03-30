@@ -3,7 +3,7 @@ from prettytable import PrettyTable
 
 def list_living_married(parsed_file_dict):
     '''
-        US 30 - List living married
+        US 30 & 31 - List living married, living single
         check living, check family, check not divorced, check spouse alive (just because there are spouses, doesn't mean they're married)
         :param parsed_file_dict parsed GEDCOM file
     '''
@@ -63,23 +63,7 @@ def list_living_married(parsed_file_dict):
     # print('\n')
     # print(len(living_single))
 
-    married = PrettyTable()
-    married.field_names = ['ID', 'Name']
-
-    singles = PrettyTable()
-    singles.field_names = ['ID', 'Name']
-
-    print('== Living Single ==')
-    for k in living_single.keys():
-        singles.add_row([living_single[k]['ID'], living_single[k]['Name']])
-
-    print(singles)
-
-    print('== Living Married ==')
-    for k in updated_has_spouse.keys():
-        married.add_row([updated_has_spouse[k]['ID'], updated_has_spouse[k]['Name']])
-
-    print(married)
+    return {'singles': living_single, 'married': updated_has_spouse}
 
 
 
