@@ -17,6 +17,7 @@ import lessthan_150
 import birth_before_parent_marriage
 import BirthBeforeDeath
 import ParentsNotTooOld
+import LivingMaritalStatus
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -522,9 +523,9 @@ def parse_file(filename):
 
 
 
-        # print(family)
-        # print('\n')
-        # print(members)
+        print(family)
+        print('\n')
+        print(members)
 
         return {'family': family, 'members': members}
 
@@ -579,6 +580,31 @@ def pretty_table(parsed_file_dict):
         multiples.add_row(['--', '--', '--', '--'])
 
     print(multiples)
+
+    # US 30 & 31 - List living married & List living single
+    marital_status = LivingMaritalStatus.list_living_married(parsed_file_dict)
+
+    married = PrettyTable()
+    married.field_names = ['Individual ID', 'Name']
+
+    singles = PrettyTable()
+    singles.field_names = ['Individual ID', 'Name']
+
+    print('\nUS 30')
+    print('== Living Married ==')
+    for k in marital_status['married'].keys():
+        married.add_row([marital_status['married'][k]['ID'], marital_status['married'][k]['Name']])
+
+    print(married)
+
+    print('\nUS 31')
+    print('== Living Single ==')
+    for k in marital_status['singles'].keys():
+        singles.add_row([marital_status['singles'][k]['ID'], marital_status['singles'][k]['Name']])
+
+    print(singles)
+    print('\n')
+
 
 # Main
 if __name__ == '__main__':
