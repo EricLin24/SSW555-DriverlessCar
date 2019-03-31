@@ -3,6 +3,7 @@ from siblings_not_marry import siblings_not_marry
 
 class TestSiblingsNotMarry(unittest.TestCase):
     def test_valid(self):
+        print("Siblings should not marry one another (valid):")
         valid_parsed_file = {
                 'family': {
                     '1': {
@@ -147,6 +148,7 @@ class TestSiblingsNotMarry(unittest.TestCase):
             print(e.getErrMsg())
 
     def test_invalid(self):
+        print("Siblings should not marry one another (invalid):")
         invalid_parsed_file = {
             'family': {
                 '1': {
