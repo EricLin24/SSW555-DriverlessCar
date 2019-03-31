@@ -14,6 +14,8 @@ import DivorceBeforeDeathValidation
 import FamilyValidation
 import SiblingSpacing
 import lessthan_150
+import siblings_not_too_many
+import siblings_not_marry
 import birth_before_parent_marriage
 import BirthBeforeDeath
 import ParentsNotTooOld
@@ -84,7 +86,6 @@ def date_difference(pastdate, futuredate=date.today()):
 def parse_file(filename):
     try:
         with open(filename) as gedFile:
-
             # Initialize dicts for working with an individual, tracking members of the family, and grouping families
             family = {}
             individual = {}
@@ -353,6 +354,9 @@ def parse_file(filename):
 
         gedFile.close()
 
+        #US15
+        siblings_not_too_many.siblings_not_too_many(family, errors)
+
         for f in family.keys():
             marriage_date_text = family[f]['Married'].split(' ', 2)
             if '??' in marriage_date_text:
@@ -441,6 +445,7 @@ def parse_file(filename):
                             us10Err.alterErrMsg(s, f)
                             errors.add(us10Err)
 
+
         siblings = [v['Children'] for v in family.values()
                     if len(v['Children']) > 1 and v['Children'] != 'NA']
 
@@ -468,8 +473,10 @@ def parse_file(filename):
             parent_marriage_date = family[f]['Married']
             parent_divorce_date = family[f]['Divorced']
             children = family[f]['Children']
-
+            print(f)
+            print(len(children))
             for child_id in children:
+                print('child_id:' + child_id)
                 child = members[child_id]
                 birth_date = child['Birthday']
                 birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
@@ -631,6 +638,9 @@ if __name__ == '__main__':
 
     # US14 - Check for multiple births
     errors = FamilyValidation.check_multiple_births(parsed_file, errors)
+
+    # US18 - Siblings should not marry one another
+    errors = siblings_not_marry.siblings_not_marry(parsed_file, errors)
 
     # US28 - Order siblings by age
     parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)
