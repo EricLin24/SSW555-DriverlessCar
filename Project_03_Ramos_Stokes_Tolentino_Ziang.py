@@ -14,9 +14,13 @@ import DivorceBeforeDeathValidation
 import FamilyValidation
 import SiblingSpacing
 import lessthan_150
+import siblings_not_too_many
+import siblings_not_marry
 import birth_before_parent_marriage
 import BirthBeforeDeath
 import ParentsNotTooOld
+import male_last_names
+import no_marriage_to_children
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -83,7 +87,6 @@ def date_difference(pastdate, futuredate=date.today()):
 def parse_file(filename):
     try:
         with open(filename) as gedFile:
-
             # Initialize dicts for working with an individual, tracking members of the family, and grouping families
             family = {}
             individual = {}
@@ -352,6 +355,9 @@ def parse_file(filename):
 
         gedFile.close()
 
+        #US15
+        siblings_not_too_many.siblings_not_too_many(family, errors)
+
         for f in family.keys():
             marriage_date_text = family[f]['Married'].split(' ', 2)
             if '??' in marriage_date_text:
@@ -440,6 +446,7 @@ def parse_file(filename):
                             us10Err.alterErrMsg(s, f)
                             errors.add(us10Err)
 
+
         siblings = [v['Children'] for v in family.values()
                     if len(v['Children']) > 1 and v['Children'] != 'NA']
 
@@ -467,8 +474,10 @@ def parse_file(filename):
             parent_marriage_date = family[f]['Married']
             parent_divorce_date = family[f]['Divorced']
             children = family[f]['Children']
-
+            print(f)
+            print(len(children))
             for child_id in children:
+                print('child_id:' + child_id)
                 child = members[child_id]
                 birth_date = child['Birthday']
                 birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
@@ -478,6 +487,7 @@ def parse_file(filename):
             parent1_id = family[f]['Spouse 1']
             parent2_id = family[f]['Spouse 2']
             children = family[f]['Children']
+
 
             if members[parent1_id]['Death'] == 'NA' and members[parent2_id]['Death'] == 'NA':
                 continue
@@ -518,13 +528,13 @@ def parse_file(filename):
                                 us12Err = Error.Error(Error.ErrorEnum.US12)
                                 us12Err.alterErrMsg(c, parent2_id)
                                 errors.add(us12Err)
+            
 
 
 
-
-        # print(family)
-        # print('\n')
-        # print(members)
+        print(family)
+        print('\n')
+        print(members)
 
         return {'family': family, 'members': members}
 
@@ -580,6 +590,31 @@ def pretty_table(parsed_file_dict):
 
     print(multiples)
 
+    # US 30 & 31 - List living married & List living single
+    marital_status = LivingMaritalStatus.list_living_married(parsed_file_dict)
+
+    married = PrettyTable()
+    married.field_names = ['Individual ID', 'Name']
+
+    singles = PrettyTable()
+    singles.field_names = ['Individual ID', 'Name']
+
+    print('\nUS 30')
+    print('== Living Married ==')
+    for k in marital_status['married'].keys():
+        married.add_row([marital_status['married'][k]['ID'], marital_status['married'][k]['Name']])
+
+    print(married)
+
+    print('\nUS 31')
+    print('== Living Single ==')
+    for k in marital_status['singles'].keys():
+        singles.add_row([marital_status['singles'][k]['ID'], marital_status['singles'][k]['Name']])
+
+    print(singles)
+    print('\n')
+
+
 # Main
 if __name__ == '__main__':
     # Validate command line args
@@ -602,9 +637,15 @@ if __name__ == '__main__':
     if not MarriageValidation.bigamy_check(parsed_file):
         us11Err = Error.Error(Error.ErrorEnum.US11)
         errors.add(us11Err)
-
+    
     # US14 - Check for multiple births
     errors = FamilyValidation.check_multiple_births(parsed_file, errors)
+
+    # US16 - Check male last names 
+    parsed_file = male_last_names.check_all_male_last_names(parse_file, errors)
+
+    # US17 - Check for no marriage of children
+    parsed_file = no_marriage_to_children.no_marriage_to_children(parse_file, errors)
 
     # US28 - Order siblings by age
     parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)
