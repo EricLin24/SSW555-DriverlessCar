@@ -17,8 +17,6 @@ import lessthan_150
 import birth_before_parent_marriage
 import BirthBeforeDeath
 import ParentsNotTooOld
-import male_last_names
-import no_marriage_to_children
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -481,7 +479,6 @@ def parse_file(filename):
             parent2_id = family[f]['Spouse 2']
             children = family[f]['Children']
 
-
             if members[parent1_id]['Death'] == 'NA' and members[parent2_id]['Death'] == 'NA':
                 continue
             else:
@@ -521,7 +518,7 @@ def parse_file(filename):
                                 us12Err = Error.Error(Error.ErrorEnum.US12)
                                 us12Err.alterErrMsg(c, parent2_id)
                                 errors.add(us12Err)
-            
+
 
 
 
@@ -605,15 +602,9 @@ if __name__ == '__main__':
     if not MarriageValidation.bigamy_check(parsed_file):
         us11Err = Error.Error(Error.ErrorEnum.US11)
         errors.add(us11Err)
-    
+
     # US14 - Check for multiple births
     errors = FamilyValidation.check_multiple_births(parsed_file, errors)
-
-    # US16 - Check male last names 
-    parsed_file = male_last_names.check_all_male_last_names(parse_file, errors)
-
-    # US17 - Check for no marriage of children
-    parsed_file = no_marriage_to_children.no_marriage_to_children(parse_file, errors)
 
     # US28 - Order siblings by age
     parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)
