@@ -6,6 +6,10 @@
 import Error
 
 def check_all_male_last_names(parsed_file, errors):
+
+    if not parsed_file or type(parsed_file) != dict:
+        return errors
+        
     for family_id, family_details in parsed_file['family'].items():
         #print(family_details)
         children_ids = family_details['Children']
