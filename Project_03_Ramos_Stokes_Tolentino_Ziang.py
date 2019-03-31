@@ -530,9 +530,9 @@ def parse_file(filename):
 
 
 
-        print(family)
-        print('\n')
-        print(members)
+        # print(family)
+        # print('\n')
+        # print(members)
 
         return {'family': family, 'members': members}
 
@@ -570,7 +570,8 @@ def pretty_table(parsed_file_dict):
     print(family)
 
     # US28 - List siblings by age
-    print('\n== Siblings ==')
+    print('\nUS28')
+    print('== Siblings ==')
     for k in parsed_file_dict['siblings'].keys():
         for sibling in parsed_file_dict['siblings'][k]:
             siblings.add_row([k, sibling['ID'], sibling['Name'], sibling['Birthday'], sibling['Age']])
@@ -579,7 +580,8 @@ def pretty_table(parsed_file_dict):
     print(siblings)
 
     # US32 - List multiple births
-    print('\n== Multiple Births ==')
+    print('\nUS32')
+    print('== Multiple Births ==')
     for k in parsed_file_dict['multiples'].keys():
         for person in parsed_file_dict['multiples'][k]:
             multiples.add_row([k, person['Birthday'], person['ID'], person['Name']])
