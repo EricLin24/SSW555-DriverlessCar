@@ -7,6 +7,7 @@ def check_multiple_births(parsed_file_dict, errors):
 		US14: Multiple births <= 5: no more than five sibling 
 			should be born at the same time
 		:param parsed_file_dict GEDCOM file parsed into a dictionary of members and families
+		:param errors set of errors
 	'''
 
 	# Check for an empty dictionary
@@ -40,6 +41,52 @@ def check_multiple_births(parsed_file_dict, errors):
 						us14Err = Error.Error(Error.ErrorEnum.US14)
 						us14Err.alterErrMsg(familyID)
 						errors.add(us14Err)
+
+	return errors
+
+def check_same_name(parsed_file_dict, errors):
+	'''
+		US25: Unique first names in families - no more than one child can have the same first name
+		:param parsed_file_dict GEDCOM file parsed into a dictionary of members and families
+		:param errors set of errors
+	'''
+
+	# Check for an empty dictionary
+	if not parsed_file_dict:
+		return errors
+
+
+	# Find the children in each family and compare their names
+	for key in parsed_file_dict['family'].keys():
+		children = []
+		familyID = key
+		childCount = 0
+
+		if parsed_file_dict['family'][key]['Children'] == 'NA':
+			continue
+		else:
+			children = parsed_file_dict['family'][key]['Children']
+			childCount = len(children)
+
+			# Only check families with > 1 child
+			if childCount <= 1:
+				continue
+			else:
+				names = {}
+				for child in children:
+					name = parsed_file_dict['members'][child]['Name']
+					fullName = name.split('/')
+					firstName = fullName[0]
+
+					if firstName in names.keys():
+						names[firstName] = names[firstName] + 1
+					else:
+						names[firstName] = 1
+
+					if names[firstName] > 1:
+						us25Err = Error.Error(Error.ErrorEnum.US25)
+						us25Err.alterErrMsg(firstName, familyID)
+						errors.add(us25Err)
 
 	return errors
 

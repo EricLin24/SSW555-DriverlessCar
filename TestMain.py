@@ -15,6 +15,7 @@ from test_siblings_not_marry import TestSiblingsNotMarry
 from TestLivingMaritalStatus import TestLivingMaritalStatus
 from TestMaleLastName import TestMaleNames
 from TestMarriageToChildren import TestSameFamilyChildrenMarriage
+from TestDeseasedIndividuals import TestDeseasedIndividauls
 
 if __name__ == '__main__':
     unittest.main()

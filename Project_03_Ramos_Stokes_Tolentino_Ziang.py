@@ -22,6 +22,7 @@ import no_marriage_to_children
 import BirthBeforeDeath
 import ParentsNotTooOld
 import LivingMaritalStatus
+import DeseasedIndividuals
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -114,6 +115,16 @@ def parse_file(filename):
                         if line[2] == 'INDI':
                             if line[1] not in members.keys():  # Ensure we're not duplicating people
                                 individual['ID'] = line[1]
+                                individual['Child'] = set()
+                                individual['Spouse'] = set()
+                                currentTag = line[2]
+                                line = gedFile.readline()  # Move to the next line
+                                continue
+                            else: #US22 - flag the error and mark the ID as duplicate
+                                us22Err = Error.Error(Error.ErrorEnum.US22)
+                                us22Err.alterErrMsg(line[1])
+                                errors.add(us22Err)
+                                individual['ID'] = line[1] + '_2 DUPLICATE ID'
                                 individual['Child'] = set()
                                 individual['Spouse'] = set()
                                 currentTag = line[2]
@@ -545,17 +556,10 @@ def parse_file(filename):
 
 def pretty_table(parsed_file_dict):
     # Set up PrettyTable
+
+    # List individuals: US27 include ages
     individuals = PrettyTable()
     individuals.field_names = ['ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive?', 'Death', 'Child', 'Spouse']
-
-    family = PrettyTable()
-    family.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
-
-    siblings = PrettyTable()
-    siblings.field_names = ['Family ID', 'Individual ID', 'Name', 'Birthday', 'Age']
-
-    multiples = PrettyTable()
-    multiples.field_names = ['Family ID', 'Birthday', 'Individual ID', 'Name']
 
     print('== Individuals ==')
     for k in parsed_file_dict['members'].keys():
@@ -565,6 +569,10 @@ def pretty_table(parsed_file_dict):
                    parsed_file_dict['members'][k]['Alive?'], parsed_file_dict['members'][k]['Death'],
                    parsed_file_dict['members'][k]['Child'], parsed_file_dict['members'][k]['Spouse']])
     print(individuals)
+
+    # List Families
+    family = PrettyTable()
+    family.field_names = ['ID', 'Married', 'Divorced', 'Spouse 1 ID', 'Spouse 1 Name', 'Spouse 2 ID', 'Spouse 2 Name', 'Children']
 
     print('\n== Families ==')
     for k in parsed_file_dict['family'].keys():
@@ -576,6 +584,11 @@ def pretty_table(parsed_file_dict):
     print(family)
 
     # US28 - List siblings by age
+    parsed_file_dict = FamilyValidation.order_siblings_by_age(parsed_file_dict)
+
+    siblings = PrettyTable()
+    siblings.field_names = ['Family ID', 'Individual ID', 'Name', 'Birthday', 'Age']
+
     print('\nUS28')
     print('== Siblings ==')
     for k in parsed_file_dict['siblings'].keys():
@@ -586,6 +599,11 @@ def pretty_table(parsed_file_dict):
     print(siblings)
 
     # US32 - List multiple births
+    parsed_file_dict = FamilyValidation.list_multiple_births(parsed_file_dict)
+
+    multiples = PrettyTable()
+    multiples.field_names = ['Family ID', 'Birthday', 'Individual ID', 'Name']
+    
     print('\nUS32')
     print('== Multiple Births ==')
     for k in parsed_file_dict['multiples'].keys():
@@ -618,6 +636,24 @@ def pretty_table(parsed_file_dict):
         singles.add_row([marital_status['singles'][k]['ID'], marital_status['singles'][k]['Name']])
 
     print(singles)
+    print('\n')
+
+    #US29 - List all deseased individuals
+    parsed_file_dict = DeseasedIndividuals.list_deseased_individuals(parsed_file_dict)
+
+    deseased = PrettyTable()
+    deseased.field_names = ['ID', 'Name', 'Birthday', 'Death Date', 'Age']
+
+    print('US29')
+    print('== Deseased Individuals ==')
+
+    for key in parsed_file_dict['deseased'].keys():
+        deseased.add_row([key, parsed_file_dict['deseased'][key]['Name'],
+            parsed_file_dict['deseased'][key]['Birthday'], 
+            parsed_file_dict['deseased'][key]['Death'],
+            parsed_file_dict['deseased'][key]['Age']])
+
+    print(deseased)
     print('\n')
 
 
@@ -656,13 +692,10 @@ if __name__ == '__main__':
     # US17 - No marriage to children
     errors = no_marriage_to_children.no_marriage_to_children(parsed_file, errors)
 
-    # US28 - Order siblings by age
-    parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)
+    # US25 - Each child must have a unique name
+    errors = FamilyValidation.check_same_name(parsed_file, errors)
 
-    # US32 - List multiple births
-    parsed_file = FamilyValidation.list_multiple_births(parsed_file)
-
-    # Output the table
+    # Output the tab
     pretty_table(parsed_file)
 
     print('Warnings: ')
