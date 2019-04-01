@@ -12,7 +12,10 @@ def check_all_male_last_names(parsed_file, errors):
         
     for family_id, family_details in parsed_file['family'].items():
         #print(family_details)
-        children_ids = family_details['Children']
+        if family_details['Children'] != 'NA':
+            children_ids = family_details['Children']
+        else:
+            continue
         #print(children_ids)
         male_children = [child_id for child_id in children_ids if parsed_file['members'][child_id]['Gender'] == 'M']
         names = [parsed_file['members'][male_id]['Name'] for male_id in male_children ]
@@ -36,3 +39,4 @@ def check_all_male_last_names(parsed_file, errors):
             #    return False
             #else:
             #    return True
+    return errors

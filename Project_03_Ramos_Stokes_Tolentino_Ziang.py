@@ -17,6 +17,8 @@ import lessthan_150
 import siblings_not_too_many
 import siblings_not_marry
 import birth_before_parent_marriage
+import male_last_names
+import no_marriage_to_children
 import BirthBeforeDeath
 import ParentsNotTooOld
 import LivingMaritalStatus
@@ -469,18 +471,22 @@ def parse_file(filename):
                         us13Err.alterErrMsg(d, sibBirths[sibBirths.index(d) + 1])
                         errors.add(us13Err)
 
+        # print(family)
         for f in family.keys():
             parent_marriage_date = family[f]['Married']
             parent_divorce_date = family[f]['Divorced']
-            children = family[f]['Children']
-            print(f)
-            print(len(children))
-            for child_id in children:
-                print('child_id:' + child_id)
-                child = members[child_id]
-                birth_date = child['Birthday']
-                birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
-                                                                          parent_divorce_date, errors)
+            if family[f]['Children'] == 'NA':
+                continue
+            else:
+                children = family[f]['Children']
+                # print(f)
+                # print(len(children))
+                for child_id in children:
+                    # print('child_id:' + child_id)
+                    child = members[child_id]
+                    birth_date = child['Birthday']
+                    birth_before_parent_marriage.birth_before_parent_marriage(birth_date, parent_marriage_date,
+                                                                              parent_divorce_date, errors)
 
         for f in family.keys():
             parent1_id = family[f]['Spouse 1']
@@ -643,6 +649,12 @@ if __name__ == '__main__':
 
     # US18 - Siblings should not marry one another
     errors = siblings_not_marry.siblings_not_marry(parsed_file, errors)
+
+    # US16 - Male last names
+    errors = male_last_names.check_all_male_last_names(parsed_file, errors)
+
+    # US17 - No marriage to children
+    errors = no_marriage_to_children.no_marriage_to_children(parsed_file, errors)
 
     # US28 - Order siblings by age
     parsed_file = FamilyValidation.order_siblings_by_age(parsed_file)

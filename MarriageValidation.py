@@ -60,10 +60,11 @@ def create_date(year, month, day):
         print('All inputs must be whole, positive numbers!', str(v))
 
 
-
 def not_bigamous(marriages, divorces_deaths=[]):
     marriage_term = divorces_deaths
-    if len(marriages) >= 2:
+    if len(marriages) >= 2 and len(divorces_deaths) == 0:
+        return False
+    elif len(marriages) >= 2:
         for m in marriages:
             try:
                 if marriage_term[0] > marriages[marriages.index(m) + 1]:
