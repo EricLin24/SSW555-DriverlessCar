@@ -1,0 +1,213 @@
+== Individuals ==
++-------+--------------------------+--------+-------------+---------+--------+-------------+----------+-------------------+
+|   ID  |           Name           | Gender |   Birthday  |   Age   | Alive? |    Death    |  Child   |       Spouse      |
++-------+--------------------------+--------+-------------+---------+--------+-------------+----------+-------------------+
+|  @I1@ |      George /Tesla/      |   M    |  2 JAN 1982 |    37   |   Y    |      NA     | {'@F1@'} |         NA        |
+|  @I2@ |       Gage /Smith/       |   M    |  2 JAN 1982 |    37   |   Y    |      NA     | {'@F1@'} |         NA        |
+|  @I3@ |     Gregory /Smith/      |   M    | ?? OCT 1984 | Unknown |   Y    |      NA     | {'@F1@'} |         NA        |
+|  @I4@ |      Brian /Smith/       |   M    | 21 SEP 1756 |   262   |   Y    |      NA     |    NA    |  {'@F2@', '@F1@'} |
+|  @I5@ |   Jane Lancing /Smith/   |   F    | 31 APR 1959 |    59   |   Y    |      NA     |    NA    |      {'@F2@'}     |
+|  @I6@ |    Rebecca /Bellini/     |   F    | 13 MAY 1960 |    58   |   Y    |      NA     | {'@F3@'} |      {'@F1@'}     |
+|  @I7@ |    Sondra /Huxtable/     |   F    | 17 MAY 1960 |    58   |   Y    |      NA     | {'@F3@'} | {'@F8@', '@F12@'} |
+|  @I8@ |      Jason /Smith/       |   M    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |         NA        |
+|  @I9@ |     Jackson /Smith/      |   M    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I10@ |     Jasmine /Smith/      |   F    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |  {'@F5@', '@F4@'} |
+| @I11@ |      Jamie /Smith/       |   F    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I12@ |       Joel /Smith/       |   M    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I13@ |      James /Smith/       |   M    | 15 AUG 1990 |    28   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I14@ |   Michael Jr /Bellini/   |   M    |  5 JUN 1945 |    39   |   N    | 19 APR 1985 | {'@F6@'} |      {'@F3@'}     |
+| @I15@ |      Luanne /Scott/      |   F    | 22 DEC 1949 |    69   |   Y    |      NA     |    NA    |      {'@F3@'}     |
+| @I16@ |    Braxton /Bellini/     |   M    | 18 FEB 1986 |    -2   |   N    | 13 MAY 1984 | {'@F3@'} |         NA        |
+| @I17@ | Michael Joseph /Bellini/ |   M    | 21 JUL 1920 |    79   |   N    | 21 JUL 1999 |    NA    |      {'@F6@'}     |
+| @I18@ | Louisa Maria /DelCuore/  |   F    |  3 OCT 1922 |    78   |   N    | 19 SEP 2001 |    NA    |      {'@F6@'}     |
+| @I19@ |    Sonia /Gutierrez/     |   F    |  2 APR 1933 |    77   |   N    | 19 SEP 2010 |    NA    |      {'@F7@'}     |
+| @I20@ |    Enrique /Martinez/    |   M    | 17 APR 1932 |    81   |   N    |  2 NOV 2013 |    NA    |      {'@F7@'}     |
+| @I21@ |    Gilbert /Martinez/    |   M    | 30 APR 2002 |    16   |   Y    |      NA     | {'@F7@'} |         NA        |
+| @I22@ |     Jenny /Martinez/     |   F    | 15 JUL 2011 |    7    |   Y    |      NA     | {'@F7@'} |         NA        |
+| @I23@ |     Kenny /Richards/     |   M    |  5 DEC 2019 |    -1   |   Y    |      NA     | {'@F8@'} |         NA        |
+| @I24@ |     Cliff /Richards/     |   M    |  3 SEP 1959 |    44   |   N    | 19 MAR 2004 |    NA    |      {'@F8@'}     |
+| @I25@ |     Mary /Richards/      |   F    |  4 AUG 1990 |    28   |   Y    |      NA     | {'@F8@'} |      {'@F9@'}     |
+| @I26@ |      Jack /Daniels/      |   M    |  4 FEB 1991 |    28   |   Y    |      NA     |    NA    |      {'@F9@'}     |
+| @I27@ |    Skyler /Richards/     |   M    | 24 JAN 1993 |    26   |   Y    |      NA     | {'@F8@'} |     {'@F10@'}     |
+| @I28@ |     Sarah /Sanders/      |   F    | 25 FEB 1990 |    29   |   Y    |      NA     |    NA    |     {'@F10@'}     |
+| @I29@ |    Matthew /Collins/     |   M    |  3 MAR 1986 |    33   |   Y    |      NA     |    NA    |      {'@F5@'}     |
+| @I30@ |     Samuel /Jackson/     |   M    | 28 FEB 1992 |    27   |   Y    |      NA     |    NA    |      {'@F4@'}     |
+| @I31@ |     Bucky /Richards/     |   M    |  2 APR 1989 |    29   |   Y    |      NA     | {'@F8@'} |     {'@F12@'}     |
+| @I32@ |       John /Smith/       |   M    | 10 FEB 1992 |    27   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I33@ |      Jessie /Smith/      |   F    |  9 APR 1994 |    24   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I34@ |       Kyle /Smith/       |   M    |  4 APR 1988 |    30   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I35@ |       Mark /Smith/       |   M    |  4 APR 1988 |    30   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I36@ |     Journey /Smith/      |   F    |  4 APR 1988 |    30   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I37@ |      Roger /Smith/       |   M    |  4 MAR 1986 |    33   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I38@ |      Carly /Smith/       |   F    |  3 AUG 1996 |    22   |   Y    |      NA     | {'@F2@'} |     {'@F11@'}     |
+| @I39@ |       Beau /Smith/       |   M    | 20 MAY 1994 |    24   |   Y    |      NA     | {'@F2@'} |         NA        |
+| @I40@ |      Harper /Smith/      |   M    |  7 SEP 1999 |    19   |   Y    |      NA     | {'@F2@'} |     {'@F11@'}     |
+| @I41@ |       Tony /Smith/       |   M    |  5 OCT 2001 |    17   |   Y    |      NA     | {'@F2@'} |         NA        |
++-------+--------------------------+--------+-------------+---------+--------+-------------+----------+-------------------+
+
+== Families ==
++-------+-------------+-------------+-------------+--------------------------+-------------+-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+|   ID  |   Married   |   Divorced  | Spouse 1 ID |      Spouse 1 Name       | Spouse 2 ID |      Spouse 2 Name      |                                                                    Children                                                                    |
++-------+-------------+-------------+-------------+--------------------------+-------------+-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+|  @F1@ | 15 MAR 1982 |      NA     |     @I4@    |      Brian /Smith/       |     @I6@    |    Rebecca /Bellini/    |                                                            {'@I1@', '@I2@', '@I3@'}                                                            |
+|  @F2@ |  4 JUL 1990 |      NA     |     @I4@    |      Brian /Smith/       |     @I5@    |   Jane Lancing /Smith/  | {'@I36@', '@I12@', '@I10@', '@I34@', '@I41@', '@I32@', '@I8@', '@I39@', '@I38@', '@I40@', '@I11@', '@I9@', '@I33@', '@I35@', '@I13@', '@I37@'} |
+|  @F3@ | 17 APR 1968 |      NA     |    @I14@    |   Michael Jr /Bellini/   |    @I15@    |      Luanne /Scott/     |                                                           {'@I6@', '@I7@', '@I16@'}                                                            |
+|  @F4@ |  3 MAY 2005 |      NA     |    @I30@    |     Samuel /Jackson/     |    @I10@    |     Jasmine /Smith/     |                                                                       NA                                                                       |
+|  @F5@ |  5 FEB 2003 |      NA     |    @I29@    |    Matthew /Collins/     |    @I10@    |     Jasmine /Smith/     |                                                                       NA                                                                       |
+|  @F6@ |  9 JUL 2000 |      NA     |    @I17@    | Michael Joseph /Bellini/ |    @I18@    | Louisa Maria /DelCuore/ |                                                                   {'@I14@'}                                                                    |
+|  @F7@ | 28 AUG 1949 |      NA     |    @I20@    |    Enrique /Martinez/    |    @I19@    |    Sonia /Gutierrez/    |                                                               {'@I22@', '@I21@'}                                                               |
+|  @F8@ | 21 FEB 1984 |  2 DEC 2007 |    @I24@    |     Cliff /Richards/     |     @I7@    |    Sondra /Huxtable/    |                                                      {'@I27@', '@I23@', '@I31@', '@I25@'}                                                      |
+|  @F9@ |  2 JUL 1988 |      NA     |    @I26@    |      Jack /Daniels/      |    @I25@    |     Mary /Richards/     |                                                                       NA                                                                       |
+| @F10@ |  1 AUG 2016 | 30 SEP 2014 |    @I27@    |    Skyler /Richards/     |    @I28@    |     Sarah /Sanders/     |                                                                       NA                                                                       |
+| @F11@ | 22 APR 2018 |      NA     |    @I40@    |      Harper /Smith/      |    @I38@    |      Carly /Smith/      |                                                                       NA                                                                       |
+| @F12@ |  7 DEC 2006 |      NA     |    @I31@    |     Bucky /Richards/     |     @I7@    |    Sondra /Huxtable/    |                                                                       NA                                                                       |
++-------+-------------+-------------+-------------+--------------------------+-------------+-------------------------+------------------------------------------------------------------------------------------------------------------------------------------------+
+
+US28
+== Siblings ==
++-----------+---------------+--------------------+-------------+---------+
+| Family ID | Individual ID |        Name        |   Birthday  |   Age   |
++-----------+---------------+--------------------+-------------+---------+
+|    @F1@   |      @I1@     |   George /Tesla/   |  2 JAN 1982 |    37   |
+|    @F1@   |      @I2@     |    Gage /Smith/    |  2 JAN 1982 |    37   |
+|    @F1@   |      @I3@     |  Gregory /Smith/   | ?? OCT 1984 | Unknown |
+|     --    |       --      |         --         |      --     |    --   |
+|    @F2@   |     @I37@     |   Roger /Smith/    |  4 MAR 1986 |    33   |
+|    @F2@   |     @I36@     |  Journey /Smith/   |  4 APR 1988 |    30   |
+|    @F2@   |     @I34@     |    Kyle /Smith/    |  4 APR 1988 |    30   |
+|    @F2@   |     @I35@     |    Mark /Smith/    |  4 APR 1988 |    30   |
+|    @F2@   |     @I12@     |    Joel /Smith/    | 15 AUG 1990 |    28   |
+|    @F2@   |     @I10@     |  Jasmine /Smith/   | 15 AUG 1990 |    28   |
+|    @F2@   |      @I8@     |   Jason /Smith/    | 15 AUG 1990 |    28   |
+|    @F2@   |     @I11@     |   Jamie /Smith/    | 15 AUG 1990 |    28   |
+|    @F2@   |      @I9@     |  Jackson /Smith/   | 15 AUG 1990 |    28   |
+|    @F2@   |     @I13@     |   James /Smith/    | 15 AUG 1990 |    28   |
+|    @F2@   |     @I32@     |    John /Smith/    | 10 FEB 1992 |    27   |
+|    @F2@   |     @I39@     |    Beau /Smith/    | 20 MAY 1994 |    24   |
+|    @F2@   |     @I33@     |   Jessie /Smith/   |  9 APR 1994 |    24   |
+|    @F2@   |     @I38@     |   Carly /Smith/    |  3 AUG 1996 |    22   |
+|    @F2@   |     @I40@     |   Harper /Smith/   |  7 SEP 1999 |    19   |
+|    @F2@   |     @I41@     |    Tony /Smith/    |  5 OCT 2001 |    17   |
+|     --    |       --      |         --         |      --     |    --   |
+|    @F3@   |      @I6@     | Rebecca /Bellini/  | 13 MAY 1960 |    58   |
+|    @F3@   |      @I7@     | Sondra /Huxtable/  | 17 MAY 1960 |    58   |
+|    @F3@   |     @I16@     | Braxton /Bellini/  | 18 FEB 1986 |    -2   |
+|     --    |       --      |         --         |      --     |    --   |
+|    @F7@   |     @I21@     | Gilbert /Martinez/ | 30 APR 2002 |    16   |
+|    @F7@   |     @I22@     |  Jenny /Martinez/  | 15 JUL 2011 |    7    |
+|     --    |       --      |         --         |      --     |    --   |
+|    @F8@   |     @I31@     |  Bucky /Richards/  |  2 APR 1989 |    29   |
+|    @F8@   |     @I25@     |  Mary /Richards/   |  4 AUG 1990 |    28   |
+|    @F8@   |     @I27@     | Skyler /Richards/  | 24 JAN 1993 |    26   |
+|    @F8@   |     @I23@     |  Kenny /Richards/  |  5 DEC 2019 | Unknown |
+|     --    |       --      |         --         |      --     |    --   |
++-----------+---------------+--------------------+-------------+---------+
+
+US32
+== Multiple Births ==
++-----------+-------------+---------------+-----------------+
+| Family ID |   Birthday  | Individual ID |       Name      |
++-----------+-------------+---------------+-----------------+
+|    @F1@   |  2 JAN 1982 |      @I1@     |  George /Tesla/ |
+|    @F1@   |  2 JAN 1982 |      @I2@     |   Gage /Smith/  |
+|     --    |      --     |       --      |        --       |
+|    @F2@   |  4 APR 1988 |     @I36@     | Journey /Smith/ |
+|    @F2@   |  4 APR 1988 |     @I34@     |   Kyle /Smith/  |
+|    @F2@   |  4 APR 1988 |     @I35@     |   Mark /Smith/  |
+|    @F2@   | 15 AUG 1990 |     @I12@     |   Joel /Smith/  |
+|    @F2@   | 15 AUG 1990 |     @I10@     | Jasmine /Smith/ |
+|    @F2@   | 15 AUG 1990 |      @I8@     |  Jason /Smith/  |
+|    @F2@   | 15 AUG 1990 |     @I11@     |  Jamie /Smith/  |
+|    @F2@   | 15 AUG 1990 |      @I9@     | Jackson /Smith/ |
+|    @F2@   | 15 AUG 1990 |     @I13@     |  James /Smith/  |
+|     --    |      --     |       --      |        --       |
++-----------+-------------+---------------+-----------------+
+
+US 30
+== Living Married ==
++---------------+----------------------+
+| Individual ID |         Name         |
++---------------+----------------------+
+|      @I4@     |    Brian /Smith/     |
+|      @I5@     | Jane Lancing /Smith/ |
+|      @I6@     |  Rebecca /Bellini/   |
+|      @I7@     |  Sondra /Huxtable/   |
+|     @I10@     |   Jasmine /Smith/    |
+|     @I25@     |   Mary /Richards/    |
+|     @I26@     |    Jack /Daniels/    |
+|     @I29@     |  Matthew /Collins/   |
+|     @I30@     |   Samuel /Jackson/   |
+|     @I31@     |   Bucky /Richards/   |
+|     @I38@     |    Carly /Smith/     |
+|     @I40@     |    Harper /Smith/    |
++---------------+----------------------+
+
+US 31
+== Living Single ==
++---------------+--------------------+
+| Individual ID |        Name        |
++---------------+--------------------+
+|      @I1@     |   George /Tesla/   |
+|      @I2@     |    Gage /Smith/    |
+|      @I3@     |  Gregory /Smith/   |
+|      @I8@     |   Jason /Smith/    |
+|      @I9@     |  Jackson /Smith/   |
+|     @I11@     |   Jamie /Smith/    |
+|     @I12@     |    Joel /Smith/    |
+|     @I13@     |   James /Smith/    |
+|     @I21@     | Gilbert /Martinez/ |
+|     @I22@     |  Jenny /Martinez/  |
+|     @I23@     |  Kenny /Richards/  |
+|     @I32@     |    John /Smith/    |
+|     @I33@     |   Jessie /Smith/   |
+|     @I34@     |    Kyle /Smith/    |
+|     @I35@     |    Mark /Smith/    |
+|     @I36@     |  Journey /Smith/   |
+|     @I37@     |   Roger /Smith/    |
+|     @I39@     |    Beau /Smith/    |
+|     @I41@     |    Tony /Smith/    |
+|     @I15@     |   Luanne /Scott/   |
+|     @I27@     | Skyler /Richards/  |
+|     @I28@     |  Sarah /Sanders/   |
++---------------+--------------------+
+
+
+Warnings: 
+WARNING US41: @I3@ only has partial birthday: ?? OCT 1984. Date verifications cannot run using this date.
+Errors: 
+ERROR US08: Invalid birth date for 1960-05-13. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US08: Invalid birth date for 1960-05-17. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US03: Invalid date death date: 1984-05-13 must occur after birthdate: 1986-02-18
+ERROR US08: Invalid birth date for 1945-06-05. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US08: Invalid birth date for 2019-12-05. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US09: Invalid birth date for @I16@. Parent death should occur after birth
+ERROR US06: Invalid divorce date for @F8@. Must be before death of spouse
+ERROR US09: Invalid birth date for @I23@. Parent death should occur after birth
+ERROR US15: Family @F2@ should have less than 15 siblings but they has 16.
+ERROR US12: Invalid date of birth for child @I22@. Parent @I19@ is too old.
+ERROR US42: Invalid date: day is out of range for month
+ERROR US09: Invalid birth date for @I22@. Parent death should occur after birth
+ERROR US12: Invalid date of birth for child @I21@. Parent @I19@ is too old.
+ERROR US11: Bigamy is present in this family
+ERROR US02: Invalid marriage date: 1988-07-02 must occur after bitthdate: 1991-02-04
+ERROR US10: @I30@ was not yet 14 for marriage in family @F4@.
+ERROR US42: Invalid date: day is out of range for month
+ERROR US05: Invalid marriage date for @F6@. Must be before death of spouse
+ERROR US08: Invalid birth date for 1982-01-02. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US02: Invalid marriage date: 1988-07-02 must occur after bitthdate: 1990-08-04
+ERROR US18: Parents of family @F11@ should not be siblings in family @F2@.
+ERROR US10: @I25@ was not yet 14 for marriage in family @F9@.
+ERROR US14: Multiple births must be <= 5 for Family @F2@.
+ERROR US10: @I26@ was not yet 14 for marriage in family @F9@.
+ERROR US08: Invalid birth date for 1988-04-04. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US10: @I10@ was not yet 14 for marriage in family @F5@.
+ERROR US16: All male members of a family should have the same last name.
+ERROR US08: Invalid birth date for 1988-04-04. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US04: Invalid date divorce date: 2014-09-30 must occur after marriage date: 2016-08-01
+ERROR US08: Invalid birth date for 1982-01-02. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US04: Invalid date divorce date: 2014-09-30 must occur after marriage date: 2016-08-01
+ERROR US08: Invalid birth date for 1988-04-04. Children should be born after marriage of parents (and not more than 9 months after their divorce)
+ERROR US13: Siblings born on 13 MAY 1960 and 17 MAY 1960 have birthdays that are too close together.
+ERROR US07: Invalid age: 262 years old of @I4@. Must less than 150 years
+ERROR US01: Invalid date: 2019-12-05 must occur before today: 2019-03-31
+ERROR US08: Invalid birth date for 1986-03-04. Children should be born after marriage of parents (and not more than 9 months after their divorce)
