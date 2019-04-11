@@ -383,6 +383,26 @@
 1 BIRT
 2 DATE 5 OCT 2001
 1 FAMC @F2@
+0 @I51@ INDI
+1 NAME Son of Jack Daniels & Mary Richards
+2 GIVN Son
+2 SURN Son of Jack Daniels & Mary Richards
+2 _MARNM Son
+1 SEX M
+1 BIRT
+2 DATE 24 JAN 1995
+1 FAMS @F13@
+1 FAMC @F9@
+0 @I52@ INDI
+1 NAME Daughter of Skyer Richards & Sarah Sanders
+2 GIVN Daughter
+2 SURN of Skyer Richards & Sarah Sanders
+2 _MARNM Daughter
+1 SEX F
+1 BIRT
+2 DATE 24 JAN 1993
+1 FAMC @F10@
+1 FAMS @F13@
 0 @F1@ FAM
 1 HUSB @I4@
 1 WIFE @I6@
@@ -469,12 +489,14 @@
 0 @F9@ FAM
 1 HUSB @I26@
 1 WIFE @I25@
+1 CHIL @I51@
 1 MARR
 2 DATE 2 JUL 1988
 1 _CURRENT Y
 0 @F9@ FAM
 1 HUSB @I27@
 1 WIFE @I28@
+1 CHIL @I52@
 1 MARR
 2 DATE 1 AUG 2016
 1 DIV
@@ -491,4 +513,9 @@
 2 WIFE @I7@
 1 MARR
 2 DATE 7 DEC 2006
+0 @F13@ FAM
+1 HUSB @I51@
+2 WIFE @I52@
+1 MARR
+2 DATE 21 FEB 1985
 0 TRLR
