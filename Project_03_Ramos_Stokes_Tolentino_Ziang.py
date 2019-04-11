@@ -1,8 +1,3 @@
-# Michael Ramos, Sadie Stokes, Jonathan Tolentino, Lin Ziang
-# CS 555
-# Project 06
-# 03/17/2019
-
 import sys
 import os
 from datetime import date
@@ -23,6 +18,7 @@ import BirthBeforeDeath
 import ParentsNotTooOld
 import LivingMaritalStatus
 import DeseasedIndividuals
+import CousinsMarriageValidation
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -694,6 +690,8 @@ if __name__ == '__main__':
 
     # US25 - Each child must have a unique name
     errors = FamilyValidation.check_same_name(parsed_file, errors)
+    
+    CousinsMarriageValidation.check_whether_first_cousins_married(parsed_file,errors)
 
     # Output the tab
     pretty_table(parsed_file)
