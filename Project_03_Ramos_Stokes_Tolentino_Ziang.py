@@ -89,6 +89,7 @@ def parse_file(filename):
             family = {}
             individual = {}
             members = {}
+            duplicate_increment = 1;
 
             # Tracking where we are in the hierarchy
             currentFam, currentTag = '', ''
@@ -117,10 +118,11 @@ def parse_file(filename):
                                 line = gedFile.readline()  # Move to the next line
                                 continue
                             else: #US22 - flag the error and mark the ID as duplicate
-                                us22Err = Error.Error(Error.ErrorEnum.US22)
-                                us22Err.alterErrMsg(line[1])
-                                errors.add(us22Err)
-                                individual['ID'] = line[1] + '_2 DUPLICATE ID'
+                                us22iErr = Error.Error(Error.ErrorEnum.US22i)
+                                us22iErr.alterErrMsg(line[1])
+                                errors.add(us22iErr)
+                                individual['ID'] = line[1] + '_' + str(duplicate_increment) + ' DUPLICATE ID'
+                                duplicate_increment += 1
                                 individual['Child'] = set()
                                 individual['Spouse'] = set()
                                 currentTag = line[2]
@@ -133,6 +135,17 @@ def parse_file(filename):
                                 currentFam = line[1]
                                 line = gedFile.readline()
                                 continue
+                            else:
+                                us22fErr = Error.Error(Error.ErrorEnum.US22f)
+                                us22fErr.alterErrMsg(line[1])
+                                errors.add(us22fErr)
+                                family[line[1] + '_' + str(duplicate_increment) + ' DUPLICATE ID'] = {'Children': set()}  # Add a new family
+                                currentTag = line[2]
+                                currentFam = line[1] + '_' + str(duplicate_increment) + ' DUPLICATE ID'
+                                duplicate_increment += 1
+                                line = gedFile.readline()  # Move to the next line
+                                continue
+
                 elif len(line) == 2:
                     if gedLine.Valid == 'Y':
                         currentTag = line[1]
