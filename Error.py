@@ -23,13 +23,14 @@ class ErrorEnum(Enum):
 	US16 = 'ERROR US16: All male members of a family should have the same last name.'
 	US17 = 'ERROR US17: Parents should not marry any of their children'
 	US18 = 'ERROR US18: Parents of family {0} should not be siblings in family {1}.'
-	US19 = 'ERROR US19: '
-	US20 = 'ERROR US20: '
+	US19 = 'ERROR US19: Invalid Marriage Type. {0}'
+	US20 = 'ERROR US20: Invalid Marriage Type. {0}'
 	US22 = 'ERROR US22: Individual with ID {0} already exists'
 	US23 = 'ERROR US23: '
 	US24 = 'ERROR US24: '
 	US25 = 'ERROR US25: There can be no more than one child with the name {0} in family {1}'
 	US42 = 'ERROR US42: Invalid date: {0}'
+
 
 class Error:
 
