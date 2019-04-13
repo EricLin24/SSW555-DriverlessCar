@@ -19,6 +19,8 @@ import ParentsNotTooOld
 import LivingMaritalStatus
 import DeseasedIndividuals
 import CousinsMarriageValidation
+import unique_family_spouses_marriage_date
+import unique_name_birth
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -700,6 +702,12 @@ if __name__ == '__main__':
 
     # US17 - No marriage to children
     errors = no_marriage_to_children.no_marriage_to_children(parsed_file, errors)
+
+    # US23 - No more than one individual with the same name and birth date
+    errors = unique_name_birth.unique_name_and_birth(parsed_file, errors)
+
+    # US24 - No more than one family with the same spouses by name and the same marriage date
+    errors = unique_family_spouses_marriage_date.unique_family_spouse_marriage_date(parsed_file, errors)
 
     # US25 - Each child must have a unique name
     errors = FamilyValidation.check_same_name(parsed_file, errors)
