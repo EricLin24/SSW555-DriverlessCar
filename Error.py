@@ -25,9 +25,11 @@ class ErrorEnum(Enum):
 	US18 = 'ERROR US18: Parents of family {0} should not be siblings in family {1}.'
 	US19 = 'ERROR US19: '
 	US20 = 'ERROR US20: '
-	US22 = 'ERROR US22: Individual with ID {0} already exists'
+	US22i = 'ERROR US22i: Individual with ID {0} already exists'
+	US22f = 'ERROR US22f: Family with ID {0} already exists'
 	US23 = 'ERROR US23: Individual {0} and {1} have same name or birth date.'
 	US24 = "ERROR US24: Family {0} and {1} have same Spouses' name or same marriage date."
+
 	US25 = 'ERROR US25: There can be no more than one child with the name {0} in family {1}'
 	US42 = 'ERROR US42: Invalid date: {0}'
 
