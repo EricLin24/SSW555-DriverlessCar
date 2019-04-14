@@ -6,7 +6,7 @@ from enum import Enum
 class ErrorEnum(Enum):
 	UNKNOWN = 'An unknown error has occured'
 	US01 = 'ERROR US01: Invalid date: {0} must occur before today: {1}'
-	US02 = 'ERROR US02: Invalid marriage date: {0} must occur after bitthdate: {1}'
+	US02 = 'ERROR US02: Invalid marriage date: {0} must occur after birthdate: {1}'
 	US03 = 'ERROR US03: Invalid date death date: {0} must occur after birthdate: {1}'
 	US04 = 'ERROR US04: Invalid date divorce date: {0} must occur after marriage date: {1}'
 	US05 = 'ERROR US05: Invalid marriage date for {0}. Must be before death of spouse'
