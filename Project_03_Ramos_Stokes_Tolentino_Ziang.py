@@ -21,6 +21,7 @@ import DeseasedIndividuals
 import CousinsMarriageValidation
 import unique_family_spouses_marriage_date
 import unique_name_birth
+import UniqueIds
 import Error
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -112,14 +113,14 @@ def parse_file(filename):
                         individual = {} # Empty the dict to start over
                     if gedLine.Valid == 'Y':
                         if line[2] == 'INDI':
-                            if line[1] not in members.keys():  # Ensure we're not duplicating people
+                            if not UniqueIds.UniqueIndividualIds(line[1], members): # Ensure we're not duplicating people
                                 individual['ID'] = line[1]
                                 individual['Child'] = set()
                                 individual['Spouse'] = set()
                                 currentTag = line[2]
                                 line = gedFile.readline()  # Move to the next line
                                 continue
-                            else: #US22 - flag the error and mark the ID as duplicate
+                            else: # US22 - flag the error and mark the ID as duplicate
                                 us22iErr = Error.Error(Error.ErrorEnum.US22i)
                                 us22iErr.alterErrMsg(line[1])
                                 errors.add(us22iErr)
@@ -131,7 +132,7 @@ def parse_file(filename):
                                 line = gedFile.readline()  # Move to the next line
                                 continue
                         if line[2] == 'FAM':
-                            if line[1] not in family.keys():
+                            if not UniqueIds.UniqueFamilyIds(line[1], family): # Ensure we're not duplicating families
                                 family[line[1]] = {'Children': set()}  # Add a new family
                                 currentTag = line[2]
                                 currentFam = line[1]
