@@ -20,7 +20,7 @@ from TestDeseasedIndividuals import TestDeseasedIndividauls
 from test_unique_name_birth import TestUniqueNameAndBirth
 from test_unique_family_spouses_marriage_date import TestUniqueFamilySpousesMarriageDate
 from TestUniqueIds import TestUniqueIds
-from TestCousinsMarriageValidation import TestCousinMarrages
+from TestCousinsMarriageValidation import TestCousinMarriages
 
 if __name__ == '__main__':
     unittest.main()
