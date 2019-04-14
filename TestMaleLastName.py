@@ -22,12 +22,14 @@ class TestMaleNames(unittest.TestCase):
         '@I6000000089090475940@': {'ID': '@I6000000089090475940@', 'Child': {'@F6000000089090867863@'}, 'Spouse': 'NA', 'Name': 'George /Smith/', 'Gender': 'M', 'Birthday': '2 JAN 1982', 'Death': 'NA', 'Alive?': 'Y', 'Age': 37},}   }
 
     def test_male_last_names1(self):
+        print('US16: Testing all males in a family have the same last name')
         errors = set()
         male_last_names.check_all_male_last_names(self.parsed_file1, errors)
         self.assertEqual(len(errors), 0, 
                         msg=str([err.getErrMsg() for err in errors]))
     
     def test_male_last_names2(self):
+        print('US16: Testing all males in a family have the same last name')
         errors = set()
         male_last_names.check_all_male_last_names(self.parsed_file2, errors)
         self.assertEqual(len(errors), 1,

@@ -904,6 +904,7 @@ class TestCousinMarrages(unittest.TestCase):
                            'Age': 17}}}
         
     def test_cousins_marriage_positive(self):
+        print('US19: Testing for marriage between first cousins (invalid)')
         errors = set()
         check_whether_first_cousins_married(self.parsed_file1, errors)
         self.assertEqual(len(errors), 0, 

@@ -5,7 +5,7 @@ from unique_family_spouses_marriage_date import unique_family_spouse_marriage_da
 
 class TestUniqueFamilySpousesMarriageDate(unittest.TestCase):
     def test_valid_spouses_and_marriage_date(self):
-        print("No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file")
+        print("US24: No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file")
         parsed_file = {
             'family': {
                 '1': {
@@ -56,7 +56,7 @@ class TestUniqueFamilySpousesMarriageDate(unittest.TestCase):
         self.assertEqual(len(errors), 0, msg='The len of errors should be 0.')
 
     def test_unique_family_spouses_name(self):
-        print('No more than one family with the same spouses by name in a GEDCOM file')
+        print('US24: No more than one family with the same spouses by name in a GEDCOM file')
         parsed_file = {
             'family': {
                 '1': {
@@ -107,7 +107,7 @@ class TestUniqueFamilySpousesMarriageDate(unittest.TestCase):
         self.assertEqual(len(errors), 1, msg='The len of errors should be 1.')
 
     def test_unique_family_marriage_date(self):
-        print('No more than one family with the same marriage date should appear in a GEDCOM file')
+        print('US24: No more than one family with the same marriage date should appear in a GEDCOM file')
 
         parsed_file = {
             'family': {

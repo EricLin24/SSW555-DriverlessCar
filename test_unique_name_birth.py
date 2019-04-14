@@ -4,7 +4,7 @@ from unique_name_birth import unique_name_and_birth
 
 class TestUniqueNameAndBirth(unittest.TestCase):
     def test_valid_unique_name_and_birth(self):
-        print('No more than one individual with the same name and birth date should appear in a GEDCOM file (valid).')
+        print('US23: No more than one individual with the same name and birth date should appear in a GEDCOM file (valid).')
         valid_parsed_file = {
             'family': {
                 '1': {
@@ -149,7 +149,7 @@ class TestUniqueNameAndBirth(unittest.TestCase):
         self.assertEqual(len(errors), 0, msg='The len of errors should be 0')
 
     def test_unique_name_and_birth_invalid_name(self):
-        print('No more than one individual with the same name and birth date should appear in a GEDCOM file (invalid name).')
+        print('US23: No more than one individual with the same name and birth date should appear in a GEDCOM file (invalid name).')
 
         parse_file = {
             'family': {
@@ -296,7 +296,7 @@ class TestUniqueNameAndBirth(unittest.TestCase):
         self.assertEqual(len(errors), 1, msg='The len of errors should be 1.')
 
     def test_unique_name_and_birth_invalid_birth(self):
-        print('No more than one individual with the same name and birth date should appear in a GEDCOM file (invalid '
+        print('US23: No more than one individual with the same name and birth date should appear in a GEDCOM file (invalid '
               'birth date).')
         parsed_file = {
             'family': {

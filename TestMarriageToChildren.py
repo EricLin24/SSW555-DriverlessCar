@@ -26,12 +26,14 @@ class TestSameFamilyChildrenMarriage(unittest.TestCase):
 
         
     def test_children_marriage1(self):
+        print('US17: Testing no marriage to a parent\'s children')
         errors = set()
         no_marriage_to_children.no_marriage_to_children(self.parsed_file1, errors)
         self.assertEqual(len(errors), 0,
                          msg=str([err.getErrMsg() for err in errors]))
 
     def test_children_marriage2(self):
+        print('US17: Testing no marriage to a parent\'s children')
         errors = set()
         no_marriage_to_children.no_marriage_to_children(self.parsed_file2, errors)
         self.assertEqual(len(errors), 2,

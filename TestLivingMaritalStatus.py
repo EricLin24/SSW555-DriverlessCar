@@ -4,6 +4,7 @@ import unittest
 
 class TestLivingMaritalStatus(unittest.TestCase):
     def test_living_marital_status_no_div_no_death(self):
+        print('US30/US31: Testing listing living individuals marital status')
         parsedFile = {'family': {'1': {'Spouse 1': '10', 'Spouse 2': '11', 'Divorced': 'NA'},
                                  '2': {'Spouse 1': '12', 'Spouse 2': '13', 'Divorced': 'NA'}},
                       'members': {'10': {'ID': '10', 'Spouse': {'1'}, 'Death': 'NA'},
@@ -22,6 +23,7 @@ class TestLivingMaritalStatus(unittest.TestCase):
                          msg='Function did not sort singles and married properly')
 
     def test_living_marital_status_no_div_death(self):
+        print('US30/US31: Testing listing living individuals marital status')
         parsedFile = {'family': {'1': {'Spouse 1': '10', 'Spouse 2': '11', 'Divorced': 'NA'},
                                  '2': {'Spouse 1': '12', 'Spouse 2': '13', 'Divorced': 'NA'}},
                       'members': {'10': {'ID': '10', 'Spouse': {'1'}, 'Death': '1 APR 2019'},
@@ -39,6 +41,7 @@ class TestLivingMaritalStatus(unittest.TestCase):
                          msg='Function did not sort singles and married properly')
 
     def test_living_marital_status_div_no_death(self):
+        print('US30/US31: Testing listing living individuals marital status')
         parsedFile = {'family': {'1': {'Spouse 1': '10', 'Spouse 2': '11', 'Divorced': 'NA'},
                                  '2': {'Spouse 1': '12', 'Spouse 2': '13', 'Divorced': '1 APR 2019'}},
                       'members': {'10': {'ID': '10', 'Spouse': {'1'}, 'Death': 'NA'},
@@ -57,6 +60,7 @@ class TestLivingMaritalStatus(unittest.TestCase):
                          msg='Function did not sort singles and married properly')
 
     def test_living_marital_status_div_death(self):
+        print('US30/US31: Testing listing living individuals marital status')
         parsedFile = {'family': {'1': {'Spouse 1': '10', 'Spouse 2': '11', 'Divorced': 'NA'},
                                  '2': {'Spouse 1': '12', 'Spouse 2': '13', 'Divorced': '1 APR 2019'}},
                       'members': {'10': {'ID': '10', 'Spouse': {'1'}, 'Death': '1 APR 2019'},
