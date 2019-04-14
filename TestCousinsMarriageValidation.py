@@ -1,7 +1,7 @@
 import unittest
 from CousinsMarriageValidation import check_whether_first_cousins_married
 
-class TestCousinMarrages(unittest.TestCase):
+class TestCousinMarriages(unittest.TestCase):
     def setUp(self):
         self.parsed_file2 = { 'family': {'@F8@': {'Children': {'@I23@', '@I25@', '@I27@', '@I31@'},
                                           'Spouse 1': '@I24@',
@@ -909,7 +909,12 @@ class TestCousinMarrages(unittest.TestCase):
         check_whether_first_cousins_married(self.parsed_file1, errors)
         self.assertEqual(len(errors), 0, 
                         msg=str([err.getErrMsg() for err in errors]))
-    
+
+    def test_cousins_marriage_positive(self):
+        errors = set()
+        check_whether_first_cousins_married(self.parsed_file2, errors)
+        self.assertEqual(len(errors), 4,
+                         msg='Failed to find aunt and uncle marriage')
   
 if __name__ == '__main__':
     unittest.main(exit=False, verbosity=2)

@@ -713,6 +713,7 @@ if __name__ == '__main__':
     # US25 - Each child must have a unique name
     errors = FamilyValidation.check_same_name(parsed_file, errors)
     
+    # US 19&20 - Check marriages between cousins and aunts and uncles
     CousinsMarriageValidation.check_whether_first_cousins_married(parsed_file,errors)
 
     # Output the tab
